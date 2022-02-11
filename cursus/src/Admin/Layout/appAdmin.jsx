@@ -37,6 +37,7 @@ class AppAdmin extends React.Component {
                 {isLogin?<Header/>:''}
                 {isLogin?<Menu/>:''}
             <Routes>    
+                <Route path ="/index" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/> 
                 <Route path ="/dashboard" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/> 
                 {!isLogin?<Route path ="/" element = {<Login/>}/>:<Route path ="/" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/>}
                 <Route path="/users" element={<PrivateRoute><UserInfo/></PrivateRoute>}/>

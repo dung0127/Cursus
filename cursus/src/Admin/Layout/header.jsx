@@ -1,8 +1,9 @@
 import React from "react";
 import {login, logout} from "../../actions/auth"
 import {connect}  from "react-redux"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 import {fetchDetailUserRequest} from "../../actions/detail"
+import {withRouter} from '../Auth/withRouter'
 
 class Header extends React.Component {
     constructor(){
@@ -104,6 +105,7 @@ const mapDispatchToProps = dispatch => {
             localStorage.removeItem("isLogin");
             localStorage.removeItem("token");
             localStorage.removeItem("role");
+            this.props.navigate('/index')
             window.location.reload();
         },
         
@@ -111,4 +113,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Header)
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Header))
