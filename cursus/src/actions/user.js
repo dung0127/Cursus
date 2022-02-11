@@ -1,0 +1,61 @@
+import {USER_API_BASE_URL,USER_INFO_API_BASE_URL} from "../config/env";
+import authHeader from "../config/authHeader";
+import axios from "axios";
+
+export const fetchUserRequest = (page) => {
+    return(dispatch) => {
+        axios.get(USER_API_BASE_URL +'/?pageNumber='+ page, { headers: authHeader() }).then((res) => {
+            dispatch(getAllUser(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
+        })
+    }
+}
+
+export const getAllUser = (users, page, totalPages) => {
+    return {
+        type:'GET_ALL_USER',
+        users,
+        page,
+        totalPages
+    }
+}
+
+export const deleteUserRequest = (id) => {
+    return(dispatch) => {
+        axios.delete('http://localhost:8080/api/admin/user/delete/' + id, { headers: authHeader() }).then((res) => {
+            dispatch(deleteUser())
+            alert (res.data.message)
+            dispatch(fetchUserRequest(0))
+        })
+    }
+}
+
+export const deleteUser = () => {
+    return {
+        type:'DELETE_USER'
+    }
+}
+
+export const searchUserRequest = (search) => {
+    return(dispatch) => {
+        axios.get(USER_INFO_API_BASE_URL+'/search?username='+search, { headers: authHeader() }).then((res) => {
+            dispatch(searchUser(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
+        })
+    }
+}
+
+export const searchUser = (users, page, totalPages) => {
+    return {
+        type:'SEARCH_USER',
+        users,
+        page,
+        totalPages
+    }
+}
+
+
+
+export const addUser = () =>  {
+    return {
+        type: 'ADD_USER',
+    }
+}
