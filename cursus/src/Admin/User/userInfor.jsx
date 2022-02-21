@@ -115,7 +115,7 @@ class UserInfo extends React.Component {
                                                                     </tr>);
                                                                 }
                                                             )
-                                                        }
+                                                        } 
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -4,40 +4,37 @@ import Footer from '../Layout/footer';
 import {COURSE_API_BASE_URL} from "../../config/env";
 import authHeader from "../../config/authHeader";
 import axios from 'axios';
+import {connect} from 'react-redux';
+import { fetchCourseRequest, deleteCourseRequest } from "../../actions/course";
 
 class CourseInfo extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            courses: [],
-            page: 0,
-            totalPages: 0,
         }
-        this.handleClick=this.handleClick.bind(this);
     }
     
     
     componentDidMount(){
-        axios.get(COURSE_API_BASE_URL +'/?pageNumber='+ this.state.page, { headers: authHeader() }).then((res) => {
-            this.setState({courses: res.data.data.content, 
-                            page: res.data.data.pageable.pageNumber,
-                            totalPages: res.data.data.totalPages});   
-        });
+        this.props.fetchCourseRequest(this.props.page);
     } 
 
     handleClick(data) {
         console.log(data);
-        if(data >= 0 && data< this.state.totalPages)
+        if(data >= 0 && data< this.props.totalPages)
         {   
-            axios.get(COURSE_API_BASE_URL +'/?pageNumber='+ data, { headers: authHeader() }).then((res) => {
-            this.setState({courses: res.data.data.content, 
-                            page: res.data.data.pageable.pageNumber,
-                            totalPages: res.data.data.totalPages});   
-            });
+            this.props.fetchCourseRequest(data);
         }
-      }
+    }
 
+    handleClickDelete(data) {
+        let text = "Are you sure?";
+        if (window.confirm(text) == true) {
+            this.props.deleteCourseRequest(data);
+        } 
+        
+    }
     render() {
         return (
             <div className="wrapper" >
@@ -66,6 +63,18 @@ class CourseInfo extends React.Component {
                                     <div className="tab-content" id="pills-tabContent">
                                         <div className="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
                                             <div className="table-responsive mt-30">
+                                                <div>
+                                                    <div className="section3125">
+                                                        <div className="explore_search">
+                                                            <div className="ui search focus">
+                                                                <div className="ui left icon input swdh11">
+                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." />
+                                                                    <i className="uil uil-search-alt icon icon2"></i>
+                                                                </div>
+                                                            </div>
+                                                        </div>							
+                                                    </div>							
+                                                </div>
                                                 <table className="table ucp-table">
                                                     <thead className="thead-s">
                                                         <tr>
@@ -81,10 +90,10 @@ class CourseInfo extends React.Component {
                                                     </thead>
                                                     <tbody>
                                                         {
-                                                            this.state.courses.map((course,index) => {
+                                                            this.props.courses.map((course,index) => {
                                                                 return (
                                                                     <tr key={index}>
-                                                                        <td className="text-center">{index + 1 + this.state.page*10}</td>
+                                                                        <td className="text-center">{index + 1 + this.props.page*10}</td>
                                                                         <td className="text-center"><img src={course.imageVideoDescription} style={{height:"40px", width:"60px"}}/></td>
                                                                         <td className="cell-ta">{course.title}</td>
                                                                         <td className="cell-ta">{course.description}</td>
@@ -94,30 +103,32 @@ class CourseInfo extends React.Component {
                                                                         <td class="text-center">
                                                                             <a href="#" title="Edit" class="gray-s"><i class="uil uil-edit-alt"></i></a>
                                                                         </td>
-                                                                        <td class="text-center">
-                                                                            <a href="#" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
-                                                                        </td> 
-                                                                    </tr>);
+                                                                        <td className="text-center"> 
+                                                                            <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(course.id)}></i></a>
+                                                                        </td>
+                                                                    </tr>); 
                                                                 }
                                                             )
                                                         }
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            {this.props.totalPages>0?
                                             <div className="step-footer step-tab-pager text-center">
                                                     <div class="ui pagination menu" role="navigation">  
-                                                    {this.state.page > 0?   
-                                                    <a className="icon item" rel="prev" aria-label="« Previous" onClick={() => this.handleClick(this.state.page-1)}> <i className="left chevron icon"></i> </a>
+                                                    {this.props.page > 0?   
+                                                    <a className="icon item" rel="prev" aria-label="« Previous" onClick={() => this.handleClick(this.props.page-1)}> <i className="left chevron icon"></i> </a>
                                                     :''}   
                                                     {
-                                                    [...Array(this.state.totalPages)].map((e, i) => (this.state.page) == i ?<a className="item active"  onClick={() => this.handleClick(i)} key={i}>{i+1}</a>
+                                                    [...Array(this.props.totalPages)].map((e, i) => (this.props.page) == i ?<a className="item active"  onClick={() => this.handleClick(i)} key={i}>{i+1}</a>
                                                                                                                             :<a className="item"  onClick={() => this.handleClick(i)} key={i}>{i+1}</a>)         
                                                     }        
-                                                    {this.state.page  < (this.state.totalPages-1)?
-                                                    <a className="icon item" rel="next" aria-label="Next »" onClick={() => this.handleClick(this.state.page+1)}> <i className="right chevron icon"></i> </a>
+                                                    {this.props.page  < (this.props.totalPages-1)?
+                                                    <a className="icon item" rel="next" aria-label="Next »" onClick={() => this.handleClick(this.props.page+1)}> <i className="right chevron icon"></i> </a>
                                                     :''}
                                                 </div>   
                                             </div>
+                                            :''}
                                         </div>
                                     </div>
                                 </div>
@@ -132,4 +143,19 @@ class CourseInfo extends React.Component {
     }
 }
 
-export default CourseInfo;
+const mapStateToProps = state => {
+    return {        
+        courses: state.course.courses,
+        page: state.course.page,
+        totalPages: state.course.totalPages
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
+        deleteCourseRequest:(e) => dispatch (deleteCourseRequest(e)),
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CourseInfo);

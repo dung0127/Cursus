@@ -1,6 +1,14 @@
 import React from "react";
+import {Link} from "react-router-dom"
+import {connect} from 'react-redux'
+import { fetchCatalogRequest} from "../../actions/catalog"
 
 class MenuUser extends React.Component {
+    componentDidMount(){
+        this.props.fetchCatalogRequest();
+        
+    }
+
     render() {
         return(
             <nav className="vertical_nav">
@@ -8,16 +16,16 @@ class MenuUser extends React.Component {
                     <div className="left_section">
                         <ul>
                             <li className="menu--item">
-                                <a href="index" className="menu--link" title="Home">
+                                <Link to= "/index" className="menu--link" title="Home">
                                     <i className='uil uil-home-alt menu--icon'></i>
                                     <span className="menu--label">Home</span>
-                                </a>
+                                </Link>
                             </li>
                             <li className="menu--item">
-                                <a href="course" className="menu--link" title="Explore">
+                                <Link to="/course" className="menu--link" title="Explore">
                                     <i className='uil uil-search menu--icon'></i>
                                     <span className="menu--label">Explore</span>
-                                </a>
+                                </Link>
                             </li>
                             <li className="menu--item menu--item__has_sub_menu">
                                 <label className="menu--link" title="Categories">
@@ -25,45 +33,13 @@ class MenuUser extends React.Component {
                                     <span className="menu--label">Categories</span>
                                 </label>
                                 <ul className="sub_menu">
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Development</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Business</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Finance & Accounting</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#.html" className="sub_menu--link">IT & Software</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Office Productivity</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Personal Development</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Design</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Marketing</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Lifestyle</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Photography</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Health & Fitness</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Music</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="#" className="sub_menu--link">Teaching & Academics</a>
-                                    </li>
+                                    {this.props.catalogs.map((catalog,index) => {
+                                    return (
+                                        <li className="sub_menu--item">
+                                            <Link to={`/course/${catalog.id}`} params={{id: catalog.id}} className="sub_menu--link">{catalog.name}</Link>
+                                        </li>
+                                    )})}
+                                    
                                 </ul>
                             </li>
                             <li className="menu--item">
@@ -179,4 +155,17 @@ class MenuUser extends React.Component {
     }
 };
 
-export default MenuUser;
+const mapStateToProps = state => {
+    return {        
+        catalogs: state.catalog.catalogs,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        
+        fetchCatalogRequest:() => dispatch (fetchCatalogRequest()),
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(MenuUser)

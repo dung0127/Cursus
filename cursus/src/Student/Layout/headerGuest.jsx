@@ -1,7 +1,17 @@
 import React from "react";
 import {Link} from "react-router-dom"
+import { fetchCourseRequest } from "../../actions/course";
+import {connect}  from "react-redux"
 
 class HeaderGuest extends React.Component {
+    constructor(){
+        super()
+       
+    }
+
+    componentDidMount(){
+        this.props.fetchCourseRequest(0);
+    }
     render() {
         return (
             <header className="header clearfix">
@@ -56,4 +66,11 @@ class HeaderGuest extends React.Component {
     } 
 };
  
-export default HeaderGuest;
+const mapDispatchToProps = dispatch => {
+    return {
+     
+        fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e))
+    };
+}
+
+export default connect(null,mapDispatchToProps)(HeaderGuest)

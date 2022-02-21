@@ -9,8 +9,12 @@ import { rootReducer } from './reducers'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import thunkMiddleware from 'redux-thunk';
 
+const cartItems = localStorage.getItem("cartItems")
+  ? JSON.parse(localStorage.getItem("cartItems"))
+  : [];
+const initState = { cart: { items: cartItems } };
 const myStore = createStore(
-  rootReducer, applyMiddleware(thunkMiddleware)
+  rootReducer,initState, applyMiddleware(thunkMiddleware)
 );
 
 

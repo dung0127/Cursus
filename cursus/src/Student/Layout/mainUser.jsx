@@ -2,22 +2,25 @@ import React from "react";
 import FooterUser from "./footerUser";
 import {connect} from 'react-redux';
 import { fetchCourseRequest } from "../../actions/course";
-import {fetchDetailUserRequest} from "../../actions/detail"
+import {fetchDetailUserRequest} from "../../actions/detail";
+import OwlCarousel from 'react-owl-carousel';
+import {Link} from "react-router-dom"
 
 class MainUser extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            course:'',
         }
     }
 
     componentDidMount(){
-        this.props.fetchCourseRequest(this.props.page);
+        this.props.fetchCourseRequest(0);
     } 
 
     render(){
-      return (
-          <div>  
+        console.log(this.props.courses)
+        return (
             <div className="wrapper">
                 <div className="sa4d25">
                     <div className="container-fluid">			
@@ -26,15 +29,16 @@ class MainUser extends React.Component {
                                 <div className="col-xl-9 col-lg-8">
                                     <div className="section3125">
                                         <h4 className="item_title"> Courses</h4>
-                                        <a href="#" className="see150">See all</a>
+                                        <Link to="/course" className="see150">See all</Link>
                                         <div className="la5lo1">
-                                            <div className="owl-carousel featured_courses owl-theme">
-                                                {
+                                            
+                                            <OwlCarousel className=" owl-theme">
+                                                    {
                                                     this.props.courses.map((course,index) => {
                                                         return (
                                                             <div className="item">
                                                                 <div className="fcrse_1 mb-20">
-                                                                    <a href="course_detail_view.html" className="fcrse_img">
+                                                                    <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
                                                                         <img src={course.imageVideoDescription} alt=""/>
                                                                         <div className="course-overlay">
                                                                             <div class="badge_seller">Bestseller</div>
@@ -43,7 +47,7 @@ class MainUser extends React.Component {
                                                                                 {course.videoDuration}
                                                                             </div>
                                                                         </div>
-                                                                    </a> 
+                                                                    </Link> 
                                                                     <div className="fcrse_content">
                                                                         <div className="eps_dots more_dropdown">
                                                                             <a href="#"><i className='uil uil-ellipsis-v'></i></a>
@@ -58,7 +62,7 @@ class MainUser extends React.Component {
                                                                             <span className="vdt14">109k views</span>
                                                                             <span className="vdt14">15 days ago</span>
                                                                         </div> */}
-                                                                        <a href="course_detail_view.html" className="crse14s">{course.title}</a>
+                                                                        <Link to={`/course/${course.id}`} params={course.id} className="crse14s">{course.title}</Link>
                                                                         <a href="#" class="crse-cate">{course.language}</a>
                                                                         <div className="auth1lnkprce">
                                                                             <div className="prce142">${course.price}</div>
@@ -70,9 +74,10 @@ class MainUser extends React.Component {
                                                         )
                                                     })
                                                 }
-                                            </div>
+                                            </OwlCarousel>
                                         </div>
                                     </div>
+                                    
                                     <div className="section3126">
                                         <div className="row">
                                             <div className="col-xl-6 col-lg-12 col-md-6">
@@ -128,13 +133,13 @@ class MainUser extends React.Component {
                                         <h4 className="item_title"> Courses</h4>
                                         <a href="#" className="see150">See all</a>
                                         <div className="la5lo1">
-                                            <div className="owl-carousel featured_courses owl-theme">
+                                            <OwlCarousel className="owl-theme">
                                                 {
-                                                    this.props.courses.map((course,index) => {
+                                                    this.props.courses.map((course,k) => {
                                                         return (
                                                             <div className="item">
                                                                 <div className="fcrse_1 mb-20">
-                                                                    <a href="course_detail_view.html" className="fcrse_img">
+                                                                    <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
                                                                         <img src={course.imageVideoDescription} alt=""/>
                                                                         <div className="course-overlay">
                                                                             <div class="badge_seller">Bestseller</div>
@@ -143,7 +148,7 @@ class MainUser extends React.Component {
                                                                                 {course.videoDuration}
                                                                             </div>
                                                                         </div>
-                                                                    </a> 
+                                                                    </Link> 
                                                                     <div className="fcrse_content">
                                                                         <div className="eps_dots more_dropdown">
                                                                             <a href="#"><i className='uil uil-ellipsis-v'></i></a>
@@ -158,7 +163,7 @@ class MainUser extends React.Component {
                                                                             <span className="vdt14">109k views</span>
                                                                             <span className="vdt14">15 days ago</span>
                                                                         </div> */}
-                                                                        <a href="course_detail_view.html" className="crse14s">{course.title}</a>
+                                                                        <Link to={`/course/${course.id}`} params={course.id} className="crse14s">{course.title}</Link>
                                                                         <a href="#" class="crse-cate">{course.language}</a>
                                                                         <div className="auth1lnkprce">
                                                                             <div className="prce142">${course.price}</div>
@@ -170,7 +175,7 @@ class MainUser extends React.Component {
                                                         )
                                                     })
                                                 }
-                                            </div>
+                                            </OwlCarousel> 
                                         </div>
                                     </div>
                                     <div className="section3126">
@@ -224,40 +229,40 @@ class MainUser extends React.Component {
                                 </div>
                             }
                             {localStorage.getItem("isLogin")?
-                            <div className="col-xl-3 col-lg-4">
-                                
-                                <div className="right_side">
-                                        <div className="fcrse_2 mb-30">
-                                            <div className="tutor_img">
-                                                <a href="my_instructor_profile_view.html"><img src={this.props.user.avatarImage} alt=""/></a>												
-                                            </div>
-                                            <div className="tutor_content_dt">
-                                                <div className="tutor150">
-                                                    <a href="my_instructor_profile_view.html" className="tutor_name">{this.props.user.username}</a>
-                                                    <div className="mef78" title="Verify">
-                                                        <i className="uil uil-check-circle"></i>
-                                                    </div>
+                                <div className="col-xl-3 col-lg-4">
+                                    
+                                    <div className="right_side">
+                                            <div className="fcrse_2 mb-30">
+                                                <div className="tutor_img">
+                                                    <a href="my_instructor_profile_view.html"><img src={this.props.user.avatarImage} alt=""/></a>												
                                                 </div>
-                                                <div className="tutor_cate">{this.props.user.email}</div>
-                                                <ul className="tutor_social_links">
-                                                    <li><a href="#" className="fb"><i className="fab fa-facebook-f"></i></a></li>
-                                                    <li><a href="#" className="tw"><i className="fab fa-twitter"></i></a></li>
-                                                    <li><a href="#" className="ln"><i className="fab fa-linkedin-in"></i></a></li>
-                                                    <li><a href="#" className="yu"><i className="fab fa-youtube"></i></a></li>
-                                                </ul>
-                                                
-                                                <a href="profile" className="prfle12link">Go To Profile</a>
-                                            </div> 
+                                                <div className="tutor_content_dt">
+                                                    <div className="tutor150">
+                                                        <a href="my_instructor_profile_view.html" className="tutor_name">{this.props.user.username}</a>
+                                                        <div className="mef78" title="Verify">
+                                                            <i className="uil uil-check-circle"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div className="tutor_cate">{this.props.user.email}</div>
+                                                    <ul className="tutor_social_links">
+                                                        <li><a href="#" className="fb"><i className="fab fa-facebook-f"></i></a></li>
+                                                        <li><a href="#" className="tw"><i className="fab fa-twitter"></i></a></li>
+                                                        <li><a href="#" className="ln"><i className="fab fa-linkedin-in"></i></a></li>
+                                                        <li><a href="#" className="yu"><i className="fab fa-youtube"></i></a></li>
+                                                    </ul>
+                                                    
+                                                    <a href="profile" className="prfle12link">Go To Profile</a>
+                                                </div> 
+                                            </div>
+                                        <div className="get1452">
+                                            <h4>Get personalized recommendations</h4>
+                                            <p>Answer a few questions for your top picks</p>
+                                            <button className="Get_btn" onclick="window.location.href = '#';">Get Started</button>
                                         </div>
-                                    <div className="get1452">
-                                        <h4>Get personalized recommendations</h4>
-                                        <p>Answer a few questions for your top picks</p>
-                                        <button className="Get_btn" onclick="window.location.href = '#';">Get Started</button>
                                     </div>
+                                    
                                 </div>
-                                
-                            </div>
-                            :''
+                                :''
                         }
                         </div>
                     </div>
@@ -265,8 +270,6 @@ class MainUser extends React.Component {
                 </div>
                 <FooterUser/>
             </div>
-            
-          </div>
       );
     }
   
@@ -275,8 +278,8 @@ class MainUser extends React.Component {
 const mapStateToProps = state => {
     return {        
         courses: state.course.courses,
-        page: state.user.page,
-        totalPages: state.user.totalPages,
+        page: state.course.page,
+        totalPages: state.course.totalPages,
         user: state.detail.user
     }
 }
@@ -284,7 +287,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
-        fetchDetailUserRequest:(e) => dispatch (fetchDetailUserRequest(e)),
+        fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
 
     };
 }

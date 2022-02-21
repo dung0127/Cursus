@@ -1,59 +1,46 @@
 import React from "react";
-import {login, logout} from "../../actions/auth"
-import {connect}  from "react-redux"
-import { Link } from "react-router-dom"
-import {fetchDetailUserRequest} from "../../actions/detail"
-import {withRouter} from '../Auth/withRouter'
+import {Link} from "react-router-dom"
 import { fetchCourseRequest } from "../../actions/course";
+import {connect}  from "react-redux";
+import {fetchDetailUserRequest} from "../../actions/detail"
+import {withRouter} from "../../Admin/Auth/withRouter";
+import {login, logout} from "../../actions/auth"
 
-class Header extends React.Component {
+class HeaderLearn extends React.Component {
     constructor(){
         super()
-       
     }
 
     componentDidMount(){
         this.props.fetchDetailUserRequest();
-        this.props.fetchCourseRequest(0);
     }
 
-    // logout = () => {
-    //     localStorage.removeItem("accessToken")
-    //     alert("logout")
-    //     window.location.reload();
-    // }
-
-    // loadData = () => {
-    //     var myHeaders = new Headers();
-    //     myHeaders.append("Authorization", "Bearer " + localStorage.getItem("accessToken"));
-
-    //     axios.get('http://localhost:8080/api/users/?pageNumber='+ this.state.page).then((res) => {
-    //         this.setState({users: res.data.data.content, 
-    //                         page: res.data.data.pageable.pageNumber,
-    //                         totalPages: res.data.data.totalPages});   
-    //     });
-
-    // }
     render() {
-        const { cartItems } = this.props;
-        return(
-            <header className="header  d-flex">
-                <button type="button" id="toggleMenu" className="toggle_menu">
-                <i className='uil uil-bars'></i>
-                </button>
-                <button id="collapse_menu" className="collapse_menu">
-                    <i className="uil uil-bars collapse_menu--icon "></i>
-                    <span className="collapse_menu--label"></span>
-                </button>
-                <div className="main_logo" id="logo">
-                    <a href="index.html"><img src="/images/logo.svg" alt=""/></a>
-                    <a href="index.html"><img className="logo-inverse" src="images/ct_logo.svg" alt=""/></a>
+        return (
+            <div className="lecture-header d-flex">
+                
+                <div className="lecture-header-left d-flex">
+                    <a href="#" className="back-to-curriculum" data-toggle="tooltip" title="" data-original-title="Go to purchased Courses">
+                        <i className="fas fa-angle-left"></i>
+                    </a>
+                    <a className="nav-icon-list d-sm-block d-md-block d-lg-none"><i className="fas fa-list"></i></a>
+                </div>
+                <div className="lecture-header-right d-flex">
+                    <a className="nav-btn disabled">
+                        <span className="nav-text">
+                            <i className="fas fa-long-arrow-alt-left mr-2"></i>
+                            Previous
+                        </span>
+                    </a>				
+                    <a className="nav-btn" href="#">
+                        <span className="nav-text">
+                            Next						
+                            <i className="fas fa-long-arrow-alt-right ml-2"></i>
+                        </span>
+                    </a>							
                 </div>
                 <div className="header_right">
                     <ul>
-                        <li>
-                            <Link to="/cart" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">{cartItems.length}</span></Link>
-				        </li>
                         <li className="ui dropdown">
                             <a href="#" className="opts_account" title="Account">
                                 <img src={this.props.user.avatarImage} alt=""/>
@@ -92,17 +79,16 @@ class Header extends React.Component {
                         </li> 
                     </ul>
                 </div>
-            </header>
+            </div>
         );
-    }
+    } 
 };
-
+ 
 const mapStateToProps = state => {
     return {        
         username: state.auth.username,
         token: state.auth.token,
         user: state.detail.user,
-        cartItems: state.cart.items,
     }
 }
 
@@ -116,10 +102,9 @@ const mapDispatchToProps = dispatch => {
             this.props.navigate('/index');
             window.location.reload();
         },
-        fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
         
     };
 }
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Header))
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(HeaderLearn))

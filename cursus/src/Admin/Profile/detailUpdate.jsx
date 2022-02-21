@@ -18,17 +18,10 @@ class DetailUpdate extends React.Component {
                 enable: '',
                 address: ''
                 },
-            password: {
-                oldPassword:'',
-                newPassword:'',
-                confirmPassword:''
-                },
             error: {},
             updateSuccess: false,
-            isShow: false, 
         }
         
-        this.handleInputPasswordChange = this.handleInputPasswordChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
   
     }
@@ -43,33 +36,6 @@ class DetailUpdate extends React.Component {
             this.props.getDetailInfo(res.data.data);
             this.setState({newDetail: res.data.data});
         });
-    }
-
-    validateFormData = () => {
-        let isValid = true;
-
-        const error = {}
-
-        if(validator.isEmpty(this.state.password.oldPassword)){            
-            error['oldPassword'] = 'The Old Password field is required.';
-            isValid = false;
-        }
-
-        if(validator.isEmpty(this.state.password.newPassword)){            
-            error['newPassword'] = 'The New Password field is required.';
-            isValid = false;
-        }
-
-        if(validator.isEmpty(this.state.password.confirmPassword)){            
-            error['confirmPassword'] = 'The Confirm Password field is required.';
-            isValid = false;
-        }
-
-        this.setState({
-            error: error
-        })
-
-        return isValid;
     }
 
     handleInputChange= e => {   
@@ -92,32 +58,6 @@ class DetailUpdate extends React.Component {
           
     }
 
-    handleInputPasswordChange= e => {   
-        let formData = Object.assign({}, this.state.password);    
-        console.log(formData)
-        formData[e.target.name] = e.target.value;
-        this.setState({password:formData});         
-        console.log(formData)  
-    }
-
-    updatePassword = (password) => {
-        if(this.validateFormData()){
-            axios.post(USER_INFO_API_BASE_URL+'/change-password', password , { headers: authHeader() }).then(res=>{
-                alert (res.data.message) 
-            })
-        }
-    }
-
-    showHide = () => {
-        this.state.isShow?
-            this.setState({
-                isShow: false
-            }):
-            this.setState({
-                isShow: true
-            });
-    }
-
     render() {
         console.log(this.props.isUpdate)
         return(
@@ -132,64 +72,6 @@ class DetailUpdate extends React.Component {
                                         <div className="account_setting">
                                             <h4>Your Cursus Account</h4>
                                             <p>This is your public presence on Cursus. You need a account to upload your paid courses, comment on courses, purchased by students, or earning.</p>
-                                            <div className="basic_profile">
-                                            
-                                                <div className="basic_ptitle">
-                                                    <h4>Password</h4>
-                                                    <p>Change your password</p>
-                                                </div>
-                                                <div className="basic_form">
-                                                    <div className="row">
-                                                        <div className="col-lg-8">
-                                                            <div className="row">
-                                                                <div className="col-lg-7">
-                                                                    <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
-                                                                            <input className="prompt srch_explore" type={this.state.isShow?'text':'password'} name="oldPassword" required="" placeholder="Old password"
-                                                                            onChange={this.handleInputPasswordChange}/>
-                                                                            <div style={{margin: 'auto'}}>
-                                                                            {this.state.isShow?<i className="fa fa-fw fa-eye" id="togglePassword" style={{marginLeft: '-40px', cursor: 'pointer'}} onClick={this.showHide}/>
-                                                                            :<i className="fa fa-fw fa-eye-slash"id="togglePassword" style={{marginLeft: '-40px', cursor: 'pointer'}} onClick={this.showHide} /> }
-                                                                            </div>					
-                                                                        </div>
-                                                                        {this.state.error.oldPassword && <div className="validation alert alert-warning">{this.state.error.oldPassword}</div>}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-lg-7">
-                                                                    <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
-                                                                            <input className="prompt srch_explore" type={this.state.isShow?'text':'password'} name="newPassword" required="" placeholder="New password"
-                                                                            onChange={this.handleInputPasswordChange}/>
-                                                                            <div style={{margin: 'auto'}}>
-                                                                            {this.state.isShow?<i className="fa fa-fw fa-eye" id="togglePassword" style={{marginLeft: '-40px', cursor: 'pointer'}} onClick={this.showHide}/>
-                                                                            :<i className="fa fa-fw fa-eye-slash"id="togglePassword" style={{marginLeft: '-40px', cursor: 'pointer'}} onClick={this.showHide} /> }
-                                                                            </div>					
-                                                                        </div>
-                                                                        {this.state.error.newPassword && <div className="validation alert alert-warning">{this.state.error.newPassword}</div>}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-lg-7">
-                                                                    <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
-                                                                            <input className="prompt srch_explore" type={this.state.isShow?'text':'password'} name="confirmPassword" required="" placeholder="Confirm password" 
-                                                                            onChange={this.handleInputPasswordChange}/>		
-                                                                            <div style={{margin: 'auto'}}>
-                                                                            {this.state.isShow?<i className="fa fa-fw fa-eye" id="togglePassword" style={{marginLeft: '-40px', cursor: 'pointer'}} onClick={this.showHide}/>
-                                                                            :<i className="fa fa-fw fa-eye-slash"id="togglePassword" style={{marginLeft: '-40px', cursor: 'pointer'}} onClick={this.showHide} /> }
-                                                                            </div>
-                                                                        </div>
-                                                                        {this.state.error.confirmPassword && <div className="validation alert alert-warning">{this.state.error.confirmPassword}</div>}
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-lg-12">
-                                                                    <div className="divider-1"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <button className="save_btn" type="button" value={'Value'} onClick={()=>this.updatePassword(this.state.password)}>Save Changes</button>
                                             <form>
                                             <div className="basic_profile">
                                                 <div className="basic_ptitle">

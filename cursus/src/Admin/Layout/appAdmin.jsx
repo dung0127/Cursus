@@ -15,6 +15,7 @@ import Detail from "../Profile/detail"
 import DetailUpdate from "../Profile/detailUpdate";
 import Category from "../Category/category"
 import CatalogAdd from "../Category/catalogAdd";
+import ChangePassword from "../Auth/changePassword";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -48,6 +49,7 @@ class AppAdmin extends React.Component {
                 <Route path="/add-course" element = {<PrivateRoute><CourseAdd/></PrivateRoute>}/>
                 <Route path="/detail" element = {<PrivateRoute><Detail/></PrivateRoute>}/>
                 <Route path="/detail-update" element = {<PrivateRoute><DetailUpdate/></PrivateRoute>}/>
+                <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
             </Routes>  
         </Router>
       );
