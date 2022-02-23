@@ -18,7 +18,8 @@ var tid = setInterval( function () {
   var wrapper = document.querySelector('.wrapper');
 
   var menu = document.getElementById("js-menu");
-  var subnavs = menu.querySelectorAll('.menu--item__has_sub_menu');    
+  var subnavs = menu.querySelectorAll('.menu--item__has_sub_menu');   
+  var subnavss = menu.querySelectorAll('.menu--item__has_sub_menuu');    
 
   // Toggle menu click
   querySelector('.toggle_menu').onclick = function () {
@@ -41,8 +42,11 @@ var tid = setInterval( function () {
       subnavs[j].classList.remove('menu--subitens__opened');
     }
 
-  };
+    for (var j = 0; j < subnavss.length; j++) {
+      subnavss[j].classList.remove('menu--subitenss__opened');
+    }
 
+  };
 
   // Open Sub Menu
   
@@ -64,8 +68,33 @@ var tid = setInterval( function () {
       }, false);
 
     }
-  }
+  };
 
+  for (var i = 0; i < subnavss.length; i++) {
+    
+    if (subnavss[i].classList.contains('menu--item__has_sub_menuu') ) {
+      
+      subnavss[i].querySelector('.menu--linkk').addEventListener('click', function (e) {
+
+          for (var j = 0; j < subnavss.length; j++) {
+
+            if(e.target.offsetParent != subnavss[j])
+              subnavss[j].classList.remove('menu--subitenss__opened');          
+
+          }
+
+          e.target.offsetParent.classList.toggle('menu--subitenss__opened');
+
+      }, false);
+
+    }
+  }
+//---------------------------
+  
+
+  // Open Sub Menu
+  
 
 }, 100 );
+
 

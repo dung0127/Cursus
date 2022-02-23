@@ -1,7 +1,7 @@
 import { COURSE_API_BASE_URL } from "../config/env";
 import authHeader from "../config/authHeader";
 import axios from "axios";
-
+import $ from "jquery";
 /*GET NUMBER CART*/
 export const GetNumberCart = () =>{
     return{
@@ -22,15 +22,17 @@ export const addToCart = (items, product) => (dispatch) => {
     cartItems.forEach((cp) => {
       if (cp.id === product.id) {
         // cp.count += 1;
-        alert("Already exist")
+        $('#warning').fadeIn('slow').delay(1500).fadeOut('slow');
         productAlreadyInCart = true;
       }
     });
   
     if (!productAlreadyInCart) {
       cartItems.push({ ...product, count: 1 });
+      $('#success').fadeIn('slow').delay(1500).fadeOut('slow');
     }
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    
     dispatch({ type: 'ADD_TO_CART', payload: { cartItems } });
   };
 
@@ -38,4 +40,13 @@ export const removeFromCart = (items, product) => (dispatch) => {
   const cartItems = items.slice().filter((a) => a.id !== product.id);
   localStorage.setItem("cartItems", JSON.stringify(cartItems));
   dispatch({ type: 'REMOVE_FROM_CART', payload: { cartItems } });
+};
+
+export const clearFromCart = () => (dispatch) => {
+  let text = "Are you sure?";
+        if (window.confirm(text) == true) {
+          localStorage.setItem("cartItems", []);
+          dispatch({ type: 'CLEAR_FROM_CART'});
+        } 
+  
 };

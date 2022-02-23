@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import {fetchDetailUserRequest} from "../../actions/detail"
 import {withRouter} from '../Auth/withRouter'
 import { fetchCourseRequest } from "../../actions/course";
+import { fetchCatalogRequest} from "../../actions/catalog"
 
 class Header extends React.Component {
     constructor(){
@@ -15,6 +16,7 @@ class Header extends React.Component {
     componentDidMount(){
         this.props.fetchDetailUserRequest();
         this.props.fetchCourseRequest(0);
+        this.props.fetchCatalogRequest();
     }
 
     // logout = () => {
@@ -35,7 +37,7 @@ class Header extends React.Component {
 
     // }
     render() {
-        const { cartItems } = this.props;
+        const { cartItems, catalogs } = this.props;
         return(
             <header className="header  d-flex">
                 <button type="button" id="toggleMenu" className="toggle_menu">
@@ -46,14 +48,47 @@ class Header extends React.Component {
                     <span className="collapse_menu--label"></span>
                 </button>
                 <div className="main_logo" id="logo">
-                    <a href="index.html"><img src="/images/logo.svg" alt=""/></a>
-                    <a href="index.html"><img className="logo-inverse" src="images/ct_logo.svg" alt=""/></a>
+                    <Link to ="/"><img src="/images/logo.svg" alt=""/></Link>
+                    <Link to ="/"><img className="logo-inverse" src="images/ct_logo.svg" alt=""/></Link>
                 </div>
+                <div className="top-category">
+                    <div className="ui compact menu cate-dpdwn" >
+                        <div className="ui simple dropdown item">
+                            <a href="#" className="option_links p-0" title="categories" ><i className="uil uil-apps"></i></a>
+                            <div className="menu dropdown_category5">
+                                {catalogs.map((catalog)=>
+                                <Link to="/course" className="item channel_item" style={{width:"230px"}}><i className="dropdown icon"/><span className="text">{catalog.name}</span>
+                                    {catalog.subCatalogs?
+                                    <div className="menu">
+                                        {catalog.subCatalogs.map((sub)=>
+                                        <Link to="/" className="item channel_item" style={{textAlign:"center"}}>{sub.name}</Link>)}
+                                    </div>:''}
+                                </Link>
+                                )}
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                {localStorage.getItem("role")=="ROLE_USER"?
+                <div class="search120">
+                    <div class="ui search">
+                    <div class="ui left icon input swdh10">
+                        <input class="prompt srch10" type="text" placeholder="Search for Courses and more.."/>
+                        <i class='uil uil-search-alt icon icon1'></i>
+                    </div>
+                    </div>
+                </div>:''}
                 <div className="header_right">
                     <ul>
+                        {localStorage.getItem("role")=="ROLE_ADMIN"?
                         <li>
-                            <Link to="/cart" class="option_links" title="cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">{cartItems.length}</span></Link>
-				        </li>
+                            <Link to = "/add-course" class="upload_btn" title="Create New Course">Create New Course</Link>
+                        </li>:
+                        <li>
+                            <Link to="/cart" class="option_links" title="Cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">{cartItems.length}</span></Link>
+				        </li>}
+                        
                         <li className="ui dropdown">
                             <a href="#" className="opts_account" title="Account">
                                 <img src={this.props.user.avatarImage} alt=""/>
@@ -86,7 +121,7 @@ class Header extends React.Component {
                                 <Link to='/detail' className="item channel_item" >View Profile</Link>
                                 <Link to='/change-password' className="item channel_item" >Change Password</Link>	
                                 	
-                                <a href="help.html" className="item channel_item">Help</a>
+                                <Link to='/help' className="item channel_item">Help</Link>
                                 <Link to='/' className="item channel_item" onClick={this.props.logout}>Sign Out</Link>
                             </div>
                         </li> 
@@ -101,8 +136,10 @@ const mapStateToProps = state => {
     return {        
         username: state.auth.username,
         token: state.auth.token,
+        role: state.auth.role,
         user: state.detail.user,
         cartItems: state.cart.items,
+        catalogs: state.catalog.catalogs,
     }
 }
 
@@ -118,7 +155,7 @@ const mapDispatchToProps = dispatch => {
         },
         fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
-        
+        fetchCatalogRequest:() => dispatch (fetchCatalogRequest()),
     };
 }
 

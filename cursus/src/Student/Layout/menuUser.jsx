@@ -27,6 +27,14 @@ class MenuUser extends React.Component {
                                     <span className="menu--label">Explore</span>
                                 </Link>
                             </li>
+                            {localStorage.getItem("isLogin")?
+                            <li className="menu--item">
+                                <Link to="detail" className="menu--link" title="Profile">
+                                    <i className='uil uil-clipboard-alt menu--icon'></i>
+                                    <span className="menu--label">Profile</span>
+                                </Link>
+                            </li>
+                            :''}
                             <li className="menu--item menu--item__has_sub_menu">
                                 <label className="menu--link" title="Categories">
                                     <i className='uil uil-layers menu--icon'></i>
@@ -34,12 +42,42 @@ class MenuUser extends React.Component {
                                 </label>
                                 <ul className="sub_menu">
                                     {this.props.catalogs.map((catalog,index) => {
-                                    return (
-                                        <li className="sub_menu--item">
-                                            <Link to={`/course/${catalog.id}`} params={{id: catalog.id}} className="sub_menu--link">{catalog.name}</Link>
-                                        </li>
+                                        return (
+                                            
+                                    <li className="menu--item menu--item__has_sub_menuu">
+                                        <label className="menu--linkk" title="Categories">
+                                            <span className="menu--labell">{catalog.name}</span>
+                                        </label>
+                                        
+                                        <ul className="sub_menuu">
+                                            {catalog.subCatalogs.map((subCatalog,index) => {
+                                            return (
+                                                <li className="sub_menu--itemm">
+                                                    <Link to='/' className="sub_menu--linkk">{subCatalog.name}
+                                                    </Link>
+                                                </li>
+                                            )})}
+                                            
+                                        </ul>
+                                    </li>
                                     )})}
-                                    
+                                    {/* <li className="menu--item menu--item__has_sub_menuu">
+                                        <label className="menu--linkk" title="Categories">
+                                            
+                                            <span className="menu--labell">TEST</span>
+                                        </label>
+                                        <ul className="sub_menuu">
+                                            {this.props.catalogs.map((catalog,index) => {
+                                            return (
+                                                <li className="sub_menu--itemm">
+                                                    <Link to={`/course/${catalog.id}`} params={{id: catalog.id}} className="sub_menu--linkk">{catalog.name}
+                                                    </Link>
+                                                </li>
+                                            )})}
+                                            
+                                        </ul>
+                                    </li>
+                                     */}
                                 </ul>
                             </li>
                             <li className="menu--item">
@@ -48,89 +86,17 @@ class MenuUser extends React.Component {
                                 <span className="menu--label">Saved Courses</span>
                                 </a>
                             </li>
-                            <li className="menu--item  menu--item__has_sub_menu">
-                                <label className="menu--link" title="Pages">
-                                <i className='uil uil-file menu--icon'></i>
-                                <span className="menu--label">Pages</span>
-                                </label>
-                                <ul className="sub_menu">
-                                    <li className="sub_menu--item">
-                                        <a href="about_us.html" className="sub_menu--link">About</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="sign_in.html" className="sub_menu--link">Sign In</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="sign_up.html" className="sub_menu--link">Sign Up</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="sign_up_steps.html" className="sub_menu--link">Sign Up Steps</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="membership.html" className="sub_menu--link">Paid Membership</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="course_detail_view.html" className="sub_menu--link">Course Detail View</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="checkout_membership.html" className="sub_menu--link">Checkout</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="invoice.html" className="sub_menu--link">Invoice</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="career.html" className="sub_menu--link">Career</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="apply_job.html" className="sub_menu--link">Job Apply</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="our_blog.html" className="sub_menu--link">Our Blog</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="blog_single_view.html" className="sub_menu--link">Blog Detail View</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="company_details.html" className="sub_menu--link">Company Details</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="press.html" className="sub_menu--link">Press</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="live_output.html" className="sub_menu--link">Live Stream View</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="add_streaming.html" className="sub_menu--link">Add live Stream</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="search_result.html" className="sub_menu--link">Search Result</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="thank_you.html" className="sub_menu--link">Thank You</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="coming_soon.html" className="sub_menu--link">Coming Soon</a>
-                                    </li>
-                                    <li className="sub_menu--item">
-                                        <a href="error_404.html" className="sub_menu--link">Error 404</a>
-                                    </li>
-                                </ul>
-                            </li>
+                            
                         </ul>
                     </div>
                     <div className="left_section pt-2">
                         <ul>
+                            
                             <li className="menu--item">
-                                <a href="setting.html" className="menu--link" title="Setting">
-                                    <i className='uil uil-cog menu--icon'></i>
-                                    <span className="menu--label">Setting</span>
-                                </a>
-                            </li>
-                            <li className="menu--item">
-                                <a href="help.html" className="menu--link" title="Help">
+                                <Link to ="/help" className="menu--link" title="Help">
                                     <i className='uil uil-question-circle menu--icon'></i>
                                     <span className="menu--label">Help</span>
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </div>

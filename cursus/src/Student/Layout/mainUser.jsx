@@ -4,7 +4,11 @@ import {connect} from 'react-redux';
 import { fetchCourseRequest } from "../../actions/course";
 import {fetchDetailUserRequest} from "../../actions/detail";
 import OwlCarousel from 'react-owl-carousel';
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import { addToCart } from "../../actions/cart";
+import Success from "../../Alert/success";
+import Warning from "../../Alert/warning";
+
 
 class MainUser extends React.Component {
     constructor(props) {
@@ -25,11 +29,16 @@ class MainUser extends React.Component {
                 <div className="sa4d25">
                     <div className="container-fluid">			
                         <div className="row">
+                                <div  id="success" style={{display:"none"}}><Success name="Add to cart"/></div>
+                                <div  id="warning" style={{display:"none"}} ><Warning name="Already exits"/></div>
                             {localStorage.getItem("isLogin")?
                                 <div className="col-xl-9 col-lg-8">
                                     <div className="section3125">
+                                            
                                         <h4 className="item_title"> Courses</h4>
+                                        
                                         <Link to="/course" className="see150">See all</Link>
+                                       
                                         <div className="la5lo1">
                                             
                                             <OwlCarousel className=" owl-theme">
@@ -66,7 +75,7 @@ class MainUser extends React.Component {
                                                                         <a href="#" class="crse-cate">{course.language}</a>
                                                                         <div className="auth1lnkprce">
                                                                             <div className="prce142">${course.price}</div>
-                                                                            <button className="shrt-cart-btn" title="cart"><i className="uil uil-shopping-cart-alt"></i></button>
+                                                                            <button className="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i className="uil uil-shopping-cart-alt"></i></button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -131,7 +140,7 @@ class MainUser extends React.Component {
                                 <div className="col-xl-12 col-lg-8">
                                     <div className="section3125">
                                         <h4 className="item_title"> Courses</h4>
-                                        <a href="#" className="see150">See all</a>
+                                        <Link to="/course" className="see150">See all</Link>
                                         <div className="la5lo1">
                                             <OwlCarousel className="owl-theme">
                                                 {
@@ -167,7 +176,7 @@ class MainUser extends React.Component {
                                                                         <a href="#" class="crse-cate">{course.language}</a>
                                                                         <div className="auth1lnkprce">
                                                                             <div className="prce142">${course.price}</div>
-                                                                            <button className="shrt-cart-btn" title="cart"><i className="uil uil-shopping-cart-alt"></i></button>
+                                                                            <button className="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i className="uil uil-shopping-cart-alt"></i></button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -251,7 +260,7 @@ class MainUser extends React.Component {
                                                         <li><a href="#" className="yu"><i className="fab fa-youtube"></i></a></li>
                                                     </ul>
                                                     
-                                                    <a href="profile" className="prfle12link">Go To Profile</a>
+                                                    <Link to="/detail" className="prfle12link">Go To Profile</Link>
                                                 </div> 
                                             </div>
                                         <div className="get1452">
@@ -268,6 +277,31 @@ class MainUser extends React.Component {
                     </div>
                     
                 </div>
+                {/* <Alert color='primary' fade={true}>check it out!</Alert>
+                <Provider template={AlertTemplate} {...options}>
+      <button
+        onClick={() => {
+          alert.show("Oh look, an alert!");
+        }}
+      >
+        Show Alert
+      </button>
+      <button
+        onClick={() => {
+          alert.error("You just broke something!");
+        }}
+      >
+        Oops, an error
+      </button>
+      <button
+        onClick={() => {
+          alert.success("It's ok now!");
+        }}
+      >
+        Success!
+      </button>
+  </Provider> */}
+  
                 <FooterUser/>
             </div>
       );
@@ -280,7 +314,8 @@ const mapStateToProps = state => {
         courses: state.course.courses,
         page: state.course.page,
         totalPages: state.course.totalPages,
-        user: state.detail.user
+        user: state.detail.user,
+        cartItems: state.cart.items,
     }
 }
 
@@ -288,7 +323,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
-
+        addToCart:(e,p) => dispatch (addToCart(e,p)),
     };
 }
 

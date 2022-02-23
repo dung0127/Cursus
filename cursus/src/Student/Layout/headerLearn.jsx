@@ -26,12 +26,12 @@ class HeaderLearn extends React.Component {
                     <a className="nav-icon-list d-sm-block d-md-block d-lg-none"><i className="fas fa-list"></i></a>
                 </div>
                 <div className="lecture-header-right d-flex">
-                    <a className="nav-btn disabled">
+                    <Link to="" className="nav-btn disabled">
                         <span className="nav-text">
                             <i className="fas fa-long-arrow-alt-left mr-2"></i>
                             Previous
                         </span>
-                    </a>				
+                    </Link>				
                     <a className="nav-btn" href="#">
                         <span className="nav-text">
                             Next						

@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;400;700&display=swap');
+
+
+
+
+
+.btn_grp .btn.btn_info,
+.alert_item.alert_info{
+	background: #cde8f5;
+	color: #4480ae;
+}
+
+.btn_grp .btn.btn_warning,
+.alert_item.alert_warning{
+	background: #f7f899;
+	color: #fcac00;
+}
+
+.btn_grp .btn.btn_error,
+.alert_item.alert_error{
+	background: #e2a8a3;
+	color: #ce110e;
+}
+
+.alert_item.alert_success{
+	background: hsl(140, 67%, 72%);
+	color: #0d5a19;
+}
+
+
+
+
+.alert_wrapper{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	z-index: 999;
+	/* visibility: hidden; */
+    
+}
+
+.alert_wrapper .alert_item{
+	z-index: 3;	
+	position: fixed;
+	top: -90%;
+	left: 91%;
+	transform: translate(-50%,-50%);
+	display: flex;
+	align-items: center;
+	padding: 10px 50px;
+	border-radius: 5px;
+	transition: all 0.2s ease;
+}
+
+.alert_wrapper .alert_item .data{
+	margin: 0 20px;
+}
+.alert_wrapper .alert_item .data .title{
+	font-size: 16px;
+	margin-bottom: 5px;
+    color: rgb(15, 17, 15);
+}
+.alert_wrapper .alert_item .data span{
+	font-weight: 600;
+}
+.alert_wrapper .alert_item .data .sub{
+	font-size: 5px;
+	font-weight: 100;
+}
+.alert_wrapper .alert_item .icon{
+	font-size: 18px;
+}
+
+.alert_wrapper .alert_item{
+	top: 14%;
+    opacity: 0.7;
+}

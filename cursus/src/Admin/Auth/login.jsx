@@ -5,6 +5,8 @@ import { login, logout } from "../../actions/auth";
 import { connect } from 'react-redux';
 import {LOGIN_BASE_URL} from '../../config/env';
 import {withRouter} from './withRouter'
+import Success from "../../Alert/success";
+import $ from "jquery";
 
 class Login extends React.Component {
 	constructor(){
@@ -23,7 +25,18 @@ class Login extends React.Component {
 		
     }
 
-	
+	handle = () => {
+		// var html = '<div className="alert_wrapper" style={{display:"none"}} id="test"><div className="alert_backdrop"></div><div className="alert_inner"><div className="alert_item alert_success active"><div className="icon data_icon"><i className="fas fa-check-circle"></i></div><div className="data"><p className="title"><span>Success</span></p></div></div></div></div>'
+		$('#target').fadeIn('fast').delay(1000).fadeOut('fast');
+		// var html = "<div><Alert/></div>"
+		// $(html).appendTo("#target").hide().fadeIn(300);
+		setTimeout(()=>{
+			this.props.navigate('/')
+			window.location.reload();
+		},1000);
+		
+	}
+
 	handleInputsChange = e =>{                
         let formData = Object.assign({}, this.state.user);
         formData[e.target.name] = e.target.value;        
@@ -64,10 +77,10 @@ class Login extends React.Component {
 						localStorage.setItem('token',res.data.data.token)
 						localStorage.setItem('role',res.data.data.roles)					
                     }  
-					alert ("Hi "+ res.data.data.username)  
+					
 					this.setState({isSuccess: true})
-					this.props.navigate('/index')
-					window.location.reload();
+					this.handle();
+					
 					   
                 }            
                 this.setState({
@@ -90,14 +103,11 @@ class Login extends React.Component {
 								<a href="index.html"><img class="logo-inverse" src="images/ct_logo.svg" alt=""/></a>
 							</div>
 						</div>
-					
+						<div  id="target" style={{display:"none"}}><Success name="Login Successful"/></div>
 						<div className="col-lg-6 col-md-8">
 							<div className="sign_form">
 								<h2>Welcome Back</h2>
 								<p>Log In to Your Edututs+ Account!</p>
-								<button className="social_lnk_btn color_btn_fb"><i className="uil uil-facebook-f"></i>Continue with Facebook</button>
-								<button className="social_lnk_btn mt-15 color_btn_tw"><i className="uil uil-twitter"></i>Continue with Twitter</button>
-								<button className="social_lnk_btn mt-15 color_btn_go"><i className="uil uil-google"></i>Continue with Google</button>
 								<form>
 									<div className="ui search focus mt-15">
 										<div className="ui icon input swdh95">

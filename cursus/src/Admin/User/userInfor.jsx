@@ -110,7 +110,10 @@ class UserInfo extends React.Component {
                                                                         <td className="text-center">{user.role.name=='ROLE_ADMIN'?'ADMIN':'USER'}</td>
                                                                         <td className="text-center">{user.enabled ? <b className="course_active">Active</b>:<b className="course_inactive">Inactive</b>}</td>
                                                                         <td className="text-center"> 
+                                                                            <Link to={`/user/${user.id}`} params={user.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
+                                                                            <a href="#" title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></a>
                                                                             <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(user.id)}></i></a>
+
                                                                         </td>
                                                                     </tr>);
                                                                 }
@@ -119,6 +122,7 @@ class UserInfo extends React.Component {
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            {this.props.totalPages > 1? 
                                             <div className="step-footer step-tab-pager text-center">
                                                     <div class="ui pagination menu" role="navigation">  
                                                     {this.props.page > 0?   
@@ -133,6 +137,7 @@ class UserInfo extends React.Component {
                                                     :''}
                                                 </div>   
                                             </div>
+                                            :''}
                                         </div>
                                     </div>
                                 </div>

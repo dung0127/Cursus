@@ -4,6 +4,9 @@ import {connect} from 'react-redux';
 import { fetchCourseRequest } from "../../actions/course"
 import {Link} from "react-router-dom"
 import { addToCart } from "../../actions/cart";
+import Success from "../../Alert/success";
+import Warning from "../../Alert/warning";
+
 
 class Course extends React.Component {
     constructor(props) {
@@ -42,15 +45,20 @@ class Course extends React.Component {
                 <div class="container-fluid">			
                     <div class="row">
                         <div class="col-xl-12 col-lg-8">
+                        
                             <div class="section3125">
-                                <div class="explore_search">
+                                        <div  id="success" style={{display:"none"}}><Success name="Add to cart"/></div>
+                                        <div  id="warning" style={{display:"none"}} ><Warning name="Already exits"/></div>
+                                {/* <div class="explore_search">
+                                    
                                     <div class="ui search focus">
                                         <div class="ui left icon input swdh11">
+                                            
                                             <input class="prompt srch_explore" type="text" placeholder="Search for Tuts Videos, Tutors, Tests and more.."/>
                                             <i class="uil uil-search-alt icon icon2"></i>
                                         </div>
                                     </div>
-                                </div>							
+                                </div>							 */}
                             </div>							
                         </div>
                         <div class="col-md-12">

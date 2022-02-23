@@ -5,7 +5,7 @@ import { fetchCourseRequest } from "../../actions/course";
 import {fetchDetailUserRequest} from "../../actions/detail";
 import OwlCarousel from 'react-owl-carousel';
 import {Link} from "react-router-dom";
-import { addToCart,removeFromCart } from "../../actions/cart";
+import { addToCart,clearFromCart,removeFromCart } from "../../actions/cart";
 import sum from "./sum"
 
 class CartInfo extends React.Component {
@@ -41,11 +41,14 @@ class CartInfo extends React.Component {
                         </div>
                     </div>
                 </div>
-                {cartItems.length > 0 && (
+                {cartItems? (
                 <div className="mb4d25">
-                    <div className="container">			
+                    <div className="container">	
+                   
                         <div className="row">
+                            
                         <div className="col-lg-8">
+                            
                         {cartItems.map((item) => (
                             <div className="fcrse_1">
                                 <Link to={`/course/${item.id}`} params={item.id} className="hf_img">
@@ -64,7 +67,11 @@ class CartInfo extends React.Component {
                                 </div>
                             </div>			
                         ))}   
-                        </div>
+                        {cartItems.length>0?
+                        <a type="button" onClick={this.props.clearFromCart} className="chck-btn22">Clear All Cart</a>
+                        :''}</div>
+                        
+                        
                             <div className="col-lg-4">
                                 <div className="membership_chk_bg rght1528">
                                         <div className="checkout_title">
@@ -100,14 +107,63 @@ class CartInfo extends React.Component {
                                                     </div>
                                                 </div>
                                             </div> */}
+                                            
+                                            {localStorage.getItem("isLogin")?
                                             <Link to = "/checkout" className="chck-btn22">Checkout Now</Link>
+                                            :<a href = "/login" className="chck-btn22" >Login Now</a>}
                                         </div>
                                 </div>
                             </div>								
                         </div>				
                     </div>
                 </div>
-                )}
+                ):
+                <div className="mb4d25">
+                    <div className="container">	
+                   
+                        <div className="row">
+                            <div className="col-lg-8"></div>
+                            
+                            <div className="col-lg-4">
+                                <div className="membership_chk_bg rght1528">
+                                        <div className="checkout_title">
+                                            <h4>Total</h4>
+                                            <img src="images/line.svg" alt=""/>
+                                        </div>
+                                        <div className="order_dt_section">
+                                            <div className="order_title">
+                                                <h4>Orignal Price</h4>
+                                                <div className="order_price">$0
+                                                </div>
+                                            </div>
+                                            <div className="order_title">
+                                                <h6>Discount Price</h6>
+                                                <div className="order_price">$0</div>
+                                            </div>
+                                            <div className="order_title">
+                                                <h2>Total</h2>
+                                                <div className="order_price5">$0</div>
+                                            </div>
+                                            {/* <div className="coupon_code">
+                                                <p>Learn now is applied.</p>
+                                                <div className="coupon_input">
+                                                    <div className="ui search focus mt-15">
+                                                        <div className="ui left icon input swdh11 swdh19">
+                                                            <input className="prompt srch_explore" type="text" name="couponcode" value="" id="id_coupon_code" required="" maxlength="6" placeholder="Enter Coupon Code"/>
+                                                        </div>
+                                                        <button className="code-apply-btn" type="submit">Apply</button>
+                                                    </div>
+                                                </div>
+                                            </div> */}
+                                            {localStorage.getItem("isLogin")?
+                                            <Link to = "/checkout" className="chck-btn22">Checkout Now</Link>
+                                            :<a href = "/login" className="chck-btn22" >Login Now</a>}
+                                        </div>
+                                </div>
+                            </div>								
+                        </div>				
+                    </div>
+                </div>}
                 <FooterUser/>
             </div>
       );
@@ -131,6 +187,7 @@ const mapDispatchToProps = dispatch => {
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
         addToCart:(e,p) => dispatch (addToCart(e,p)),
         removeFromCart:(e,p) => dispatch (removeFromCart(e,p)),
+        clearFromCart: () => dispatch (clearFromCart()),
     };
 }
 

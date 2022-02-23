@@ -11,7 +11,13 @@ import CartInfo from "../Cart/cartInfo";
 import Checkout from "../Payment/checkout";
 import CourseLesson from "../Course/courseLesson";
 import HeaderLearn from "../Layout/headerLearn";
-import {connect} from "react-redux"
+import {connect} from "react-redux";
+import ErrorPage from "./errorPage";
+import Help from "./help";
+import Profile from "../User/profile";
+import ProfileEdit from "../User/profileEdit";
+import ChangePassword from "../../Admin/Auth/changePassword";
+import Signup from "../User/signup";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -35,19 +41,24 @@ class AppUser extends React.Component {
     render() {
       return (
         <Router>
-                  {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn')) ? <Header/> : '') : ( window.location.pathname !== '/login' ? <HeaderGuest/> : '')}
-                  {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn'))? <MenuUser/>:''}
+                  {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup')) ? <Header/> : '') : (  (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/signup')) ? '':<HeaderGuest/> )}
+                  {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup')) ? <MenuUser/>:''}
                   {window.location.pathname.startsWith('/learn')? <HeaderLearn/>:''}
               <Routes>    
                   <Route path ="/index" element = {<MainUser/>}/> 
+                  <Route path ="/signup" element = {<Signup/>}/>
                   {!isLogin? <Route path ="/login" element = {<Login/>}/> :''}
                   <Route path ="/" element = {<MainUser/>}/>
                   <Route path ="/course" element = {<Course/>}/> 
                   <Route path="/course/:id" element ={<CourseById/>}></Route>
                   <Route path ="/cart" element = {<CartInfo/>}/> 
                   <Route path ="/checkout" element = {<PrivateRoute><Checkout/></PrivateRoute>}/> 
-                  <Route path ="/learn/:id" element = {<PrivateRoute><CourseLesson/></PrivateRoute>}/> 
-                  {/* <Route path ="*" element = {<ErrorPage/>}/>  */}
+                  <Route path ="/learn/:id" element = {<PrivateRoute><CourseLesson/></PrivateRoute>}/>
+                  <Route path ="/detail" element = {<PrivateRoute><Profile/></PrivateRoute>}/> 
+                  <Route path ="/edit-profile" element = {<PrivateRoute><ProfileEdit/></PrivateRoute>}/> 
+                  <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
+                  <Route path ="/help" element = {<Help/>}/> 
+                  <Route path ="*" element = {<ErrorPage/>}/> 
               </Routes>  
           </Router>
       );

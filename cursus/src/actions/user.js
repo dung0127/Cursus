@@ -52,10 +52,17 @@ export const searchUser = (users, page, totalPages) => {
     }
 }
 
+export const getUserByIdRequest = (id) => {
+    return(dispatch) => {
+        axios.get('http://localhost:8080/api/user/' + id, { headers: authHeader() }).then((res) => {
+            dispatch(getUserById(res.data.data))
+        })
+    }
+}
 
-
-export const addUser = () =>  {
+export const getUserById = (userById) => {
     return {
-        type: 'ADD_USER',
+        type:'GET_USER_BY_ID',
+        userById
     }
 }

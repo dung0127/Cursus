@@ -3,7 +3,8 @@ const initState = {
     page: 0,
     totalPages: 0,
     addSuccess: false,
-    deteleSuccess: false
+    deteleSuccess: false,
+    userById: {}
 };
  
 export const userReducer = (state = initState, action) => {
@@ -43,6 +44,15 @@ export const userReducer = (state = initState, action) => {
                     totalPages: action.totalPages
                 }
             }
+
+        case 'GET_USER_BY_ID':
+        {
+            return {
+                ...state,
+                userById: action.userById,
+                
+            }
+        }
 
         default:
             {

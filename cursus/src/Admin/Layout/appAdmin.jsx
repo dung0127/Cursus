@@ -16,6 +16,8 @@ import DetailUpdate from "../Profile/detailUpdate";
 import Category from "../Category/category"
 import CatalogAdd from "../Category/catalogAdd";
 import ChangePassword from "../Auth/changePassword";
+import DetailUser from "../User/detailUser";
+import ErrorPage from "../../Student/Layout/errorPage";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -33,15 +35,16 @@ class AppAdmin extends React.Component {
   render() {
       return (
         <Router>
-                {console.log(this.props.auth)}
-                {console.log('hi',!isLogin)}
                 {isLogin?<Header/>:''}
                 {isLogin?<Menu/>:''}
             <Routes>    
                 <Route path ="/index" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/> 
+                {!isLogin? <Route path ="/login" element = {<Login/>}/> :''}
+                <Route path ="/" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/>
                 <Route path ="/dashboard" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/> 
                 {!isLogin?<Route path ="/" element = {<Login/>}/>:<Route path ="/" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/>}
                 <Route path="/users" element={<PrivateRoute><UserInfo/></PrivateRoute>}/>
+                <Route path="/user/:id" element={<PrivateRoute><DetailUser/></PrivateRoute>}/>
                 <Route path ="/add-user" element = {<PrivateRoute><UserAdd/></PrivateRoute>}/> 
                 <Route path ="/category" element = {<PrivateRoute><Category/></PrivateRoute>}/>
                 <Route path="/add-catalog" element = {<PrivateRoute><CatalogAdd/></PrivateRoute>}/>
@@ -50,6 +53,7 @@ class AppAdmin extends React.Component {
                 <Route path="/detail" element = {<PrivateRoute><Detail/></PrivateRoute>}/>
                 <Route path="/detail-update" element = {<PrivateRoute><DetailUpdate/></PrivateRoute>}/>
                 <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
+                <Route path ="*" element = {<ErrorPage/>}/> 
             </Routes>  
         </Router>
       );
