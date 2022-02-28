@@ -18,8 +18,8 @@
 
 .btn_grp .btn.btn_error,
 .alert_item.alert_error{
-	background: #e2a8a3;
-	color: #ce110e;
+	background: #f7938a;
+	color: #ee1410;
 }
 
 .alert_item.alert_success{
@@ -64,7 +64,7 @@
 	font-weight: 600;
 }
 .alert_wrapper .alert_item .data .sub{
-	font-size: 5px;
+	font-size: 14px;
 	font-weight: 100;
 }
 .alert_wrapper .alert_item .icon{

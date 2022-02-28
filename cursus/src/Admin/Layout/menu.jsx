@@ -40,6 +40,12 @@ class Menu extends React.Component {
                                     <span className="menu--label">Courses</span>
                                 </Link>
                             </li>
+                            <li className="menu--item">
+                                <Link to="orders" className="menu--link" title="Orders">
+                                    <i class='uil uil-shopping-cart-alt menu--icon'></i>
+                                    <span className="menu--label" >Order</span>
+                                </Link>
+                            </li>
                             
                             
                         </ul>

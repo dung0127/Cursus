@@ -81,10 +81,10 @@ class MenuUser extends React.Component {
                                 </ul>
                             </li>
                             <li className="menu--item">
-                                <a href="saved_courses.html" className="menu--link" title="Saved Courses">
+                                <Link to='saved-course' className="menu--link" title="Saved Courses">
                                 <i className="uil uil-heart-alt menu--icon"></i>
                                 <span className="menu--label">Saved Courses</span>
-                                </a>
+                                </Link>
                             </li>
                             
                         </ul>

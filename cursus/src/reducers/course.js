@@ -4,7 +4,10 @@ const initState = {
     totalPages: 0,
     addSuccess: false,
     deteleSuccess: false,
-    courseBy:[],
+    courseById:[],
+    coursesByDraf:[],
+    coursesByActivate:[],
+    messageSuccess:'',
 };
 
 export const courseReducer = (state = initState, action) => {
@@ -33,7 +36,7 @@ export const courseReducer = (state = initState, action) => {
             {
                 return {
                     ...state,
-                    courseBy: action.courseBy
+                    courseById: action.courseById
                 }
             } 
 
@@ -41,10 +44,34 @@ export const courseReducer = (state = initState, action) => {
             {
                 return {
                     ...state,
-                    deleteSuccess: true
+                    messageSuccess:action.messageSuccess
                 }
             }
             
+        case 'GET_COURSE_BY_DRAF':
+            {
+                return {
+                    ...state,
+                    coursesByDraf: action.coursesByDraf
+                }
+            } 
+
+        case 'GET_COURSE_BY_ACTIVATE':
+            {
+                return {
+                    ...state,
+                    coursesByActivate: action.coursesByActivate
+                }
+            } 
+
+        case 'UPDATE_COURSE':
+            {
+                return {
+                    ...state,
+                    messageSuccess: action.messageSuccess
+                }
+            }
+
         default:
             {
                 return {

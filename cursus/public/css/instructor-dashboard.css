@@ -2321,7 +2321,7 @@ table {
 }
 
 #add-course-tab > .step-content .title-icon {
-	margin-bottom: 25px;
+	margin-bottom: 5px;
 }
 
 #add-course-tab > .step-content .default-form .form-group {
@@ -2659,7 +2659,7 @@ table {
 	text-align: left;
 	margin-bottom: 0;
 	margin-top: 0;
-	padding: 15px 30px;
+	padding: 15px 25px;
     border-bottom: 1px solid #efefef;
 }
 
@@ -4701,7 +4701,7 @@ label.switch span:before {
     content: "";
     display: block;
     height: 16px;
-    width: 30px;
+    width: 50px;
     border: 2px solid #bbb;
     background: #bbb;
     border-radius: 13em;
@@ -4728,7 +4728,7 @@ label.switch span:after {
 }
 
 label.switch input[type=checkbox]:checked+span:after {
-    left: 17px;
+    left: 35px;
 }
 
 label.switch input[type=checkbox]:checked+span:before {

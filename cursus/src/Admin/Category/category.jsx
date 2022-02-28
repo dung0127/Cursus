@@ -31,7 +31,7 @@ class Category extends React.Component {
                                     </div>
                                 </div>
                             </div>		
-                        </div>
+                        </div> 
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="my_courses_tabs">

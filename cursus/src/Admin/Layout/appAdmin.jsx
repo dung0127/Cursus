@@ -18,6 +18,11 @@ import CatalogAdd from "../Category/catalogAdd";
 import ChangePassword from "../Auth/changePassword";
 import DetailUser from "../User/detailUser";
 import ErrorPage from "../../Student/Layout/errorPage";
+import EditUser from "../User/editUser"
+import CourseDetail from "../Courses/courseDetail";
+import CourseEdit from "../Courses/courseEdit";
+import Order from "../Payment/order";
+import OrderDetail from "../Payment/orderDetail";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -45,13 +50,18 @@ class AppAdmin extends React.Component {
                 {!isLogin?<Route path ="/" element = {<Login/>}/>:<Route path ="/" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/>}
                 <Route path="/users" element={<PrivateRoute><UserInfo/></PrivateRoute>}/>
                 <Route path="/user/:id" element={<PrivateRoute><DetailUser/></PrivateRoute>}/>
+                <Route path="/edit-user/:id" element={<PrivateRoute><EditUser/></PrivateRoute>}/>
                 <Route path ="/add-user" element = {<PrivateRoute><UserAdd/></PrivateRoute>}/> 
                 <Route path ="/category" element = {<PrivateRoute><Category/></PrivateRoute>}/>
                 <Route path="/add-catalog" element = {<PrivateRoute><CatalogAdd/></PrivateRoute>}/>
                 <Route path ="/courses" element = {<PrivateRoute><CourseInfo/></PrivateRoute>}/>
+                <Route path ="/course/:id" element = {<PrivateRoute><CourseDetail/></PrivateRoute>}/>
+                <Route path ="/edit-course/:id" element = {<PrivateRoute><CourseEdit/></PrivateRoute>}/>
                 <Route path="/add-course" element = {<PrivateRoute><CourseAdd/></PrivateRoute>}/>
                 <Route path="/detail" element = {<PrivateRoute><Detail/></PrivateRoute>}/>
                 <Route path="/detail-update" element = {<PrivateRoute><DetailUpdate/></PrivateRoute>}/>
+                <Route path="/orders" element = {<PrivateRoute><Order/></PrivateRoute>}/>
+                <Route path="/order/:id" element = {<PrivateRoute><OrderDetail/></PrivateRoute>}/>
                 <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
                 <Route path ="*" element = {<ErrorPage/>}/> 
             </Routes>  

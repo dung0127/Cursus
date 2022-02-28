@@ -51,6 +51,7 @@ class Header extends React.Component {
                     <Link to ="/"><img src="/images/logo.svg" alt=""/></Link>
                     <Link to ="/"><img className="logo-inverse" src="images/ct_logo.svg" alt=""/></Link>
                 </div>
+                {localStorage.getItem("role")=="ROLE_ADMIN"?'':
                 <div className="top-category">
                     <div className="ui compact menu cate-dpdwn" >
                         <div className="ui simple dropdown item">
@@ -69,7 +70,7 @@ class Header extends React.Component {
                             
                         </div>
                     </div>
-                </div>
+                </div>}
                 {localStorage.getItem("role")=="ROLE_USER"?
                 <div class="search120">
                     <div class="ui search">
@@ -83,7 +84,7 @@ class Header extends React.Component {
                     <ul>
                         {localStorage.getItem("role")=="ROLE_ADMIN"?
                         <li>
-                            <Link to = "/add-course" class="upload_btn" title="Create New Course">Create New Course</Link>
+                            <a href = "/add-course" class="upload_btn" title="Create New Course">Create New Course</a>
                         </li>:
                         <li>
                             <Link to="/cart" class="option_links" title="Cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">{cartItems.length}</span></Link>

@@ -7,19 +7,98 @@ import OwlCarousel from 'react-owl-carousel';
 import {Link} from "react-router-dom";
 import { addToCart,removeFromCart } from "../../actions/cart";
 import sum from "../Cart/sum"
+import { fetchPaymentRequest } from "../../actions/payment";
+import Success from "../../Alert/success"
+import Error from "../../Alert/error"
+import validator from "validator";
+import {withRouter} from "../../Admin/Auth/withRouter"
 
 class Checkout extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             course:'',
+			checkout:{
+				billingAddress:'',
+				nameHolder:'',
+				cardNumber:'',
+				expirationDate:'',
+				zipcode:'',
+				cvv:'',
+			},
+			error:{},
         }
     }
 
     componentDidMount(){
-        this.props.fetchCourseRequest(0);
 		this.props.fetchDetailUserRequest();
     } 
+
+	formCheckout = e => {   
+        let formData = Object.assign({}, this.state.checkout);    
+        formData[e.target.name] = e.target.value;        
+        this.setState({checkout:formData});  
+        console.log(formData)  
+    }
+
+	validate = () => {
+        let isValid = true;
+
+        const error = {}
+
+        if(validator.isEmpty(this.state.checkout.billingAddress)){            
+            error['billingAddress'] = 'Country select is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.checkout.nameHolder)){            
+            error['nameHolder'] = 'The Name Holder field is required';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.checkout.cardNumber)){            
+            error['cardNumber'] = 'The Card Number field is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.checkout.expirationDate)){            
+            error['expirationDate'] = 'The Expiration Date field is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.checkout.zipcode)){            
+            error['zipcode'] = 'The field is required.';
+            isValid = false;
+        }
+        if(validator.isEmpty(this.state.checkout.cvv)){            
+            error['cvv'] = 'The field is required.';
+            isValid = false;
+        }
+
+		if(this.props.cartItems.length<=0){
+			error['cart'] = 'Shopping Cart is empty! Go to shopping now';
+            isValid = false;
+		}
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    }
+
+	checkoutCart = (items, info) => {
+		if(this.validate()){
+			const cartId = [...new Set(items.map(item=>item.id))];
+			info.courseIds=cartId;
+			console.log(info)
+			this.props.fetchPaymentRequest(info)
+			setTimeout(()=>{
+				this.props.navigate('/course')
+				window.location.reload();
+			},3000);
+		}
+	}
 
     render(){
         const { cartItems, user } = this.props;
@@ -36,6 +115,11 @@ class Checkout extends React.Component {
                                         </div>
                                     </div>
                                 </div>
+								{this.props.message=="Success"?
+									<div  id="success" style={{display:"none"}}><Success name="Order Successful"/></div>:
+									<div  id="success" style={{display:"none"}}><Error name={this.props.message}/></div>
+								}
+            
                                 <div className="title126">	
                                 
                                 </div>
@@ -52,65 +136,23 @@ class Checkout extends React.Component {
 										<h4>Billing Details</h4>
 										<img src="images/line.svg" alt="" />
 									</div>
-									<div className="panel-group" id="accordion"  aria-multiselectable="true">
-										<div className="panel panel-default">
-											<div className="panel-heading" role="tab" id="address1">
-												<div className="panel-title">
-													<a className="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseaddress1" aria-expanded="false" aria-controls="collapseaddress1">
-														Edit Address
-													</a>
-												</div>
-											</div>
-											<div id="collapseaddress1" className="panel-collapse collapse" role="tabpanel" aria-labelledby="address1">
-												<div className="panel-body">
-													<form>
-														<div className="row">
-															<div className="col-lg-12">													
-																<div className="ui search focus mt-30 lbel25">	
-																	<label>Full Name*</label>
-																	<div className="ui left icon input swdh11 swdh19">
-																		<input className="prompt srch_explore" type="text" name="academyname" defaultValue={user.fullname} id="id_academy" required="" maxlength="64" placeholder="Academy Name"/>															
-																	</div>
-																	<div className="help-block">If you want your invoices addressed to a academy. Leave blank to use your full name.</div>
-																</div>
-															</div>	
-															<div className="col-lg-12">
-																<div className="ui search focus mt-30 lbel25">
-																	<label>Address*</label>
-																	<div className="ui left icon input swdh11 swdh19">
-																		<input className="prompt srch_explore" type="text" name="addressname"  defaultValue={user.address} id="id_address1" required="" maxlength="300" placeholder="Address Line 1"/>															
-																	</div>
-																</div>
-															</div>
-															<div className="col-lg-6">
-																<div className="ui search focus mt-30 lbel25">
-																	<label>Zip/Postal Code*</label>
-																	<div className="ui left icon input swdh11 swdh19">
-																		<input className="prompt srch_explore" type="text" name="zip" value="" id="id_zip" required="" maxlength="64" placeholder="Zip / Postal Code"/>															
-																	</div>
-																</div>
-															</div>
-															<div className="col-lg-6">
-																<div className="ui search focus mt-30 lbel25">
-																	<label>Phone Number*</label>
-																	<div className="ui left icon input swdh11 swdh19">
-																		<input className="prompt srch_explore" type="text" name="phone" defaultValue={`+${user.phone}`} id="id_phone" required="" maxlength="12" placeholder="Phone Number"/>															
-																	</div>
-																</div>
-															</div>
-															<div className="col-lg-6">
-																<button className="save_address_btn" type="submit">Save Changes</button>
-															</div>												
-														</div>
-													</form>
-												</div>
-											</div>
+									<div className="col-lg-12">
+										<div className="mt-30 lbel25">	
+											<label>Country*</label>
 										</div>
-									</div>
-									<div className="address_text">
-										Full Name: {user.fullname}<br/>
-										Billing Address: {user.address}<br/>Phone: {`+${user.phone}`}<br/> 
-										ZIpcode: India
+										<select className="ui fluid dropdown focus cntry152" name="billingAddress" onChange={this.formCheckout}>			
+												<option className="default text">Select Country</option>
+												<option className="item" value="af">Afghanistan</option>
+												<option className="item" value="ax">Aland Islands</option>
+												<option className="item" value="al">Albania</option>
+												<option className="item" value="ax">Aland Islands</option>
+												<option className="item" value="al">English</option>
+												<option className="item" value="af">Japan</option>
+												<option className="item" value="af">Vietnam</option>
+											
+										</select>
+										{this.state.error.billingAddress && <div className="validation alert alert-warning">{this.state.error.billingAddress}</div>}
+                                                                       
 									</div>
 								</div>
 								<div className="membership_chk_bg">
@@ -120,12 +162,12 @@ class Checkout extends React.Component {
 									</div>
 									<div className="checkout-tabs">
 										<ul className="nav nav-tabs" id="myTab" role="tablist">
-											<li className="nav-item">
+											<li className="nav-item" >
 												<a href="#credit-method-tab" id="credit-tab" className="nav-link active" data-toggle="tab"><i className="uil uil-card-atm check_icon5"></i>Credit/Debit Card</a>
 											</li>
-											<li className="nav-item">
+											{/* <li className="nav-item">
 												<a href="#bank-method-tab" id="bank-tab" className="nav-link" data-toggle="tab"><i className="uil uil-university check_icon5"></i>Bank Transfer</a>
-											</li>
+											</li> */}
 											<li className="nav-item">
 												<a href="#payapl-method-tab" id="payapl-tab" className="nav-link" data-toggle="tab"><i className="uil uil-paypal check_icon5"></i>Paypal</a>
 											</li>
@@ -138,102 +180,57 @@ class Checkout extends React.Component {
 													<div className="col-md-6">	
 														<div className="ui search focus mt-30 lbel25">
 															<label>Holder Name</label>
-															<div className="ui left icon input swdh11 swdh19">
-																<input className="prompt srch_explore" type="text" name="holder[name]" value="" id="id_holdername" required="" maxlength="64" placeholder="Enter Holder Name"/>															
+															<div className="ui input swdh11 swdh19">
+																<input className="prompt srch_explore" type="text" name="nameHolder" onChange={this.formCheckout} maxlength="64" placeholder="Enter Holder Name"/>															
 															</div>
+															{this.state.error.nameHolder && <div className="validation alert alert-warning">{this.state.error.nameHolder}</div>}
+                                                                       
 														</div>										
 													</div>
 													<div className="col-md-6">	
 														<div className="ui search focus mt-30 lbel25">
 															<label>Card Number</label>
-															<div className="ui left icon input swdh11 swdh19">														
-																<input className="prompt srch_explore" type="text" name="card[number]" maxlength="16" placeholder="Card #"/>									
+															<div className="ui input swdh11 swdh19">														
+																<input className="prompt srch_explore" type="text" name="cardNumber" maxlength="16" placeholder="Card #" onChange={this.formCheckout}/>									
 															</div>
+															{this.state.error.cardNumber && <div className="validation alert alert-warning">{this.state.error.cardNumber}</div>}
+                                                                       
 														</div>												
 													</div>
 													<div className="col-md-4">
-														<div className="lbel25 mt-30">
-															<label>Expiration Month</label>
-															<select className="ui hj145 dropdown cntry152 prompt srch_explore" name="card[expire-month]">
-																<option value="">Month</option>
-																<option value="1">January</option>
-																<option value="2">February</option>
-																<option value="3">March</option>
-																<option value="4">April</option>
-																<option value="5">May</option>
-																<option value="6">June</option>
-																<option value="7">July</option>
-																<option value="8">August</option>
-																<option value="9">September</option>
-																<option value="10">October</option>
-																<option value="11">November</option>
-																<option value="12">December</option>
-															</select>
+														<div className="ui search focus mt-30 lbel25">
+															<label>Expiration Date</label>
+															<div className="ui input swdh11 swdh19">	
+																<input className="prompt srch_explore" type="month" name="expirationDate" maxlength="4" placeholder="Expiration Date" onChange={this.formCheckout}/>
+															</div>
+															{this.state.error.expirationDate && <div className="validation alert alert-warning">{this.state.error.expirationDate}</div>}
+                                                                       
 														</div>
 													</div>
 													<div className="col-md-4">
 														<div className="ui search focus mt-30 lbel25">
-															<label>Expiration Year</label>
-															<div className="ui left icon input swdh11 swdh19">	
-																<input className="prompt srch_explore" type="text" name="card[expire-year]" maxlength="4" placeholder="Year"/>
+															<label>Zip/Postal Code</label>
+															<div className="ui input swdh11 swdh19">	
+																<input className="prompt srch_explore"  type="text" name="zipcode" maxlength="3" placeholder="Zip code" onChange={this.formCheckout}/>
 															</div>
+															{this.state.error.zipcode && <div className="validation alert alert-warning">{this.state.error.zipcode}</div>}
+                                                                       
 														</div>
 													</div>
 													<div className="col-md-4">
 														<div className="ui search focus mt-30 lbel25">
-															<label>Expiration Year</label>
-															<div className="ui left icon input swdh11 swdh19">	
-																<input className="prompt srch_explore"  type="text" name="card[cvc]" maxlength="3" placeholder="CVC"/>
+															<label>Security Code</label>
+															<div className="ui input swdh11 swdh19">	
+																<input className="prompt srch_explore"  type="text" name="cvv" maxlength="3" placeholder="Security code" onChange={this.formCheckout}/>
 															</div>
+															{this.state.error.cvv && <div className="validation alert alert-warning">{this.state.error.cvv}</div>}
+                                                                       
 														</div>
 													</div>
 												</div>
 											</form>
 										</div>
-										<div className="tab-pane fade" id="bank-method-tab" role="tabpanel" aria-labelledby="bank-tab">
-											<form>
-												<div className="row">
-													<div className="col-md-6">	
-														<div className="ui search focus mt-30 lbel25">
-															<label>Account Holder Name</label>
-															<div className="ui left icon input swdh11 swdh19">
-																<input className="prompt srch_explore" type="text" name="account[holdername}" value="" required="" maxlength="64" placeholder="Enter Your Full Name"/>															
-															</div>
-														</div>										
-													</div>
-													<div className="col-md-6">	
-														<div className="ui search focus mt-30 lbel25">
-															<label>Account Number</label>
-															<div className="ui left icon input swdh11 swdh19">														
-																<input className="prompt srch_explore" type="text" name="Account[number]" maxlength="10" placeholder="Enter Account Number"/>									
-															</div>
-														</div>												
-													</div>
-													<div className="col-md-6">
-														<div className="lbel25 mt-30">
-															<label>Bank Name</label>
-															<select className="ui hj145 dropdown cntry152 prompt srch_explore" name="Bank[name]">
-																<option value="">State Bank of India</option>
-																<option value="1">Indian Bank</option>
-																<option value="2">ICICI Bank</option>
-																<option value="3">HDFC Bank</option>
-																<option value="4">Yes Bank</option>
-																<option value="5">Oriental Bank</option>
-																<option value="6">Punjab National Bank</option>
-															</select>
-														</div>
-													</div>
-													<div className="col-md-6">
-														<div className="ui search focus mt-30 lbel25">
-															<label>IFSC Code</label>
-															<div className="ui left icon input swdh11 swdh19">	
-																<input className="prompt srch_explore" type="text" name="IFSC[code]" maxlength="10" placeholder="Enter IFSC Code"/>
-															</div>
-														</div>
-													</div>
-												</div>
-											</form>
-										</div>
+										
 										<div className="tab-pane fade" id="payapl-method-tab" role="tabpanel" aria-labelledby="payapl-tab">
 											<div className="row">
 												<div className="col-md-12">	
@@ -272,10 +269,15 @@ class Checkout extends React.Component {
 											<img src="images/line.svg" alt=""/>
 										</div>
 										
+										
 										<div className="order_dt_section">
 											{cartItems.map((item) => (
+												
 											<div className="order_title">
-												<h4>{item.title}</h4>
+												
+												<h4><Link to={`/course/${item.id}`} params={item.id} className="hf_img">
+													<img className="cart_img" style={{ width:"100px"}} src={item.imageVideoDescription} alt=""/>
+												</Link>{item.title}</h4>
 												<div className="order_price">${item.price}</div>
 											</div>
 											))}
@@ -289,8 +291,13 @@ class Checkout extends React.Component {
                                                     cartItems.reduce((a, c) => a + c.price , 0)
                                                     )}</div>
 											</div>
-											<button className="chckot_btn" type="submit">Confirm Checkout</button>
+											
 										</div>
+										<div className="order_dt_section">
+											{this.state.error.cart && <div className="validation alert alert-warning">Shopping Cart is empty! Go to shopping <Link to='/course'>NOW</Link></div>}
+                                                              
+										</div>
+										
 										
 									</div>
 								</div>									
@@ -318,11 +325,9 @@ class Checkout extends React.Component {
                                                     cartItems.reduce((a, c) => a + c.price , 0)
                                                     )}</div>
 											</div>
+											<button className="chck-btn22" type="button" onClick={()=>this.checkoutCart(cartItems, this.state.checkout)}>Checkout Now</button>
 											<div className="scr_text"><i className="uil uil-lock-alt"></i>Secure checkout</div>
 										</div>
-								
-											
-									
 								</div>
 							</div>								
 						</div>				
@@ -337,21 +342,17 @@ class Checkout extends React.Component {
 
 const mapStateToProps = state => {
     return {        
-        courses: state.course.courses,
-        page: state.course.page,
-        totalPages: state.course.totalPages,
         user: state.detail.user,
         cartItems: state.cart.items,
+		message: state.payment.messageSuccess
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
-        addToCart:(e,p) => dispatch (addToCart(e,p)),
-        removeFromCart:(e,p) => dispatch (removeFromCart(e,p)),
+		fetchPaymentRequest:(e) => dispatch (fetchPaymentRequest(e))
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(Checkout);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Checkout));

@@ -1,6 +1,4 @@
-import { COURSE_API_BASE_URL } from "../config/env";
-import authHeader from "../config/authHeader";
-import axios from "axios";
+
 import $ from "jquery";
 /*GET NUMBER CART*/
 export const GetNumberCart = () =>{
@@ -37,16 +35,21 @@ export const addToCart = (items, product) => (dispatch) => {
   };
 
 export const removeFromCart = (items, product) => (dispatch) => {
-  const cartItems = items.slice().filter((a) => a.id !== product.id);
-  localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  dispatch({ type: 'REMOVE_FROM_CART', payload: { cartItems } });
+    const cartItems = items.slice().filter((a) => a.id !== product.id);
+
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+
+    dispatch({ type: 'REMOVE_FROM_CART', payload: { cartItems } });
 };
 
 export const clearFromCart = () => (dispatch) => {
-  let text = "Are you sure?";
-        if (window.confirm(text) == true) {
-          localStorage.setItem("cartItems", []);
-          dispatch({ type: 'CLEAR_FROM_CART'});
-        } 
+    let text = "Are you sure?";
+
+    if (window.confirm(text) == true) {
+      
+      localStorage.setItem("cartItems", []);
+
+      dispatch({ type: 'CLEAR_FROM_CART'});
+    } 
   
 };

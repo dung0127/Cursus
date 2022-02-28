@@ -5,6 +5,9 @@ import authHeader from "../../config/authHeader";
 import validator from 'validator';
 import {withRouter} from '../Auth/withRouter'
 import {USER_INFO_API_BASE_URL } from "../../config/env";
+import Success from "../../Alert/success";
+import Error from "../../Alert/error";
+import $ from "jquery"
 
 class UserAdd extends React.Component {
     constructor(){
@@ -21,11 +24,27 @@ class UserAdd extends React.Component {
                 },
             error: {},
             isShow: false, 
+            img:'',
+            alert:'',
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
   
     }
+
+    handleSuccess = () => {
+        $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
+		setTimeout(()=>{
+			this.props.navigate('/users')
+			window.location.reload();
+		},1000);
+		
+	} 
+
+    handleError = () => {
+        $('#error').fadeIn('fast').delay(2000).fadeOut('slow');
+		
+	} 
 
     validateFormData = () => {
         let isValid = true;
@@ -60,11 +79,24 @@ class UserAdd extends React.Component {
     }
 
     handleInputChange = e => {   
-        let formData = Object.assign({}, this.state.addUser);    
+        let formData = Object.assign({}, this.state.addUser); 
+        if (e.target.files && e.target.files[0]) {
+            if (e.target.accept=="image/*"){
+                this.setState({
+                    img: URL.createObjectURL(e.target.files[0])
+                })
+                formData[e.target.name] = 'images/'+e.target.files[0].name
+            }
+            
+            this.setState({newDetail:formData});  
+            console.log(formData)
+        }
+        else {   
         console.log(formData)
         formData[e.target.name] = e.target.value;        
         this.setState({addUser:formData});  
         console.log(formData)  
+        }
     }
 
     handleSubmit = (addUser) => {
@@ -72,9 +104,13 @@ class UserAdd extends React.Component {
             axios.post(USER_INFO_API_BASE_URL + '/create', addUser , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
             //this.setState({addUser: res.data.data}) 
-            alert (res.data.message) 
+            this.setState({alert:res.data.message})
             if(res.data.message=='Success'){
-                this.props.navigate('/users')
+                this.handleSuccess()
+            }
+            else {
+                this.handleError()
+               
             }
             console.log(res.data.data)
             })
@@ -100,6 +136,8 @@ class UserAdd extends React.Component {
                         <div className="col-lg-12">	
                             <h2 className="st_title"><i className='uil uil-user'></i> Create New Account</h2>
                         </div>			
+                        <div  id="success" style={{display:"none"}}><Success name="Create Successful"/></div>
+                        <div  id="error" style={{display:"none"}}><Error name={this.state.alert}/></div>
                         <div className="col-12">
                             <div className="step-content">
                                 <div className="step-tab-panel step-tab-info active" id="tab_step1"> 
@@ -178,20 +216,21 @@ class UserAdd extends React.Component {
                                                         </div>									
                                                     </div>
                                                     
-                                                    <div className="col-lg-5 col-md-6">
-                                                        <div className="ui search focus mt-30 lbel25">
-                                                            
-                                                        <label className="label25 text-left">Avatar Image</label>
-                                                        </div>
-                                                        <div className="thumb-item">
-                                                            <img src="images/thumbnail-demo.jpg" alt=""/>
-                                                            <div className="thumb-dt">													
-                                                                <div className="upload-btn">													
-                                                                    <input className="uploadBtn-main-input" type="file" name="avatarImage" id="ThumbFile__input--source"/>
-                                                                    <label for="ThumbFile__input--source" title="Zip">Choose Thumbnail</label>
+                                                    <div className="col-lg-6">
+                                                        <div className="ui focus mt-30 ">
+                                                            <div className="thumb-item">
+                                                                {this.state.img?
+                                                                    <img src={this.state.img} style={{width:"80px", paddingTop:"20px"}} alt=""/>
+                                                                    :''
+                                                                }
+                                                                <div className="thumb-dt">													
+                                                                    <div className="upload-btn" >													
+                                                                        <input className="uploadBtn-main-input" id="myInput" type="file" name="avatarImage" onChange={this.handleInputChange} accept="image/*" />
+                                                                        <label htmlFor="myInput" >Choose New Avatar</label>
+                                                                    </div>
+                                                                    <span className="uploadBtn-main-file">Size: 590x300 pixels. Supports: jpg,jpeg, or png</span>
                                                                 </div>
-                                                                <span className="uploadBtn-main-file">Size: 590x300 pixels. Supports: jpg,jpeg, or png</span>
-                                                            </div>
+                                                            </div> 
                                                         </div>
                                                     </div>
                                                                                                         

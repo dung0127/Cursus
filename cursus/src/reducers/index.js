@@ -6,6 +6,10 @@ import { catalogReducer } from "./catalog";
 import { subCatalogReducer } from "./subCatalog";
 import { courseReducer } from "./course";
 import { cartReducer } from "./cart";
+import { lessonReducer } from "./lesson";
+import { lectureReducer } from "./lecture";
+import { paymentReducer } from "./payment";
+import { savedCourseReducer } from "./savedCourse";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,4 +19,8 @@ export const rootReducer = combineReducers({
     subCatalog: subCatalogReducer,
     course: courseReducer,
     cart: cartReducer,
+    lesson: lessonReducer,
+    lecture: lectureReducer,
+    payment: paymentReducer,
+    savedCourse: savedCourseReducer,
 });

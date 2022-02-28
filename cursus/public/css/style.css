@@ -4168,7 +4168,7 @@ a.rmv-btn i {
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
     background: #ed2a26;
-	display: block;
+	/* display: block; */
 }
 
 .save_btn:hover {

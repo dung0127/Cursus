@@ -78,8 +78,9 @@ class DetailUser extends React.Component {
                                                 </ul>
                                             </div>
                                             <ul className="_bty149">
-                                                <li><button className="studio-link-btn btn500" onclick="window.location.href = 'instructor_dashboard.html';">Cursus Studio</button></li>								
-                                                <li><Link to='/detail-update'><button className="msg125 btn500">Edit</button></Link></li>								
+                                           
+                                                <li><Link to='/users'><button className="studio-link-btn btn500">Back</button></Link></li>
+                                                <li><Link to={`/edit-user/${userById.id}`} params={userById.id}><button className="msg125 btn500">Edit</button></Link></li>								
                                             </ul>
                                             
                                         </div>													
@@ -171,4 +172,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouterParams(DetailUser));;
+export default connect(mapStateToProps,mapDispatchToProps)(withRouterParams(DetailUser));

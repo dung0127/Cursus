@@ -111,9 +111,13 @@ class CourseById extends React.Component {
                                         <div className="_215b05">										
                                             Last updated 1/2020
                                         </div> */}
-                                        <div className="_215b05">										
-                                            Last updated 1/2020
+                                         <div className="_215b05">										
+                                            <span><i className='uil uil-comment'></i></span>
+                                           {this.props.course.language}
                                         </div>
+                                        <div className="_215b05">										
+                                            Last updated: {this.props.course.updatedDate}
+                                        </div> 
                                         <ul className="_215b31">										
                                             <li><button className="btn_adcart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, this.props.course)}>Add to Cart</button></li>
                                             <Link to = "/checkout"><button className="btn_buy" type="button" onClick={() => this.props.addToCart(this.props.cartItems, this.props.course)}>Buy Now</button></Link>
@@ -180,60 +184,24 @@ class CourseById extends React.Component {
                                     <div className="tab-pane fade show active" id="nav-about" role="tabpanel">
                                         <div className="_htg451">
                                             <div className="_htg452">
-                                                <h3>Requirements</h3>
-                                                <ul className="_abc124">
-                                                    <li><span className="_5f7g11">{this.props.course.requirement}</span></li>
-                                                </ul>
+                                                    <h3>Requirements</h3>
+                                                    <ul className="_abc124">
+                                                        <li><span className="_5f7g11">{this.props.course.requirement}</span></li>
+                                                    </ul>
                                             </div>
                                             <div className="_htg452 mt-35">
-                                                <h3>Description</h3>
-                                                <p>Hi! Welcome to the Web Developer Bootcamp, the <strong>only course you need to learn web development</strong>. There are a lot of options for online developer training, but this course is without a doubt the most comprehensive and effective on the market.  Here's why:</p>
-                                                <ul className="_abc124">
-                                                    <li><span className="_5f7g11">{this.props.course.description}</span></li>
-                                                </ul>
-                                                <p>When you're learning to program you often have to sacrifice learning the exciting and current technologies in favor of the "beginner friendly" classNamees.  With this course, you get the best of both worlds.  This is a course designed for the complete beginner, yet it covers some of the most exciting and relevant topics in the industry.</p>
-                                                <p>Throughout the course we cover tons of tools and technologies including:</p>
-                                                <ul className="_abc124">												
-                                                    <li><span className="_5f7g11"><strong>HTML5</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>CSS3</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>JavaScript</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>Bootstrap 4</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>SemanticUI</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>DOM Manipulation</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>jQuery</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>Unix(Command Line) Commands</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>NodeJS</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>NPM</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>ExpressJS</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>REST</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>MongoDB</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>Database Associations</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>Authentication</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>PassportJS</strong></span></li>
-                                                    <li><span className="_5f7g11"><strong>Authorization</strong></span></li>
-                                                </ul>
-                                                
-                                                    <p>This course is also unique in the way that it is structured and presented. Many online courses are just a long series of "watch as I code" videos.  This course is different. I've incorporated everything I learned in my years of teaching to make this course not only more effective but more engaging. The course includes:</p>
-                                                    <ul className="_abc124">												
-                                                        <li><span className="_5f7g11">Lectures</span></li>
-                                                        <li><span className="_5f7g11">Code-Alongs</span></li>
-                                                        <li><span className="_5f7g11">Projects</span></li>
-                                                        <li><span className="_5f7g11">Exercises</span></li>
-                                                        <li><span className="_5f7g11">Research Assignments</span></li>
-                                                        <li><span className="_5f7g11">Slides</span></li>
-                                                        <li><span className="_5f7g11">Downloads</span></li>
-                                                        <li><span className="_5f7g11">Readings</span></li>
+                                                    <h3>Description</h3>
+                                                    <p>Hi! Welcome to the Web Developer Bootcamp, the <strong>only course you need to learn web development</strong>. There are a lot of options for online developer training, but this course is without a doubt the most comprehensive and effective on the market.  Here's why:</p>
+                                                    <ul className="_abc124">
+                                                        <li><span className="_5f7g11">{this.props.course.description}</span></li>
                                                     </ul>
-                                                    <p>If you have any questions, please don't hesitate to contact me.  I got into this industry because I love working with people and helping students learn.  Sign up today and see how fun, exciting, and rewarding web development can be!</p>
+                                                    <p>When you're learning to program you often have to sacrifice learning the exciting and current technologies in favor of the "beginner friendly" classNamees.  With this course, you get the best of both worlds.  This is a course designed for the complete beginner, yet it covers some of the most exciting and relevant topics in the industry.</p>
                                             </div>
                                             <div className="_htg452 mt-35">
                                                 <h3>Who this course is for :</h3>
                                                 <ul className="_abc124">												
-                                                    <li><span className="_5f7g11">This course is for anyone who wants to learn about web development, regardless of previous experience</span></li>
-                                                    <li><span className="_5f7g11">It's perfect for complete beginners with zero experience</span></li>
-                                                    <li><span className="_5f7g11">It's also great for anyone who does have some experience in a few of the technologies(like HTML and CSS) but not all</span></li>
-                                                    <li><span className="_5f7g11">If you want to take ONE COURSE to learn everything you need to know about web development, take this course</span></li>
-                                                </ul>
+                                                    <li><span className="_5f7g11">{this.props.course.whoThisCourseIsFor}</span></li>
+                                            </ul>
                                             </div>	
                                             <div className="_htgdrt mt-35">
                                                 <h3>What you'll learn</h3>
@@ -241,30 +209,13 @@ class CourseById extends React.Component {
                                                     <div className="row">
                                                         <div className="col-lg-6">
                                                             <ul className="_htg452 _abcd145">												
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Donec ultricies elit porttitor, ultrices enim a, commodo dolor.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Nunc dapibus ligula sed justo porta, id volutpat odio iaculis.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Maecenas pharetra mi quis nisl mollis, molestie imperdiet lorem molestie.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Maecenas ultricies felis in pulvinar blandit.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Praesent ac libero consequat, efficitur tortor et, interdum sem.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Nullam non lacus nibh. Etiam et fringilla neque, ut vulputate sapien. Sed vitae tortor gravida, interdum felis at, pulvinar enim. Integer tempor urna leo.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Phasellus ultrices tellus sed volutpat vestibulum. Curabitur aliquet dictum leo non congue.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>In hac habitasse platea dictumst. Aenean vel fermentum neque.</span></div></li>
+                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>{this.props.course.whatYouWillLearn}</span></div></li>
                                                                 <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Suspendisse semper feugiat urna dictum interdum.</span></div></li>
                                                             </ul>
                                                         </div>
                                                         <div className="col-lg-6">
                                                             <ul className="_htg452 _abcd145">
                                                                 <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Nullam non lacus nibh. Etiam et fringilla neque, ut vulputate sapien. Sed vitae tortor gravida, interdum felis at, pulvinar enim. Integer tempor urna leo.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Phasellus ultrices tellus sed volutpat vestibulum. Curabitur aliquet dictum leo non congue.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>In hac habitasse platea dictumst. Aenean vel fermentum neque.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Suspendisse semper feugiat urna dictum interdum.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Donec ultricies elit porttitor, ultrices enim a, commodo dolor.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Nunc dapibus ligula sed justo porta, id volutpat odio iaculis.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Maecenas pharetra mi quis nisl mollis, molestie imperdiet lorem molestie.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Maecenas ultricies felis in pulvinar blandit.</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Praesent ac libero consequat, efficitur tortor et, interdum sem.</span></div></li>
                                                             </ul>
                                                         </div>
                                                     </div>
@@ -699,7 +650,7 @@ class CourseById extends React.Component {
 
 const mapStateToProps = state => {
     return {        
-        course: state.course.courseBy,
+        course: state.course.courseById,
         cartItems: state.cart.items,
     }
 }

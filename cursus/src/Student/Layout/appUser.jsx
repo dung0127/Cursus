@@ -18,6 +18,7 @@ import Profile from "../User/profile";
 import ProfileEdit from "../User/profileEdit";
 import ChangePassword from "../../Admin/Auth/changePassword";
 import Signup from "../User/signup";
+import SavedCourse from "../SavedCourse/savedCourse";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -57,6 +58,7 @@ class AppUser extends React.Component {
                   <Route path ="/detail" element = {<PrivateRoute><Profile/></PrivateRoute>}/> 
                   <Route path ="/edit-profile" element = {<PrivateRoute><ProfileEdit/></PrivateRoute>}/> 
                   <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
+                  <Route path ="/saved-course" element = {<PrivateRoute><SavedCourse/></PrivateRoute>}/> 
                   <Route path ="/help" element = {<Help/>}/> 
                   <Route path ="*" element = {<ErrorPage/>}/> 
               </Routes>  

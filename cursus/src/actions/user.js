@@ -22,16 +22,17 @@ export const getAllUser = (users, page, totalPages) => {
 export const deleteUserRequest = (id) => {
     return(dispatch) => {
         axios.delete('http://localhost:8080/api/admin/user/delete/' + id, { headers: authHeader() }).then((res) => {
-            dispatch(deleteUser())
-            alert (res.data.message)
+            dispatch(deleteUser(res.data.message))
+            
             dispatch(fetchUserRequest(0))
         })
     }
 }
 
-export const deleteUser = () => {
+export const deleteUser = (alertMess) => {
     return {
-        type:'DELETE_USER'
+        type:'DELETE_USER',
+        alertMess
     }
 }
 
@@ -63,6 +64,21 @@ export const getUserByIdRequest = (id) => {
 export const getUserById = (userById) => {
     return {
         type:'GET_USER_BY_ID',
+        userById
+    }
+}
+
+export const editUserByIdRequest = (edit) => {
+    return(dispatch) => {
+        axios.post('http://localhost:8080/api/admin/user/update',edit, { headers: authHeader() }).then((res) => {
+            dispatch(editUserById(res.data.data))
+        })
+    }
+}
+
+export const editUserById = (userById) => {
+    return {
+        type:'EDIT_USER_BY_ID',
         userById
     }
 }

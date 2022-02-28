@@ -4,7 +4,8 @@ const initState = {
     totalPages: 0,
     addSuccess: false,
     deteleSuccess: false,
-    userById: {}
+    userById: {},
+    alertMess:'',
 };
  
 export const userReducer = (state = initState, action) => {
@@ -31,7 +32,8 @@ export const userReducer = (state = initState, action) => {
             {
                 return {
                     ...state,
-                    deleteSuccess: true
+                    deleteSuccess: true,
+                    alertMess: action.alertMess
                 }
             }
 
@@ -46,13 +48,13 @@ export const userReducer = (state = initState, action) => {
             }
 
         case 'GET_USER_BY_ID':
-        {
-            return {
-                ...state,
-                userById: action.userById,
-                
+            {
+                return {
+                    ...state,
+                    userById: action.userById,
+                    
+                }
             }
-        }
 
         default:
             {

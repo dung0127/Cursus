@@ -7,36 +7,112 @@ import {connect} from 'react-redux';
 import authHeader from "../../config/authHeader";
 import $, { data } from 'jquery';
 import validator from 'validator';
-
+import {withRouter} from '../Auth/withRouter';
+import Success from "../../Alert/success";
+import Error from "../../Alert/error";
 
 let lectures = [];
-let lessons = [];
-    
+let lessons =[] ;
+let lesslec = [] ;
+let idLesson = 1;
+let idLecture = 1 ;    
+
 class CourseAdd extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            addCourse: {language:"VN"},
 
-            addLesson: [],
+            addCourse: {
+                language:'VN',
+                title:'',
+                shortDescription:'',
+                description:'',
+                requirement:'',
+                whoThisCourseIsFor:'',
+                whatYouWillLearn:'',
+                price:'',
+                videoDuration:'',
+                urlVideoDescription:'',
+                imageVideoDescription:'',
+                activate:'false',
+                },
+
+            addLesson: {
+                id: '',
+                title:'',
+            },
             
-            addLecture:[],
+            addLecture:{
+                id:'',
+                title:'',
+                videoUrl:'',
+                videoDuration:'',
+                preview:'false',
+                sort:'',
+            },
 
             select:'',
 
             show:'1',
 
             classStep1:'active',
+            classStep2:'',
+            classStep3:'',
+            classStep4:'',
+            classStep5:'',
 
             image:'',
             video:'',
             
             error: {},
 
+            lesson:[],
+
+            switch:false,
+
+            status: '',
+
+            course:'',
+
         }
-        
-       
+    }
+
+    
+    // ------------------------- Alert + Step + NextPage + PrevPage  --------------
+    handleSuccess = () => {
+        $('#success').fadeIn('fast').delay(2000).fadeOut('fast');
+		
+		setTimeout(()=>{
+			this.props.navigate('/courses')
+		},1000);
+		
+	} 
+
+    handleError = () => {
+        $('#error').fadeIn('fast').delay(2000).fadeOut('slow');
+		
+	} 
+
+    changeSwitch =  () => {
+        this.state.switch?
+            this.setState({
+                switch: false
+            }):
+            this.setState({
+                switch: true
+            });
+    }
+
+    changeStatus =  e => {
+        this.state.status?
+            this.setState({
+                status: false
+            }):
+            this.setState({
+                status: true
+            });
+        this.formCourse(e);
     }
 
     handleClick = (num) =>{
@@ -44,35 +120,51 @@ class CourseAdd extends Component {
             this.setState({classStep1:'active',classStep2:'',classStep3:'',classStep4:'',classStep5:'',show: '1'
         })
         }
-        if(num==2){
+        if(num==2 && this.validateStep1()){
             this.setState({classStep1:'done',classStep2:'active',classStep3:'',classStep4:'', classStep5:'',show: '2'
-        })
+            })
         }
-        if(num==3){
+        if(num==3 && this.validateStep2()){
             this.setState({classStep1:'done',classStep2:'done',classStep3:'active',classStep4:'',classStep5:'',show: '3'
         })
         }
-        if(num==4){
+        if(num==4 && this.validateStep3()){
             this.setState({classStep1:'done',classStep2:'done',classStep3:'done',classStep4:'active',classStep5:'',show: '4'
         })
         }
-        if(num==5){
+        if(num==5 && this.validateStep4()){
             this.setState({classStep1:'done',classStep2:'done',classStep3:'done',classStep4:'done',classStep5:'active',show: '5'
         })
         }
     }
     
+    handleSelect = e => {            
+        this.setState({select: e.target.value});  
+        console.log(e.target.value)
+    }
+
+    handleLesson = e => {
+        let select = Object.assign({}, this.state.lesson); 
+        console.log(select)
+        select[e.target.name] = e.target.value;        
+        this.setState({lesson:select});  
+        console.log(select);
+
+        //this.setState({...this.state.lesson, title: e.target.value});  
+        // console.log(e.target.value)
+        // console.log(this.state.lesson)
+    }
+
     pageNext = () => {
         
-        console.log(this.state.show)
         this.state.show=='1'?
-            this.setState({show: '2', classStep1:'done',classStep2:'active',classStep3:'',classStep4:'', classStep5:''
+            this.validateStep1()&&this.setState({show: '2', classStep1:'done',classStep2:'active',classStep3:'',classStep4:'', classStep5:''
             }):this.state.show=='2'?
-            this.setState({classStep1:'done',classStep2:'done',classStep3:'active',classStep4:'',classStep5:'',show: '3'
+            this.validateStep2()&&this.setState({classStep1:'done',classStep2:'done',classStep3:'active',classStep4:'',classStep5:'',show: '3'
             }):this.state.show=='3'?
-            this.setState({classStep1:'done',classStep2:'done',classStep3:'done',classStep4:'active',classStep5:'',show: '4'
+            this.validateStep3()&&this.setState({classStep1:'done',classStep2:'done',classStep3:'done',classStep4:'active',classStep5:'',show: '4'
             }):
-            this.setState({classStep1:'done',classStep2:'done',classStep3:'done',classStep4:'done',classStep5:'active',show: '5'
+            this.validateStep4()&&this.setState({classStep1:'done',classStep2:'done',classStep3:'done',classStep4:'done',classStep5:'active',show: '5'
             })
         
     }
@@ -89,65 +181,164 @@ class CourseAdd extends Component {
             })
     }
 
-    formLecture = e => {   
-        let formDataLecture = Object.assign({}, this.state.addLecture); 
-        
-        console.log(formDataLecture)
-        formDataLecture[e.target.name] = e.target.value;        
-        this.setState({addLecture:formDataLecture});  
-        console.log(formDataLecture)  
-    }
+    // -------------------------  Lesson  -----------------------------
 
-    newLecture = (add) => {
-        lectures.push(add);
-        this.setState({addLecture: []});
-    }
-
-    // -------------------------  LESSON  -----------------------------
     formLesson = e => {   
         let formDataLesson = Object.assign({}, this.state.addLesson);    
-        console.log(formDataLesson)
         formDataLesson[e.target.name] = e.target.value;        
         this.setState({addLesson:formDataLesson});  
-        console.log(formDataLesson)  
+        // console.log(formDataLesson)  
     }
 
-    newLesson = (newLesson, newLecture) => {
-        newLesson.lectures = newLecture
-        console.log(lessons);
-        lessons.push(newLesson);
+    newLesson = (add) => {
+        if(this.validateLesson()){
+        idLesson++;
+        add.id=idLesson;
+        lessons.push(add);
+        this.setState({addLesson: {id: '' ,title:'',}});
+        Array.from(document.querySelectorAll('input')).forEach(input=>(input.value=""))
+        }
+    }
 
-        this.setState({addLesson: []});
+    removeLesson = (del) => {
+        
+        for (var i=0; i< lessons.length; i++){
+            if(lessons[i].id === del){
+                lessons.splice(i,1);
+            }
+        }
+        this.setState({addLesson:lessons});
+    }
+
+    // -------------------------  Lecture  -----------------------------
+    formLecture = e => {   
+        let formDataLecture = Object.assign({}, this.state.addLecture); 
+        //console.log(formDataLecture)
+        formDataLecture[e.target.name] = e.target.value;        
+        this.setState({addLecture:formDataLecture});  
+        // console.log(formDataLecture);
+    }
+
+    validateSort = (sort,select) => {
+        const error = {}
+        let isValid = true;
+        console.log(select)
+        lesslec.map((less) => (
+            less.title==select?(
+            less.lectures.map((lec) => (
+                lec.sort==sort?(
+                    error['sort'] = 'Sort already exists',
+                    isValid = false
+                ):''
+            ))):''
+        ))
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    }
+
+    newLecture = (lesson, add) => {
+        if(this.validateSort(add.sort,lesson.title)&&this.validateLecture()){
+        idLecture++;
+        add.id=idLecture;
+        lectures.push(add);
+        lesson.lectures = lectures;
+        lesslec.push(lesson);
+        this.setState({addLecture: {id:'', title:'',
+                videoUrl:'',
+                videoDuration:'',
+                preview:'false',
+                sort:'',}});
         lectures=[];
-        this.setState({addLecture: []});
-        console.log(lessons);
+        lesson=[];
+        Array.from(document.querySelectorAll('input')).forEach(input=>(input.value=""));
+        Array.from(document.querySelectorAll('select')).forEach(select=>(select.value=""))  ;
+        //console.log(lesslec);
+        this.setState({course:lesslec})
+        }
     }
 
-    // -------------------------  COURSE  -----------------------------
+    removeLecture = (del) => {
+        
+        let tmp =[]
+        for (var i=0; i< lesslec.length; i++){
+            tmp = lesslec[i].lectures;
+            for (var j=0; j<tmp.length;j++){
+                console.log('lecture', tmp[j].id)
+                console.log('delte',del)
+                if(tmp[j].id === del){
+                    lesslec.splice(i,1);
+                }   
+
+            }
+        }
+        this.setState({addLecture: {id:'', title:'',
+        videoUrl:'',
+        videoDuration:'',
+        preview:'false',
+        sort:'',}});
+
+        console.log(lectures);
+        console.log(lesslec);
+    }
+
+    // -------------------------  Course  -----------------------------
     formCourse = e => {   
         let formDataCourse = Object.assign({}, this.state.addCourse);  
         if (e.target.files && e.target.files[0]) {
             if (e.target.accept=="image/*"){
                 this.setState({
                     image: URL.createObjectURL(e.target.files[0])
-                })}
+                })
+                formDataCourse[e.target.name] = 'images/'+e.target.files[0].name
+            }
             else{
                 this.setState({
                     video: e.target.files[0].name
                   })
+                formDataCourse[e.target.name] = e.target.files[0].name
             }
-            formDataCourse[e.target.name] = e.target.files[0].name
+            
             this.setState({addCourse:formDataCourse});  
         }
         else {
-        console.log(formDataCourse)
         formDataCourse[e.target.name] = e.target.value;        
         this.setState({addCourse:formDataCourse});  
         console.log(formDataCourse)  
         }
     }
+
+    course = (courseAdd) => {
+        let tmp
+        lessons.map((les,i) =>
+            (
+                tmp =[],
+                lesslec.map((lec,k) => (
+                    les.title==lec.title? (
+                        lec.lectures.map((le,j)=>(
+                            delete le.id,
+                            tmp.push(le)
+                        )),
+                        // tmp.push(lec.lectures),
+                        les.lectures=tmp):les.lectures=[]
+                ))
+            )
+        )
+        delete lessons.id
+        courseAdd.lessons = lessons
+        console.log(courseAdd)
+        axios.post('http://localhost:8080/api/course/create', courseAdd , { headers: authHeader()}).then(res=>{
+           
+            this.handleSuccess();
+        }).catch(error => {this.handleError()})
+
+
+    }
     
-    validate = () => {
+    // ---------------------------- Validate --------------------------
+    validateStep1 = () => {
         let isValid = true;
 
         const error = {}
@@ -168,9 +359,27 @@ class CourseAdd extends Component {
         }
 
         if(validator.isEmpty(this.state.addCourse.requirement)){            
-            error['requirement'] = 'The Requirement field is required.';
+            error['requirement'] = 'The field is required.';
             isValid = false;
         }
+
+        if(validator.isEmpty(this.state.addCourse.whatYouWillLearn)){            
+            error['whatYouWillLearn'] = 'The field is required.';
+            isValid = false;
+        }
+        if(validator.isEmpty(this.state.addCourse.whoThisCourseIsFor)){            
+            error['whoThisCourseIsFor'] = 'The field is required.';
+            isValid = false;
+        }
+        if(validator.isEmpty(this.state.addCourse.price)){            
+            error['price'] = 'The field is required.';
+            isValid = false;
+        }
+        if(validator.isEmpty(this.state.addCourse.videoDuration)){            
+            error['videoDuration'] = 'The field is required.';
+            isValid = false;
+        }
+
         this.setState({
             error: error
         })
@@ -178,24 +387,109 @@ class CourseAdd extends Component {
         return isValid;
     }
 
-    handleSelect = e => {            
-        this.setState({select: e.target.value});  
-        console.log(e.target.value)
-    }
-    
+    validateStep2 = () => {
+        let isValid = true;
 
-    submitCourse = (courseAdd, lessonAdd) => {
-        
-        courseAdd.lessons = lessonAdd
-        console.log(courseAdd)
-        axios.post('http://localhost:8080/api/course/create', courseAdd , { headers: authHeader(),"content-type": "multipart/form-data" }).then(res=>{
-           
-            alert (res.data.message) 
-            // if(res.data.message=='Success'){
-            //     this.props.navigate('/category')
-            // }
+        const error = {}
+
+        if(validator.isEmpty(this.state.addCourse.urlVideoDescription)){            
+            error['urlVideoDescription'] = 'The URL field is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.addCourse.imageVideoDescription)){            
+            error['imageVideoDescription'] = 'The Image field is required.';
+            isValid = false;
+        }
+
+        this.setState({
+            error: error
         })
-        
+
+        return isValid;
+    }
+
+    validateStep3 = () => {
+        let isValid = true;
+
+        const error = {}
+
+        if(lessons == []){            
+            error['titleLesson'] = 'The field is required.';
+            isValid = false;
+        }
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    }
+
+    validateStep4 = () => {
+        let isValid = true;
+
+        const error = {}
+
+        if(lesslec==[]){            
+            error['titleLecture'] = 'The field is required.';
+            isValid = false;
+        }
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    }
+
+    validateLesson= ()=> {
+        let isValid = true;
+
+        const error = {}
+
+        if(validator.isEmpty(this.state.addLesson.title)){            
+            error['titleLesson'] = 'The field is required.';
+            isValid = false;
+        }
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    }
+
+    validateLecture=()=>{
+        let isValid = true;
+
+        const error = {}
+
+        if(validator.isEmpty(this.state.addLecture.title)){            
+            error['titleLecture'] = 'The field is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.addLecture.videoUrl)){            
+            error['videoUrlLecture'] = 'The field is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.addLecture.sort)){            
+            error['sortLecture'] = 'The field is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.addLecture.videoDuration)){            
+            error['videoDurationLecture'] = 'The field is required.';
+            isValid = false;
+        }
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
     }
 
     componentDidMount () {
@@ -206,10 +500,8 @@ class CourseAdd extends Component {
     
     
     render() {
-        
         return (
             <div className="wrapper">
-                
                 <div className="sa4d25">
                     <div className="container">			
                         <div className="row">
@@ -217,43 +509,46 @@ class CourseAdd extends Component {
                                 <h2 className="st_title"><i className="uil uil-analysis"></i> Create New Course</h2>
                             </div>					
                         </div>				
+                        <div  id="success" style={{display:"none"}}><Success name="Create Successful"/></div>
+                        <div  id="error" style={{display:"none"}}><Error name="Create Course Fail"/></div>
                         <div className="row">
                             <div className="col-12">
                                 <div className="course_tabs_1">
                                     <div id="add-course-tab" className="step-app">
                                         <ul className="step-steps">
-									<li className={this.state.classStep1} onClick={()=>{this.handleClick(1)}}>
-										<a >
-											<span className="number"></span>
-											<span className="step-name">Basic</span>
-										</a>
-									</li>
-									<li className={this.state.classStep2}  onClick={()=>{this.handleClick(2)}}>
-										<a >
-											<span className="number"></span>
-											<span className="step-name">Media</span>
-										</a>
-									</li>
-									<li className={this.state.classStep3}  onClick={()=>{this.handleClick(3)}}>
-										<a >
-											<span className="number"></span>
-											<span className="step-name">Curriculum</span>
-										</a>
-									</li>
-									<li className={this.state.classStep4}  onClick={()=>{this.handleClick(4)}}>
-										<a >
-											<span className="number"></span>
-											<span className="step-name">Price</span>
-										</a>
-									</li>
-									<li className={this.state.classStep5}  onClick={()=>{this.handleClick(5)}}>
-										<a >
-											<span className="number"></span>
-											<span className="step-name">Publish</span>
-										</a>
-									</li>
+                                            <li className={this.state.classStep1} onClick={()=>{this.handleClick(1)}}>
+                                                <a >
+                                                    <span className="number"></span>
+                                                    <span className="step-name">Basic</span>
+                                                </a>
+                                            </li>
+                                            <li className={this.state.classStep2}  onClick={()=>{this.handleClick(2)}}>
+                                                <a >
+                                                    <span className="number"></span>
+                                                    <span className="step-name">Media</span>
+                                                </a>
+                                            </li>
+                                            <li className={this.state.classStep3}  onClick={()=>{this.handleClick(3)}}>
+                                                <a >
+                                                    <span className="number"></span>
+                                                    <span className="step-name">Lesson</span>
+                                                </a>
+                                            </li>
+                                            <li className={this.state.classStep4}  onClick={()=>{this.handleClick(4)}}>
+                                                <a >
+                                                    <span className="number"></span>
+                                                    <span className="step-name">Lecture</span>
+                                                </a>
+                                            </li>
+                                            <li className={this.state.classStep5}  onClick={()=>{this.handleClick(5)}}>
+                                                <a >
+                                                    <span className="number"></span>
+                                                    <span className="step-name">Publish</span>
+                                                </a>
+                                            </li>
 								        </ul>
                                         <div className="step-content">
+            {/* // ____________________ STEP 1 : BASIC _______________________ */}
                                             {this.state.show=='1'?
                                             <div className="step-tab-panel step-tab-info active " id="tab_step1"> 
                                                 <div className="tab-from-content">
@@ -270,6 +565,7 @@ class CourseAdd extends Component {
                                                                             <input className="prompt srch_explore" type="text" placeholder="Course title here" name="title" data-purpose="edit-course-title" maxlength="60" onChange={this.formCourse}  />															
                                                                             <div className="badge_num">60</div>
                                                                         </div>
+                                                                        {this.state.error.title && <div className="validation alert alert-warning">{this.state.error.title}</div>}
                                                                         <div className="help-block">(Please make this a maximum of 100 characters and unique.)</div>
                                                                     </div>									
                                                                 </div>
@@ -280,6 +576,7 @@ class CourseAdd extends Component {
                                                                             <div className="field">
                                                                                 <textarea rows="3" name="shortDescription" placeholder="Item description here..." onChange={this.formCourse}></textarea>
                                                                             </div>
+                                                                            {this.state.error.shortDescription && <div className="validation alert alert-warning">{this.state.error.shortDescription}</div>}
                                                                         </div>
                                                                         <div className="help-block">220 words</div>
                                                                     </div>								
@@ -304,7 +601,8 @@ class CourseAdd extends Component {
                                                                                     <div className="field">
                                                                                         <textarea rows="5" name="description" placeholder="Insert your course description" onChange={this.formCourse}></textarea>
                                                                                     </div>
-                                                                                </div>										
+                                                                                </div>		
+                                                                                {this.state.error.description && <div className="validation alert alert-warning">{this.state.error.description}</div>}								
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -316,6 +614,7 @@ class CourseAdd extends Component {
                                                                             <div className="field">
                                                                                 <textarea rows="3" name="requirement" placeholder="Item description here..." onChange={this.formCourse}></textarea>
                                                                             </div>
+                                                                            {this.state.error.requirement && <div className="validation alert alert-warning">{this.state.error.requirement}</div>}
                                                                         </div>
                                                                         <div className="help-block">220 words</div>
                                                                     </div>								
@@ -327,6 +626,7 @@ class CourseAdd extends Component {
                                                                             <div className="field">
                                                                                 <textarea rows="3" name="whatYouWillLearn" placeholder="" onChange={this.formCourse}></textarea>
                                                                             </div>
+                                                                            {this.state.error.whatYouWillLearn && <div className="validation alert alert-warning">{this.state.error.whatYouWillLearn}</div>}
                                                                         </div>
                                                                         <div className="help-block">Student will gain this skills, knowledge after completing this course. (One per line).</div>
                                                                     </div>								
@@ -339,16 +639,17 @@ class CourseAdd extends Component {
                                                                             <div className="field">
                                                                                 <textarea rows="3" name="whoThisCourseIsFor" placeholder="" onChange={this.formCourse}></textarea>
                                                                             </div>
+                                                                            {this.state.error.whoThisCourseIsFor && <div className="validation alert alert-warning">{this.state.error.whoThisCourseIsFor}</div>}
                                                                         </div>
                                                                         <div className="help-block">What knowledge, technology, tools required by users to start this course. (One per line).</div>
                                                                     </div>								
                                                                 </div>
-                                                                <div className="col-lg-6 col-md-6">
+                                                                <div className="col-lg-4 col-md-6">
                                                                     <div className="mt-30 lbel25">
                                                                         <label>Course Catalog*</label>
                                                                     </div>
-                                                                    <div class="form_group optgroup">
-                                                                        <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="catalogId" onChange={this.handleSelect}>
+                                                                    <div className="form_group optgroup">
+                                                                        <select className="ui fluid  dropdown cntry152 prompt srch_explore" name="catalogId" onChange={this.handleSelect}>
                                                                             <option value="">Select Catalog</option>
                                                                             {
                                                                                 this.props.catalogs.map((catalog) => {
@@ -361,13 +662,13 @@ class CourseAdd extends Component {
                                                                         </select>
                                                                     </div>
                                                                 </div>	
-                                                                <div className="col-lg-6 col-md-6">
+                                                                <div className="col-lg-4 col-md-6">
                                                                     <div className="mt-30 lbel25">
                                                                         <label>Course SubCatalog*</label>
                                                                     </div>
-                                                                    <div class="form_group optgroup">
-                                                                        <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="subCatalogId" onChange={this.formCourse}>
-                                                                            <option value="">Select Catalog</option>
+                                                                    <div className="form_group optgroup">
+                                                                        <select className="ui fluid  dropdown cntry152 prompt srch_explore" name="subCatalogId" onChange={this.formCourse}>
+                                                                            <option value="">Select SubCatalog</option>
                                                                             {
                                                                                 this.props.catalogs.map((cata) => {
                                                                                     if (cata.id == this.state.select)
@@ -383,20 +684,12 @@ class CourseAdd extends Component {
                                                                         </select>
                                                                     </div>
                                                                 </div>	
-                                                                <div class="col-lg-6 col-md-6">
-                                                                    <div class="ui search focus mt-30 lbel25">
-                                                                        <label>Duration*</label>
-                                                                        <div class="ui left icon input swdh19">
-                                                                            <input class="prompt srch_explore" type="number" min="0" max="100" placeholder="0" name="videoDuration" onChange={this.formCourse} />
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-lg-6 col-md-6">
+                                                                <div className="col-lg-4 col-md-6">
                                                                     <div className="ui search focus mt-30 lbel25">
                                                                         <label>Language*</label>
                                                                     </div>
-                                                                    <div class="form_group optgroup ">
-                                                                        <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="language" onChange={this.formCourse}>
+                                                                    <div className="form_group optgroup">
+                                                                        <select className="ui fluid dropdown cntry152 prompt srch_explore" name="language" onChange={this.formCourse}>
                                                                             <option value="VN" active>English</option>
                                                                             <option value="ENG">Vietnamese</option>
                                                                             <option value="FR">French</option>
@@ -404,12 +697,39 @@ class CourseAdd extends Component {
                                                                             
                                                                         </select>
                                                                     </div>
+                                                                </div>
+                                                                <div className="col-lg-6 col-md-6">
+                                                                    <div className="ui search focus mt-30 lbel25">
+                                                                        <label>Duration*</label>
+                                                                        <div className="ui left icon input swdh19">
+                                                                            <input className="prompt srch_explore" type="number" min="0" max="100" placeholder="0" name="videoDuration" onChange={this.formCourse} />
+                                                                        </div>
+                                                                        {this.state.error.videoDuration && <div className="validation alert alert-warning">{this.state.error.videoDuration}</div>}
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div className="col-lg-6 col-md-6">
+                                                                    <div className="license_pricing mt-30">
+                                                                        <label className="label25">Regular Price*</label>
+                                                                        <div className="row">
+                                                                            <div className="col-lg-12 col-md-6 col-sm-6">
+                                                                                <div className="loc_group">
+                                                                                    <div className="ui left icon input swdh19">
+                                                                                        <input className="prompt srch_explore" type="text" placeholder="$0" name="price" onChange={this.formCourse} />															
+                                                                                    </div>
+                                                                                    <span className="slry-dt">USD</span>
+                                                                                    {this.state.error.price && <div className="validation alert alert-warning">{this.state.error.price}</div>}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>																		
+                                                                    </div>
                                                                 </div>															
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                // ____________________ STEP 2 : MEDIA _______________________
                                             :this.state.show=='2'?
                                             <div className="step-tab-panel step-tab-gallery active " id="tab_step2">
                                                 <div className="tab-from-content">
@@ -428,6 +748,8 @@ class CourseAdd extends Component {
                                                                         <div className="ui left icon input swdh19">
                                                                             <input className="prompt srch_explore" type="text" placeholder="Youtube Video URL" name="urlVideoDescription" onChange={this.formCourse} />															
                                                                         </div>
+                                                                        {this.state.error.urlVideoDescription && <div className="validation alert alert-warning">{this.state.error.urlVideoDescription}</div>}
+                                                                        
                                                                     </div>
                                                                 </div>														
                                                             </div>
@@ -444,7 +766,8 @@ class CourseAdd extends Component {
                                                                             <span className="uploadBtn-main-file">File Format: .mp4</span>
                                                                             <span className="uploaded-id"></span>
                                                                         </div>
-                                                                    </div>														
+                                                                    </div>	 
+                                                                        													
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -466,16 +789,18 @@ class CourseAdd extends Component {
                                                                         <span className="uploadBtn-main-file">Size: 590x300 pixels. Supports: jpg,jpeg, or png</span>
                                                                     </div>
                                                                 </div>
+                                                                {this.state.error.imageVideoDescription && <div className="validation alert alert-warning">{this.state.error.imageVideoDescription}</div>}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                // ____________________ STEP 3 : LESSON _______________________   
                                             :this.state.show=='3'?
                                             <div className="step-tab-panel step-tab-location active " id="tab_step3">
                                                 <div className="tab-from-content">
                                                     <div className="title-icon">
-                                                        <h3 className="title"><i className="uil uil-notebooks"></i>Curriculum</h3>
+                                                        <h3 className="title"><i className="uil uil-notebooks"></i>Lesson</h3>
                                                     </div>
                                                     <div className="curriculum-section">
                                                         <div className="row">
@@ -490,48 +815,128 @@ class CourseAdd extends Component {
                                                                                 <label>Lesson Title*</label>
                                                                                 <div class="ui left icon input swdh19">
                                                                                     <input class="prompt srch_explore" type="text" placeholder="Insert your course content title." name="title" data-purpose="edit-course-title" maxlength="60" onChange={this.formLesson} />
+                                                                                    <div className="badge_num">60</div>
                                                                                 </div>
+                                                                                {this.state.error.titleLesson && <div className="validation alert alert-warning">{this.state.error.titleLesson}</div>}
+                                                                        
                                                                             </div>
                                                                         </div>
-                                                                        <form action="" method="post" enctype="multipart/form-data" id="lecturefrom" class="row">
-                                                                            <div class="col-lg-12 col-md-12">
-                                                                                <div class="lecture_title">
-                                                                                    <h4>New Lecture</h4>
-                                                                                </div>
+                                                                        
+                                                                        <div class="col-lg-12 col-md-12">
+                                                                            <div class="save_content">
+                                                                                <button class="save_content_btn" type="button" value={'add'} onClick={()=>this.newLesson(this.state.addLesson)}>Save Lesson</button>
+                                                                            </div> 
+                                                                            <div class="table-responsive mt-30">
+                                                                                    <table class="table ucp-table" id="content-table">
+                                                                                        <thead class="thead-s">
+                                                                                            <tr>
+                                                                                                <th class="text-center" scope="col">Lesson</th>
+                                                                                                <th class="cell-ta">Title</th>
+                                                                                                <th class="text-center" scope="col">Action</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            {lessons.map((less,i) => {
+                                                                                                return (
+                                                                                                    <tr>
+                                                                                                        <td class="text-center">{i+1}</td>
+                                                                                                        <td class="cell-ta">{less.title}</td>
+                                                                                                        <td className="text-center"> 
+                                                                                                            <a type="button" value='delete' name={less.title} onClick={()=>this.removeLesson(less.id)} title="Delete" className="gray-s"><i className="uil uil-trash-alt"></i></a>
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    
+                                                                                                )
+                                                                                            })}
+                                                                                        </tbody>
+                                                                                    </table>
                                                                             </div>
-
-                                                                            <div class="col-lg-4 col-md-12">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                // ____________________ STEP 4 : LECTURE _______________________
+                                            :this.state.show=='4'?
+                                            <div className="step-tab-panel step-tab-location active " id="tab_step4">
+                                                <div className="tab-from-content">
+                                                    <div className="title-icon">
+                                                        <h3 className="title"><i className="uil uil-notebooks"></i>Lecture</h3>
+                                                    </div>
+                                                    <div className="curriculum-section">
+                                                        <div className='row'>                          
+                                                            <div class="col-lg-12">
+                                                                <div class="extra_info">
+                                                                    <h4 class="part__title">New Lecture </h4>
+                                                                </div>
+                                                                <div class="view_info10">
+                                                                    <div class="row">
+                                                                        <form action="" method="post" enctype="multipart/form-data" id="lecturefrom" class="row">
+                                                                            <div class="col-lg-6 col-md-12">
                                                                                 <div class="ui search focus mt-30 lbel25">
                                                                                     <label>Lecture Title*</label>
                                                                                     <div class="ui left icon input swdh19">
                                                                                         <input class="prompt srch_explore" type="text" placeholder="Insert your lecture title." name="title" data-purpose="edit-course-title" maxlength="60" onChange={this.formLecture}/>
+                                                                                        <div className="badge_num">60</div>
                                                                                     </div>
+                                                                                    
+                                                                                    {this.state.error.titleLecture && <div className="validation alert alert-warning">{this.state.error.titleLecture}</div>}
+                                                                        
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-lg-4 col-md-6">
+                                                                            <div className="col-lg-3 col-md-6">
+                                                                                <div className="mt-30 lbel25">
+                                                                                    <label>Lesson*</label>
+                                                                                </div>
+                                                                                <div className="form_group optgroup">
+                                                                                    <select className="ui fluid  dropdown cntry152 prompt srch_explore" name="title" onChange={this.handleLesson}>
+                                                                                        <option value="">Select Lesson</option>
+                                                                                        {
+                                                                                            lessons.map((lesson,i) => {
+                                                                                                return (
+                                                                                                    <option value={lesson.title}>{lesson.title}</option>
+                                                                                                    
+                                                                                                );
+                                                                                            })
+                                                                                        }
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-3 col-md-6">
                                                                                 <div class="ui search focus mt-30 lbel25">
                                                                                     <label>Sort*</label>
                                                                                     <div class="ui left icon input swdh19">
                                                                                         <input class="prompt srch_explore" type="number" min="0" max="100" placeholder="0" name="sort" onChange={this.formLecture} />
                                                                                     </div>
+                                                                                    {this.state.error.sort && <div className="validation alert alert-warning">{this.state.error.sort}</div>}
+                                                                                    {this.state.error.sortLecture && <div className="validation alert alert-warning">{this.state.error.sortLecture}</div>}
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-lg-4 col-md-6">
+                                                                            <div class="col-lg-6 col-md-12">
+                                                                                <div class="ui search focus mt-30 lbel25">
+                                                                                    <label>Youtube URL*</label>
+                                                                                    <div class="ui left icon input swdh19 swdh95">
+                                                                                        <input class="prompt srch_explore" type="text" placeholder="Youtube video URL" name="videoUrl" onChange={this.formLecture}/>
+                                                                                        
+                                                                                    </div>
+                                                                                    {this.state.error.videoUrlLecture && <div className="validation alert alert-warning">{this.state.error.videoUrlLecture}</div>}
+                                                                        
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-3 col-md-6">
                                                                                 <div class="ui search focus mt-30 lbel25">
                                                                                     <label>Duration*</label>
                                                                                     <div class="ui left icon input swdh19">
                                                                                         <input class="prompt srch_explore" type="number" min="0" max="100" placeholder="0" name="videoDuration" onChange={this.formLecture} />
                                                                                     </div>
+                                                                                    {this.state.error.videoDurationLecture && <div className="validation alert alert-warning">{this.state.error.videoDurationLecture}</div>}
+                                                                        
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-lg-7 col-md-12">
-                                                                                <div class="ui search focus mt-30 lbel25">
-                                                                                    <label>Youtube URL*</label>
-                                                                                    <div class="ui left icon input swdh19 swdh95">
-                                                                                        <input class="prompt srch_explore" type="text" placeholder="Youtube video URL" name="videoUrl" onChange={this.formLecture}/>
-                                                                                       
-                                                                                    </div>
-                                                                                </div>
+                                                                            
                                                                             {/* </div>
                                                                             <div className="col-lg-3 col-md-6">
                                                                                 <div className="mt-30 lbel25">
@@ -545,100 +950,72 @@ class CourseAdd extends Component {
                                                                                         <option value="0">Yes</option>
                                                                                     </select>
                                                                                 </div>*/}
-                                                                            </div>	 
+                                                                            	 
                                                                             <div className="col-lg-3 col-md-3">
                                                                                 <div className="mt-30 lbel25">
                                                                                         <label>Preview*</label>
                                                                                 </div>
-                                                                                <div class="preview-dt">
-                                                                                    <label className="switch">
-                                                                                        <input type="checkbox" name="preview_op" value="1" onChange={this.formCourse}/>
-                                                                                        <span></span>
+                                                                                <div className="preview-dt">
+                                                                                    {this.state.switch?
+                                                                                        <label className="switch" >
+                                                                                            <input type="checkbox" name="preview" value="false" onClick={this.changeSwitch} onChange={this.formLecture}/>
+                                                                                            <span  style={{width:"40px"}}></span>
+                                                                                        </label>
+                                                                                    :
+                                                                                    <label className="switch" >
+                                                                                        <input type="checkbox" name="preview" value="true" onClick={this.changeSwitch} onChange={this.formLecture}/>
+                                                                                        <span style={{width:"40px"}}></span>
                                                                                     </label>
+                                                                                    }
+                                                                                    
                                                                                 </div>
                                                                             </div>
                                                                             
-                                                                            <div class="col-lg-2 col-md-3">
-                                                                                <button class="part_btn_save prt-sv" type="button" value={'add'} onClick={()=>this.newLecture(this.state.addLecture)}>Save
-                                                                                    Lecture</button>
-                                                                            </div>
                                                                         </form>
                                                                         
                                                                         <div class="col-lg-12 col-md-12">
-                                                                            <div class="table-responsive mt-50 mb-0">
-                                                                                <table class="table ucp-table">
-                                                                                    <thead class="thead-s">
-                                                                                        <tr>
-                                                                                            <th class="text-center" scope="col">
-                                                                                                Lecture</th>
-                                                                                            <th class="cell-ta">Title</th>
-                                                                                            <th class="text-center" scope="col">
-                                                                                                Sort</th>
-                                                                                            <th class="text-center" scope="col">
-                                                                                                Duration</th>
-                                                                                            <th class="text-center" scope="col">
-                                                                                                Video URL</th>
-                                                                                            <th class="text-center" scope="col">
-                                                                                                Action</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody id="tbodylecture">
-                                                                                            {lectures.map((lecture,index) => {
-                                                                                                return (
-                                                                                                    <tr>
-                                                                                                        <td class="text-center">{index+1}</td>
-                                                                                                        <td class="cell-ta">{lecture.title}</td>
-                                                                                                        <td class="text-center">{lecture.sort}</td>
-                                                                                                        <td class="text-center">{lecture.videoDuration}</td>
-                                                                                                        <td class="text-center">{lecture.videoUrl}</td>
-                                                                                                        <td class="text-center">{lecture.preview}</td>
-                                                                                                        <td className="text-center"> 
-                                                                                                            <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt"></i></a>
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                    
-                                                                                                )
-                                                                                            })}
-
-                                                                                    </tbody>
-                                                                                </table>
-                                                                                
-                                                                            </div>
-                                                                            
-                                                                        </div>
-                                                                        <div class="col-lg-12 col-md-12">
                                                                             <div class="save_content">
-                                                                                <button class="save_content_btn" type="button" value={'add'} onClick={()=>this.newLesson(this.state.addLesson,lectures)}>Save Lesson</button>
+                                                                                <button class="save_content_btn" type="button" value={'add'} onClick={()=>this.newLecture(this.state.lesson,this.state.addLecture)}>Save Leture</button>
                                                                             </div> 
+                                                                            {/* <div class="save_content">
+                                                                                <button class="save_content_btn" type="button" value={'add'} onClick={()=>this.course(this.state.addCourse)}>TEST</button>
+                                                                            </div>  */}
                                                                             <div class="table-responsive mt-30">
                                                                                     <table class="table ucp-table" id="content-table">
                                                                                         <thead class="thead-s">
                                                                                             <tr>
-                                                                                                <th class="text-center" scope="col">Lesson</th>
-                                                                                                <th class="cell-ta">Title</th>
-                                                                                                <th class="text-center" scope="col">Lectures</th>
+                                                                                                <th class="text-center" scope="col">ID</th>
+                                                                                                <th class="cell-ta">Lecture</th>
+                                                                                                <th class="cell-ta" scope="col">Lesson</th>
+                                                                                                <th class="text-center" scope="col">Sort</th>
+                                                                                                <th class="cell-ta" scope="col">Youtube URL</th>
+                                                                                                <th class="text-center" scope="col">Duration</th>
+                                                                                                <th class="text-center" scope="col">Preview</th>
                                                                                                 <th class="text-center" scope="col">Action</th>
                                                                                             </tr>
                                                                                         </thead>
                                                                                         <tbody>
-                                                                                            {lessons.map((less,i) => {
-                                                                                                let dem =0;
-                                                                                                return (
-                                                                                                    <tr>
-                                                                                                        <td class="text-center">{i+1}</td>
-                                                                                                        <td class="cell-ta">{less.title}</td>
-                                                                                                        {less.lectures.map((lec,index) => {
-                                                                                                            dem=dem+1;
-                                                                                                            })}
-                                                                                                        
-                                                                                                        <td class="text-center">{dem}</td>
-                                                                                                        <td className="text-center"> 
-                                                                                                            <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt"></i></a>
-                                                                                                        </td>
-                                                                                                    </tr>
-                                                                                                    
+                                                                                            {lesslec.map((less,i) => {
+                                                                                                return(
+                                                                                                    less.lectures.map((lecture,k) =>{
+                                                                                                        return (
+                                                                                                            <tr>
+                                                                                                                <td class="text-center">{i+1}</td>
+                                                                                                                <td class="cell-ta">{lecture.title}</td>
+                                                                                                                <td class="cell-ta">{less.title}</td>
+                                                                                                                <td class="text-center">{lecture.sort}</td>
+                                                                                                                <td class="cell-ta">{lecture.videoUrl}</td>
+                                                                                                                <td class="text-center">{lecture.videoDuration}</td>
+                                                                                                                <td class="text-center">{lecture.preview=="true"?'Free':'None'}</td>
+                                                                                                                <td className="text-center"> 
+                                                                                                                    <a type="button" onClick={()=>this.removeLecture(lecture.id)} value='delete' name={lecture.title} title="Delete" className="gray-s"><i className="uil uil-trash-alt"></i></a>
+                                                                                                                </td>
+                                                                                                            </tr>
+                                                                                                            )
+                                                                                                        } ));
+                                                                                                    }
                                                                                                 )
-                                                                                            })}
+                                                                                            }
                                                                                         </tbody>
                                                                                     </table>
                                                                             </div>
@@ -647,89 +1024,51 @@ class CourseAdd extends Component {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
-                                            :this.state.show=='4'?
-                                            <div className="step-tab-panel step-tab-amenities active" id="tab_step4">
+                // ____________________ STEP 5 : PUBLISH _______________________
+                                            :<div className="step-tab-panel step-tab-location active" id="tab_step5">
                                                 <div className="tab-from-content">
                                                     <div className="title-icon">
-                                                        <h3 className="title"><i className="uil uil-usd-square"></i>Price</h3>
+                                                        <h3 className="title"><i className="uil uil-info-circle"></i>Publish</h3>
                                                     </div>
-                                                <div className="course__form">
-                                                        <div className="price-block">
-                                                            <div className="row">
-                                                                <div className="col-md-12">
-                                                                    <div className="course-main-tabs">
-                                                                        <div className="nav nav-pills flex-column flex-sm-row nav-tabs" role="tablist">
-                                                                            <a className="flex-sm-fill text-sm-center nav-link active" data-toggle="tab"  role="tab" aria-selected="false"><i className="fas fa-cart-arrow-down mr-2"></i>Paid</a>
-                                                                        </div>
-                                                                        <div className="tab-content">
-                                                                            {/* <div className="tab-pane fade show active" id="nav-free" role="tabpanel">
-                                                                                <div className="price-require-dt">
-                                                                                    <div className="cogs-toggle center_d">
-                                                                                        <label className="switch">
-                                                                                            <input type="checkbox" id="require_login"  />
-                                                                                            <span></span>
-                                                                                        </label>
-                                                                                        <label  className="lbl-quiz">Require Log In</label>
-                                                                                    </div>
-                                                                                    <div className="cogs-toggle center_d mt-3">
-                                                                                        <label className="switch">
-                                                                                            <input type="checkbox" id="require_enroll"  />
-                                                                                            <span></span>
-                                                                                        </label>
-                                                                                        <label className="lbl-quiz">Require Enroll</label>
-                                                                                    </div>
-                                                                                    <p>If the course is free, if student require to enroll your course, if not required enroll, if students required sign in to your website to take this course.</p>
-                                                                                </div>
-                                                                            </div> */}
-                                                                            <div className="tab-pane fade show active" id="nav-paid" role="tabpanel">
-                                                                                <div className="license_pricing mt-30">
-                                                                                    <label className="label25">Regular Price*</label>
-                                                                                    <div className="row">
-                                                                                        <div className="col-lg-4 col-md-6 col-sm-6">
-                                                                                            <div className="loc_group">
-                                                                                                <div className="ui left icon input swdh19">
-                                                                                                    <input className="prompt srch_explore" type="text" placeholder="$0" name="price" onChange={this.formCourse} />															
-                                                                                                </div>
-                                                                                                <span className="slry-dt">USD</span>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>																		
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                </div>
+                                                
+                                                <div className="publish-block">
+                                                   
+                                                    <div className="col-lg-12 col-md-6" style={{paddingBottom:"30px"}}>
+                                                    <h4 className="title">What you want save as?</h4>
+                                                        <div className="form_group optgroup" >
+                                                            <select className= "ui fluid  dropdown cntry152 prompt srch_explore"   name="activate" onChange={this.changeStatus}  >
+                                                                <option value="false"  >Submit For Draf</option>
+                                                                <option value="true"  >Submit For Activate</option>
+                                                                
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            :
-                                            <div className="step-tab-panel step-tab-location active" id="tab_step5">
-                                                <div className="tab-from-content">
-                                                    <div className="title-icon">
-                                                        <h3 className="title"><i className="uil uil-upload"></i>Submit</h3>
-                                                    </div>
-                                                </div>
-                                                <div className="publish-block">
                                                     <i className="far fa-edit"></i>
-                                                    <p>Your course is in a draft state. Students cannot view, purchase or enroll in this course. For students that are already enrolled, this course will not appear on their student Dashboard.</p>
+                                                    {this.state.status?
+                                                        <p>Your course is in an <b>Activate</b> state. Students can view, purchase or enroll in this course.</p> 
+                                                    :
+                                                    <p>Your course is in a <b>Draf</b> state. Students cannot view, purchase or enroll in this course.</p>
+                                                    }
                                                 </div>
                                             </div>
                                             }
                                         </div>
+                                        {console.log('status',this.state.status)}
                                         <div className="step-footer step-tab-pager">
                                             {this.state.show>1?
                                             <button data-direction="prev" className="btn btn-default steps_btn" onClick={this.pagePrev} >PREVIOUS</button>
                                             :''}
                                             {this.state.show<5?
                                             <button data-direction="next" className="btn btn-default steps_btn" onClick={this.pageNext}>Next</button>
-                                            :
-                                            <button data-direction="finish" className="btn btn-default steps_btn" type="button" value={'Add'} onClick={()=>this.submitCourse(this.state.addCourse,lessons)} >Submit for Review</button>
-                                            }
+                                            :this.state.course?
+                                            <button data-direction="finish" className="btn btn-default steps_btn" type="button" value={'add'} onClick={()=>this.course(this.state.addCourse)} >Submit</button>
+                                            
+                                            :''}
                                             
                                         </div>
                                     </div>
@@ -758,4 +1097,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(CourseAdd);
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(CourseAdd));

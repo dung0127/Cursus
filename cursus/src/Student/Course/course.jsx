@@ -6,6 +6,7 @@ import {Link} from "react-router-dom"
 import { addToCart } from "../../actions/cart";
 import Success from "../../Alert/success";
 import Warning from "../../Alert/warning";
+import {fetchSavedRequest } from "../../actions/savedCourse"
 
 
 class Course extends React.Component {
@@ -37,6 +38,10 @@ class Course extends React.Component {
         this.props.searchCourseRequest(searchCourse)
     }
     
+    savedCourse = (id) => {
+        this.props.fetchSavedRequest(id);
+    }
+
     render(){
         console.log(this.props.courses)
       return (
@@ -48,7 +53,10 @@ class Course extends React.Component {
                         
                             <div class="section3125">
                                         <div  id="success" style={{display:"none"}}><Success name="Add to cart"/></div>
+                                        <div  id="login" style={{display:"none"}}><Success name="Login Successful"/></div>
                                         <div  id="warning" style={{display:"none"}} ><Warning name="Already exits"/></div>
+                                        <div  id="saved" style={{display:"none"}}><Success name={this.props.savedSuccess}/></div>
+
                                 {/* <div class="explore_search">
                                     
                                     <div class="ui search focus">
@@ -83,10 +91,13 @@ class Course extends React.Component {
                                                         <div class="eps_dots more_dropdown">
                                                             <a href="#"><i class="uil uil-ellipsis-v"></i></a>
                                                             <div class="dropdown-content">
-                                                                <span><i class='uil uil-share-alt'></i>Share</span>
-                                                                <span><i class="uil uil-heart"></i>Save</span>
-                                                                <span><i class='uil uil-ban'></i>Not Interested</span>
-                                                                <span><i class="uil uil-windsock"></i>Report</span>
+                                                                {/* <span><i class='uil uil-share-alt'></i>Share</span> */}
+                                                                {course.saved?
+                                                                <span type="button" onClick={()=>this.savedCourse(course.id)}><i className="iconify" data-icon="bi:heart-fill" style={{marginRight:"10px",marginLeft:"5px"}}></i> Unsaved</span>
+                                                                :<span type="button" onClick={()=>this.savedCourse(course.id)}><i className="uil uil-heart"></i>Save</span>
+                                                                }
+                                                                {/* <span><i class='uil uil-ban'></i>Not Interested</span> */}
+                                                                {/* <span><i class="uil uil-windsock"></i>Report</span> */}
                                                             </div>																											
                                                         </div>
                                                         {/* <div class="vdtodt">
@@ -144,6 +155,7 @@ const mapStateToProps = state => {
         page: state.course.page,
         totalPages: state.course.totalPages,
         cartItems: state.cart.items,
+        savedSuccess: state.savedCourse.savedSuccess
     }
 }
 
@@ -151,6 +163,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
         addToCart:(e,p) => dispatch (addToCart(e,p)),
+        fetchSavedRequest:(e) => dispatch (fetchSavedRequest(e)),
     };
 }
 
