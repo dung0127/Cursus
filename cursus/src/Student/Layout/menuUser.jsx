@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom"
 import {connect} from 'react-redux'
 import { fetchCatalogRequest} from "../../actions/catalog"
+import {fetchSubCatalogByIdRequest} from "../../actions/subCatalog"
 
 class MenuUser extends React.Component {
     componentDidMount(){
@@ -9,6 +10,7 @@ class MenuUser extends React.Component {
         
     }
 
+    
     render() {
         return(
             <nav className="vertical_nav">
@@ -41,10 +43,10 @@ class MenuUser extends React.Component {
                                     <span className="menu--label">Categories</span>
                                 </label>
                                 <ul className="sub_menu">
-                                    {this.props.catalogs.map((catalog,index) => {
+                                    {this.props.catalogs.map((catalog,i) => {
                                         return (
                                             
-                                    <li className="menu--item menu--item__has_sub_menuu">
+                                    <li className="menu--item menu--item__has_sub_menuu" key={i}>
                                         <label className="menu--linkk" title="Categories">
                                             <span className="menu--labell">{catalog.name}</span>
                                         </label>
@@ -52,8 +54,8 @@ class MenuUser extends React.Component {
                                         <ul className="sub_menuu">
                                             {catalog.subCatalogs.map((subCatalog,index) => {
                                             return (
-                                                <li className="sub_menu--itemm">
-                                                    <Link to='/' className="sub_menu--linkk">{subCatalog.name}
+                                                <li className="sub_menu--itemm" key={index}>
+                                                    <Link to={`/courses/${subCatalog.name}/${subCatalog.id}`}  params={subCatalog.id}  className="sub_menu--linkk">{subCatalog.name}
                                                     </Link>
                                                 </li>
                                             )})}
@@ -91,7 +93,6 @@ class MenuUser extends React.Component {
                     </div>
                     <div className="left_section pt-2">
                         <ul>
-                            
                             <li className="menu--item">
                                 <Link to ="/help" className="menu--link" title="Help">
                                     <i className='uil uil-question-circle menu--icon'></i>
@@ -124,6 +125,7 @@ class MenuUser extends React.Component {
 const mapStateToProps = state => {
     return {        
         catalogs: state.catalog.catalogs,
+        subCatalog: state.subCatalog.subCatalog
     }
 }
 
@@ -131,6 +133,7 @@ const mapDispatchToProps = dispatch => {
     return {
         
         fetchCatalogRequest:() => dispatch (fetchCatalogRequest()),
+        fetchSubCatalogByIdRequest:(e) => dispatch (fetchSubCatalogByIdRequest(e))
     };
 }
 

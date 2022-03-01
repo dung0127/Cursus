@@ -75,7 +75,7 @@ class Profile extends React.Component {
                                                 </ul>
                                             </div>
                                             <ul className="_bty149">
-                                                <li><button className="studio-link-btn btn500" onclick="window.location.href = 'instructor_dashboard.html';">Cursus Studio</button></li>								
+                                                {/* <li><button className="studio-link-btn btn500" onclick="window.location.href = 'instructor_dashboard.html';">Cursus Studio</button></li>								 */}
                                                 <li><Link to='/edit-profile'><button className="msg125 btn500">Edit</button></Link></li>								
                                             </ul>
                                             

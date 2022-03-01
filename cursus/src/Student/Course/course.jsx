@@ -6,9 +6,10 @@ import {Link} from "react-router-dom"
 import { addToCart } from "../../actions/cart";
 import Success from "../../Alert/success";
 import Warning from "../../Alert/warning";
-import {fetchSavedRequest } from "../../actions/savedCourse"
+import {fetchSavedRequest } from "../../actions/savedCourse";
+import moment from 'moment';
 
-
+let date
 class Course extends React.Component {
     constructor(props) {
         super(props)
@@ -56,7 +57,7 @@ class Course extends React.Component {
                                         <div  id="login" style={{display:"none"}}><Success name="Login Successful"/></div>
                                         <div  id="warning" style={{display:"none"}} ><Warning name="Already exits"/></div>
                                         <div  id="saved" style={{display:"none"}}><Success name={this.props.savedSuccess}/></div>
-
+ 
                                 {/* <div class="explore_search">
                                     
                                     <div class="ui search focus">
@@ -72,7 +73,6 @@ class Course extends React.Component {
                         <div class="col-md-12">
                             <div class="_14d25">
                                 <div class="row">
-                                    
                                 {
                                     this.props.courses.map((course,index) => {
                                         return (
@@ -82,6 +82,13 @@ class Course extends React.Component {
                                                         <img src={course.imageVideoDescription} alt=""/>
                                                         <div class="course-overlay">
                                                             <span class="play_btn1"><i class="uil uil-play"></i></span>
+                                                            {course.avgRatting?
+                                                                <div class="crse_reviews">
+                                                                    <i class='uil uil-star'></i>{course.avgRatting.toFixed(1)}
+                                                                </div>:
+                                                                <div class="crse_reviews">
+                                                                <i class='uil uil-star'></i>0.0
+                                                            </div>}
                                                             <div class="crse_timer">
                                                                 {course.videoDuration}
                                                             </div>
@@ -89,26 +96,28 @@ class Course extends React.Component {
                                                     </Link>
                                                     <div class="fcrse_content">
                                                         <div class="eps_dots more_dropdown">
-                                                            <a href="#"><i class="uil uil-ellipsis-v"></i></a>
-                                                            <div class="dropdown-content">
-                                                                {/* <span><i class='uil uil-share-alt'></i>Share</span> */}
+                                                            {/* <Link to={`/course/${course.id}`} params={course.id}><i class="uil uil-ellipsis-v"></i></Link> */}
+                                                            {/* <div class="dropdown-content">
+                                                                <span><i class='uil uil-share-alt'></i>Share</span>
                                                                 {course.saved?
                                                                 <span type="button" onClick={()=>this.savedCourse(course.id)}><i className="iconify" data-icon="bi:heart-fill" style={{marginRight:"10px",marginLeft:"5px"}}></i> Unsaved</span>
                                                                 :<span type="button" onClick={()=>this.savedCourse(course.id)}><i className="uil uil-heart"></i>Save</span>
                                                                 }
-                                                                {/* <span><i class='uil uil-ban'></i>Not Interested</span> */}
-                                                                {/* <span><i class="uil uil-windsock"></i>Report</span> */}
-                                                            </div>																											
+                                                                <span><i class='uil uil-ban'></i>Not Interested</span>
+                                                                <span><i class="uil uil-windsock"></i>Report</span>
+                                                            </div>																											 */}
                                                         </div>
-                                                        {/* <div class="vdtodt">
-                                                            <span class="vdt14">109k views</span>
-                                                            <span class="vdt14">15 days ago</span>
-                                                        </div> */}
+                                                        <div class="vdtodt">
+                                                            {/* <span class="vdt14">109k views</span> */}
+                                                            {course.updatedDate?
+                                                            <span class="vdt14">Update {moment(course.updatedDate).format('MMM DD, YYYY')}</span>:''}
+                                                            
+                                                        </div>
                                                         <Link to={`/course/${course.id}`} params={course.id} class="crse14s">{course.title}</Link>
                                                         <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language}</Link>
                                                         <div class="auth1lnkprce">
-                                                            <div class="prce142">${course.price}</div>
-                                                            <button class="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i class="uil uil-shopping-cart-alt"></i></button>
+                                                        <div class="prce142">${course.price}</div>
+                                                            {/* <button class="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i class="uil uil-shopping-cart-alt"></i></button> */}
                                                         </div>
                                                     </div>
                                                 </div>													
@@ -121,6 +130,7 @@ class Course extends React.Component {
                         </div>		
                     </div>
                     <br></br>
+                    
                     {this.props.totalPages>1?
                     <div className="step-footer step-tab-pager text-center">
                         
@@ -143,7 +153,7 @@ class Course extends React.Component {
             </div>
             
             <FooterUser/>
-	</div>  
+	    </div>  
       );
     }
   

@@ -244,8 +244,10 @@ class CourseAdd extends Component {
         idLecture++;
         add.id=idLecture;
         lectures.push(add);
+        console.log(lectures)
         lesson.lectures = lectures;
         lesslec.push(lesson);
+        console.log(lesslec)
         this.setState({addLecture: {id:'', title:'',
                 videoUrl:'',
                 videoDuration:'',
@@ -322,11 +324,16 @@ class CourseAdd extends Component {
                             tmp.push(le)
                         )),
                         // tmp.push(lec.lectures),
-                        les.lectures=tmp):les.lectures=[]
+                        les.lectures=tmp):''
                 ))
             )
         )
-        delete lessons.id
+        lessons.map((les,i) =>
+            (
+                delete les.id
+            )
+        )
+        
         courseAdd.lessons = lessons
         console.log(courseAdd)
         axios.post('http://localhost:8080/api/course/create', courseAdd , { headers: authHeader()}).then(res=>{
@@ -1058,7 +1065,6 @@ class CourseAdd extends Component {
                                             </div>
                                             }
                                         </div>
-                                        {console.log('status',this.state.status)}
                                         <div className="step-footer step-tab-pager">
                                             {this.state.show>1?
                                             <button data-direction="prev" className="btn btn-default steps_btn" onClick={this.pagePrev} >PREVIOUS</button>

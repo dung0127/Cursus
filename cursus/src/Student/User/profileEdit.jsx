@@ -5,7 +5,10 @@ import axios from "axios";
 import {USER_INFO_API_BASE_URL} from "../../config/env";
 import {connect} from 'react-redux';
 import { getDetailInfo, updateDetail } from '../../actions/detail'
-import validator from 'validator';
+import $ from "jquery"
+import Success from "../../Alert/success";
+import Error from "../../Alert/error"
+import {withRouter} from "../../Admin/Auth/withRouter"
 
 class ProfileEdit extends React.Component {
     constructor(){
@@ -20,6 +23,7 @@ class ProfileEdit extends React.Component {
                 },
             error: {},
             updateSuccess: false,
+            messageSuccess:'',
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -52,7 +56,19 @@ class ProfileEdit extends React.Component {
             this.props.getDetailInfo(res.data.data);  
             this.props.updateDetail(this.state.updateSuccess) 
             this.setState({newDetail: res.data.data}) 
-            alert ("Success")  
+            this.setState({messageSuccess:res.data.message})
+            if(res.data.message=="Success"){
+                
+                $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
+                setTimeout(()=>{
+                    this.props.navigate('/detail')
+                },1000);
+            }
+            else {
+                
+                $('#error').fadeIn('fast').delay(2000).fadeOut('slow');
+            }
+            
             console.log(res.data.data)
         })
           
@@ -69,6 +85,10 @@ class ProfileEdit extends React.Component {
                                 <h2 className="st_title"><i className='uil uil-cog'></i> Setting</h2>
                                 <div className="tab-content" id="pills-tabContent">
                                     <div className="tab-pane fade show active" id="pills-account" role="tabpanel" aria-labelledby="pills-account-tab">
+                                             
+                                        <div  id="success" style={{display:"none"}}><Success name={this.state.messageSuccess}/></div>
+                                        <div  id="error" style={{display:"none"}}><Error name={this.state.messageSuccess}/></div>
+
                                         <div className="account_setting">
                                             <h4>Your Cursus Account</h4>
                                             <p>This is your public presence on Cursus. You need a account to upload your paid courses, comment on courses, purchased by students, or earning.</p>
@@ -84,6 +104,7 @@ class ProfileEdit extends React.Component {
                                                             <div className="row">
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Username</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" required="" disabled="true"  value={this.state.user.username}/>															
                                                                         </div>
@@ -91,6 +112,7 @@ class ProfileEdit extends React.Component {
                                                                 </div>                                                                
                                                                 <div className="col-lg-12">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Full Name</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="fullname" required=""  
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.fullname}/>					
@@ -99,6 +121,7 @@ class ProfileEdit extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Email</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="email" required="" 
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.email}/>					
@@ -107,6 +130,7 @@ class ProfileEdit extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Phone</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="phone" required="" 
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.phone}/>					
@@ -115,6 +139,7 @@ class ProfileEdit extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Address</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="address" required=""  
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.address}/>					
@@ -123,6 +148,7 @@ class ProfileEdit extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Status</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" disabled="true" value={this.state.user.enabled?'Active':'Inactive'} required="" />					
                                                                         </div>
@@ -168,4 +194,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileEdit);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileEdit))

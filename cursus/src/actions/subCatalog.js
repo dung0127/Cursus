@@ -63,3 +63,19 @@ export const createSubCatalog = () => {
         type:'CREATE_SUBCATALOG'
     }
 }
+
+export const fetchSubCatalogByIdRequest = (id) => {
+    return(dispatch) => {
+        axios.get('http://localhost:8080/api/subCatalog/'+id, { headers: authHeader() }).then((res) => {
+            dispatch(getSubCatalogById(res.data.data)) 
+        })
+    }
+}
+
+export const getSubCatalogById = (subCatalog) => {
+    return {
+        type:'GET_SUBCATALOG_BY_ID',
+        subCatalog
+    }
+}
+

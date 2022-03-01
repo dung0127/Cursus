@@ -18,6 +18,7 @@ class Header extends React.Component {
         this.props.fetchCourseRequest(0);
         this.props.fetchCatalogRequest();
     }
+    
 
     // logout = () => {
     //     localStorage.removeItem("accessToken")
@@ -58,11 +59,11 @@ class Header extends React.Component {
                             <a href="#" className="option_links p-0" title="categories" ><i className="uil uil-apps"></i></a>
                             <div className="menu dropdown_category5">
                                 {catalogs.map((catalog)=>
-                                <Link to="/course" className="item channel_item" style={{width:"230px"}}><i className="dropdown icon"/><span className="text">{catalog.name}</span>
+                                <Link to='' className="item channel_item" style={{width:"230px"}}><i className="dropdown icon"/><span className="text">{catalog.name}</span>
                                     {catalog.subCatalogs?
                                     <div className="menu">
                                         {catalog.subCatalogs.map((sub)=>
-                                        <Link to="/" className="item channel_item" style={{textAlign:"center"}}>{sub.name}</Link>)}
+                                        <Link to={`/courses/${sub.name}/${sub.id}`}  params={sub.id} className="item channel_item" style={{textAlign:"center"}}>{sub.name}</Link>)}
                                     </div>:''}
                                 </Link>
                                 )}
@@ -84,8 +85,15 @@ class Header extends React.Component {
                     <ul>
                         {localStorage.getItem("role")=="ROLE_ADMIN"?
                         <li>
-                            <a href = "/add-course" class="upload_btn" title="Create New Course">Create New Course</a>
-                        </li>:
+                            <Link to= "/add-course" class="upload_btn" title="Create New Course">Create New Course</Link>
+                        </li>:localStorage.getItem("role")=="ROLE_USER"?
+                        <><li>
+                        <Link to="/cart" class="upload_btn"  title="Enroll">Enroll</Link>
+                        </li>
+                        <li>
+                            <Link to="/cart" class="option_links" title="Cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">{cartItems.length}</span></Link>
+				        </li></>
+                        :
                         <li>
                             <Link to="/cart" class="option_links" title="Cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">{cartItems.length}</span></Link>
 				        </li>}

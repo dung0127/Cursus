@@ -10,6 +10,7 @@ import { lessonReducer } from "./lesson";
 import { lectureReducer } from "./lecture";
 import { paymentReducer } from "./payment";
 import { savedCourseReducer } from "./savedCourse";
+import { reviewReducer } from "./review";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
@@ -23,4 +24,5 @@ export const rootReducer = combineReducers({
     lecture: lectureReducer,
     payment: paymentReducer,
     savedCourse: savedCourseReducer,
+    review: reviewReducer,
 });

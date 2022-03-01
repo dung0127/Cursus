@@ -19,6 +19,7 @@ import ProfileEdit from "../User/profileEdit";
 import ChangePassword from "../../Admin/Auth/changePassword";
 import Signup from "../User/signup";
 import SavedCourse from "../SavedCourse/savedCourse";
+import CourseBySubCatalog from "../Course/courseBySubCatalog";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -44,7 +45,7 @@ class AppUser extends React.Component {
         <Router>
                   {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup')) ? <Header/> : '') : (  (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/signup')) ? '':<HeaderGuest/> )}
                   {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup')) ? <MenuUser/>:''}
-                  {window.location.pathname.startsWith('/learn')? <HeaderLearn/>:''}
+                  {/* {window.location.pathname.startsWith('/learn')? <HeaderLearn/>:''} */}
               <Routes>    
                   <Route path ="/index" element = {<MainUser/>}/> 
                   <Route path ="/signup" element = {<Signup/>}/>
@@ -60,6 +61,8 @@ class AppUser extends React.Component {
                   <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
                   <Route path ="/saved-course" element = {<PrivateRoute><SavedCourse/></PrivateRoute>}/> 
                   <Route path ="/help" element = {<Help/>}/> 
+                  <Route path="/courses/:name/:id" element ={<CourseBySubCatalog/>}></Route>
+                  
                   <Route path ="*" element = {<ErrorPage/>}/> 
               </Routes>  
           </Router>

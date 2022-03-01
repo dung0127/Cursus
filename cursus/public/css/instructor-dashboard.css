@@ -3396,40 +3396,45 @@ i.icon8 {
 
 .full-star:before {
 	color: #f2b01e;
-	content: "\f005";
+	content: "★";
+    font-size: 25px;
 	position: absolute;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	left: 0;
+    
 }
 
 .empty-star:before {
-	content: "\f005";
+	content: "★";
 	position: absolute;
 	left: 0;
 	overflow: hidden;
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
+    font-size:25px
 }
 
 .half-star:before {
 	color: #f2b01e;
-	content: "\f005";
+	content: "★";
 	font-family: "Font Awesome 5 Free";
 	font-weight: 900;
 	width: 60%;
 	position: absolute;
 	left: 0;
 	overflow: hidden;
+    font-size:25px
 }
 
 .half-star:after {
-	content: '\f005';
+	content: '★';
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     left: 1.5rem;
     width: 60%;
     text-indent: -1.5rem;
+    font-size:25px
 }
 
 ._rate002 {
@@ -4935,3 +4940,39 @@ img.img-thumbnail {
     padding: 0.905714em 1.5em 0.785714em 1em !important;
     height: 40px;
 }
+
+
+.rate {
+    float: left;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+

@@ -3,6 +3,7 @@ const initState = {
     subCatalogs:[],
     createSuccess: false,
     updateSuccess: false,
+    subCatalog:{},
 };
 
 export const subCatalogReducer = (state = initState, action) => {
@@ -36,6 +37,14 @@ export const subCatalogReducer = (state = initState, action) => {
                 return {
                     ...state,
                     updateSuccess: true
+                }
+            }
+
+        case 'GET_SUBCATALOG_BY_ID':
+            {
+                return {
+                    ...state,
+                    subCatalog: action.subCatalog
                 }
             }
 

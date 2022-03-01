@@ -4,6 +4,7 @@ import validator from 'validator';
 import {USER_INFO_API_BASE_URL } from "../../config/env";
 import $ from "jquery";
 import Success from "../../Alert/success";
+import Error from "../../Alert/error";
 import {withRouter} from "../../Admin/Auth/withRouter"
 
 class Signup extends React.Component {
@@ -13,8 +14,9 @@ class Signup extends React.Component {
             addUser: {},
             error: {},
             isShow: false, 
+            messageSuccess:'',
         }
-        
+         
         this.handleInputChange = this.handleInputChange.bind(this);
   
     }
@@ -51,12 +53,21 @@ class Signup extends React.Component {
         return isValid;
     }
 
-    handle = () => {
-        $('#target').fadeIn('fast').delay(1000).fadeOut('slow');
-		setTimeout(()=>{
-			this.props.navigate('/login')
-			window.location.reload();
-		},2000);
+    handle = (mess) => {
+        
+        this.setState({messageSuccess:mess})
+
+        if(mess=="Success"){
+            $('#signup').fadeIn('fast').delay(1000).fadeOut('slow');
+            setTimeout(()=>{
+                this.props.navigate('/login')
+                window.location.reload();
+            },2000);
+        }
+        else {
+            $('#error').fadeIn('fast').delay(1000).fadeOut('slow');
+        }
+		
 		
 	}
 
@@ -73,7 +84,7 @@ class Signup extends React.Component {
             axios.post('http://localhost:8080/api/auth/signup', addUser).then(res=>{
             // update state.staff.staffInfo
             //this.setState({addUser: res.data.data}) 
-            this.handle(); 
+            this.handle(res.data.message); 
             })
         }
     }
@@ -99,7 +110,9 @@ class Signup extends React.Component {
                                 <a href="index.html"><img className="logo-inverse" src="images/ct_logo.svg" alt=""/></a>
                             </div>
                         </div>
-                        <div  id="target" style={{display:"none"}}><Success name="Signup Successful"/></div>
+                        <div  id="signup" style={{display:"none"}}><Success name={this.state.messageSuccess}/></div>
+                        <div  id="error" style={{display:"none"}}><Error name={this.state.messageSuccess}/></div>
+                        
                         <div className="col-lg-6 col-md-8">
                             <div className="sign_form">
                                 <h2>Welcome to Cursus</h2>

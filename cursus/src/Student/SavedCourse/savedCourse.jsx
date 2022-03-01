@@ -6,7 +6,7 @@ import {Link} from "react-router-dom";
 import { addToCart, removeFromCart } from "../../actions/cart";
 import {withRouter} from "../../Admin/Auth/withRouter"
 import {fetchAllSavedRequest, fetchUnsavedRequest} from "../../actions/savedCourse";
-
+import moment from 'moment';
 import Success from "../../Alert/success";
 import Warning from "../../Alert/warning";
 
@@ -63,12 +63,15 @@ class SavedCourse extends React.Component {
                                                 </div>
                                             </a>
                                             <div className="hs_content">
-                                                <div className="eps_dots eps_dots10 more_dropdown">
-                                                    <a href="#"><i className="uil uil-ellipsis-v"></i></a>
-                                                    <div className="dropdown-content">
+                                                
+                                                    {/* <a href="#"><i className="uil uil-ellipsis-v"></i></a> */}
+                                                    <div className="eps_dots">
+                                                        <a href="#" onClick={()=>this.unsavedCourse(course.id)}><i className='uil uil-times'></i></a>																										
+                                                    </div>
+                                                    {/* <div className="dropdown-content">
                                                         <span type="button" onClick={()=>this.unsavedCourse(course.id)}><i className='uil uil-times'></i>Remove</span>															
-                                                    </div>																											
-                                                </div>
+                                                    </div>																											 */}
+                                                
                                                 {/* <div className="vdtodt">
                                                     <span className="vdt14">5M views</span>
                                                     <span className="vdt14">15 days ago</span>
@@ -76,7 +79,10 @@ class SavedCourse extends React.Component {
                                                 <Link to={`/course/${course.id}`} params={course.id} className="crse14s title900">{course.title}</Link>
                                                 <a href="#" className="crse-cate">{course.language}</a>
                                                 <div className="auth1lnkprce">
-                                                    {/* <p className="cr1fot">By <a href="#">Jassica William</a></p> */}
+                                                    {course.updatedDate? 
+                                                    <div className="cr1fot">										
+                                                        Update {moment(course.updatedDate).format('MMM DD, YYYY')}
+                                                    </div> :'' }
                                                     <div className="prce142">${course.price}</div>
                                                     <button className="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i className="uil uil-shopping-cart-alt"></i></button>
                                                 </div>

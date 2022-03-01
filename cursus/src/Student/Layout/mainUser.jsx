@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 import { addToCart } from "../../actions/cart";
 import Success from "../../Alert/success";
 import Warning from "../../Alert/warning";
-
+import moment from 'moment';
 
 class MainUser extends React.Component {
     constructor(props) {
@@ -50,33 +50,41 @@ class MainUser extends React.Component {
                                                                     <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
                                                                         <img src={course.imageVideoDescription} alt=""/>
                                                                         <div className="course-overlay">
-                                                                            <div class="badge_seller">Bestseller</div>
+                                                                            {/* <div class="badge_seller">Bestseller</div> */}
                                                                             <span className="play_btn1"><i className="uil uil-play"></i></span>
+                                                                            {course.avgRatting>0?
+                                                                                <div class="crse_reviews">
+                                                                                    <i class='uil uil-star'></i>{course.avgRatting.toFixed(1)}
+                                                                                </div>:''}
                                                                             <div className="crse_timer">
                                                                                 {course.videoDuration}
                                                                             </div>
                                                                         </div>
                                                                     </Link> 
                                                                     <div className="fcrse_content">
-                                                                        <div className="eps_dots more_dropdown">
-                                                                            <a href="#"><i className='uil uil-ellipsis-v'></i></a>
-                                                                            <div className="dropdown-content">
-                                                                                <span><i className='uil uil-share-alt'></i>Share</span>
-                                                                                <span><i className="uil uil-heart"></i>Save</span>
-                                                                                <span><i className='uil uil-ban'></i>Not Interested</span>
-                                                                                <span><i className="uil uil-windsock"></i>Report</span>
-                                                                            </div>																										
-                                                                        </div>
-                                                                        {/* <div className="vdtodt">
-                                                                            <span className="vdt14">109k views</span>
-                                                                            <span className="vdt14">15 days ago</span>
-                                                                        </div> */}
-                                                                        <Link to={`/course/${course.id}`} params={course.id} className="crse14s">{course.title}</Link>
-                                                                        <a href="#" class="crse-cate">{course.language}</a>
-                                                                        <div className="auth1lnkprce">
-                                                                            <div className="prce142">${course.price}</div>
-                                                                            <button className="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i className="uil uil-shopping-cart-alt"></i></button>
-                                                                        </div>
+                                                                        <div class="eps_dots more_dropdown">
+                                                                {/* <Link to={`/course/${course.id}`} params={course.id}><i class="uil uil-ellipsis-v"></i></Link> */}
+                                                                {/* <div class="dropdown-content">
+                                                                    <span><i class='uil uil-share-alt'></i>Share</span>
+                                                                    {course.saved?
+                                                                    <span type="button" onClick={()=>this.savedCourse(course.id)}><i className="iconify" data-icon="bi:heart-fill" style={{marginRight:"10px",marginLeft:"5px"}}></i> Unsaved</span>
+                                                                    :<span type="button" onClick={()=>this.savedCourse(course.id)}><i className="uil uil-heart"></i>Save</span>
+                                                                    }
+                                                                    <span><i class='uil uil-ban'></i>Not Interested</span>
+                                                                    <span><i class="uil uil-windsock"></i>Report</span>
+                                                                </div>																											 */}
+                                                                            </div>
+                                                                            <div class="vdtodt">
+                                                                            {/* <span class="vdt14">109k views</span> */}
+                                                                            {course.updatedDate?
+                                                                            <span class="vdt14">Update {moment(course.updatedDate).format('MMM DD, YYYY')}</span>:''}
+                                                                            
+                                                                            </div>
+                                                                            <Link to={`/course/${course.id}`} params={course.id} class="crse14s">{course.title}</Link>
+                                                                            <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language}</Link>
+                                                                            <div class="auth1lnkprce">
+                                                                                <div class="prce142">${course.price}</div>
+                                                                            </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -266,7 +274,6 @@ class MainUser extends React.Component {
                                         <div className="get1452">
                                             <h4>Get personalized recommendations</h4>
                                             <p>Answer a few questions for your top picks</p>
-                                            <button className="Get_btn" onclick="window.location.href = '#';">Get Started</button>
                                         </div>
                                     </div>
                                     

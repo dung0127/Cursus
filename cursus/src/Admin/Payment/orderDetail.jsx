@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { fetchOrderRequest, fetchOrderByIdRequest } from '../../actions/payment';
 import $ from "jquery";
 import {withRouterParams} from "../Auth/withRouter"
-import order from './order';
 
 class OrderDetail extends React.Component{
     constructor(props) {
@@ -22,7 +21,6 @@ class OrderDetail extends React.Component{
     } 
     render() {
         const { cartItems, orderById } = this.props;
-        console.log(orderById)
         return (
             <div className="wrapper">		
                 <div className="sa4d25">
@@ -39,22 +37,23 @@ class OrderDetail extends React.Component{
                                 <div className="col-lg-12">
 								<div className="membership_chk_bg">
 									<div className="checkout_title">
-										<h4>Billing Details #</h4>
+										<h4>Billing Details #{orderById.orderNumber}</h4>
 										<img src="/images/line.svg" alt="" />
 									</div>
 									<div className="col-lg-12">
-                                        <div className="address_text">  
+                                        <div className="address_text">
+                                        {orderById.user.username}.<br/>
+                                        {orderById.user.fullname}<br/>
+                                        {orderById.user.addrress}<br/>
+                                        {orderById.dateOrder}  
                                         </div>        
 									</div>
 								</div>
 								<div className="membership_chk_bg">
-									
-									
 										<div className="checkout_title">
 											<h4>Order Details</h4>
 											<img src="/images/line.svg" alt=""/>
 										</div>
-										
 										
 										<div className="order_dt_section">
 											{/* {cartItems.map((item) => (
@@ -79,12 +78,8 @@ class OrderDetail extends React.Component{
 											</div>
 											
 										</div>
-										
-										
-									
 								</div>									
 							</div>
-							
                                 </div>
                             </div>
                         </div>

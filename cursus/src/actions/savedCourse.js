@@ -2,6 +2,7 @@ import { COURSE_INFO_API_BASE_URL } from "../config/env";
 import authHeader from "../config/authHeader";
 import axios from "axios";
 import $ from "jquery"
+import { courseByIdRequest } from "./course";
 
 export const fetchAllSavedRequest = () => {
     return(dispatch) => {
@@ -19,10 +20,12 @@ export const getAllSaved = (courses) => {
 }
 
 export const fetchSavedRequest = (id) => {
-    return(dispatch) => {
+    return (dispatch) => {
         axios.get('http://localhost:8080/api/savedcourse/save/'+id,{ headers: authHeader() }).then((res) => {
             dispatch(saved(res.data.data))
-            $('#saved').fadeIn('fast').delay(3000).fadeOut('slow');
+            $('#saved').fadeIn('fast').delay(1000).fadeOut('slow');
+            dispatch(courseByIdRequest(id))
+            dispatch(fetchAllSavedRequest())
         })
     }
 }
@@ -35,11 +38,12 @@ export const saved = (savedSuccess) => {
 }
 
 export const fetchUnsavedRequest = (id) => {
-    return(dispatch) => {
-        axios.get('http://localhost:8080/api/savedcourse/unsaved/'+id,{ headers: authHeader() }).then((res) => {
+    return (dispatch) => {
+            axios.get('http://localhost:8080/api/savedcourse/unsaved/'+id,{ headers: authHeader() }).then((res) => {
             dispatch(unsaved(res.data.data))
+            $('#unsaved').fadeIn('fast').delay(1000).fadeOut('slow');
+            dispatch(courseByIdRequest(id))
             dispatch(fetchAllSavedRequest())
-            $('#unsaved').fadeIn('fast').delay(3000).fadeOut('slow');
             
         })
     }

@@ -55,7 +55,7 @@ class CourseInfo extends React.Component {
                                         <h1>Jump Into Course Creation</h1>
                                     </div>
                                     <div className="card_dash_right1">
-                                        <a href="/add-course"><button className="create_btn_dash">Create Your Course</button></a>
+                                        <Link to="/add-course"><button className="create_btn_dash">Create Your Course</button></Link>
                                     </div>
                                 </div>
                             </div>

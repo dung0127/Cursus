@@ -3282,7 +3282,7 @@ i.icon2 {
 }
 
 ._rate003 {
-	
+	margin-top:20px
 }
 
 ._rate004 {
@@ -3724,8 +3724,8 @@ i.icon2 {
     width: 100%;
     background: #fff;
     border-radius: 3px;
-	margin-bottom: 30px;
-	padding: 20px;
+	margin: 10px;
+	padding: 30px ;
 }
 
 .img160 img {
@@ -3742,13 +3742,12 @@ i.icon2 {
 }
 
 ._cmnt001 {
-    margin-left: 20px;
     border: 1px solid #efefef;
     width: 100%;
     overflow: hidden;
     overflow-wrap: break-word;
     resize: horizontal;
-    height: 40px;
+    height: 90px;
 	font-size: 14px;
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
@@ -8192,3 +8191,5 @@ a.nav-icon-list:hover {
 .lecture-content-txt p {
     line-height: 26px;
 }
+
+
