@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import { fetchCourseRequest } from "../../actions/course";
 import {connect}  from "react-redux";
 import { fetchCatalogRequest} from "../../actions/catalog";
+import {withRouter} from "../../Admin/Auth/withRouter"
 
 class HeaderGuest extends React.Component {
     constructor(){
@@ -12,6 +13,16 @@ class HeaderGuest extends React.Component {
 
     componentDidMount(){
         this.props.fetchCourseRequest(0);
+    }
+
+    handleInputSearchChange = e => {   
+        let value = e.target.value       
+        this.setState({searchCourse:value}); 
+        console.log(value) 
+    }
+
+    searchCourse = (search) => {
+        this.props.navigate(`/search/${search}`,{params:search})
     }
     render() {
         const { cartItems, catalogs } = this.props;
@@ -50,7 +61,8 @@ class HeaderGuest extends React.Component {
                 <div class="search120">
                     <div class="ui search">
                     <div class="ui left icon input swdh10">
-                        <input class="prompt srch10" type="text" placeholder="Search for Courses and more.."/>
+                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchCourse(this.state.searchCourse)}/>
+
                         <i class='uil uil-search-alt icon icon1'></i>
                     </div>
                     </div>
@@ -117,4 +129,4 @@ const mapDispatchToProps = dispatch => {
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(HeaderGuest)
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(HeaderGuest))
