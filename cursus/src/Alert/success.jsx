@@ -21,10 +21,10 @@ class Success extends React.Component {
 						<div className="icon data_icon">
 							<i className="fas fa-check-circle"></i>
 						</div>
-						<div className="data" style={{width:"150px"}}>
+						<div className="data" style={{width:"300px"}}>
 							{/* <p className="title"><span>Success</span>
 							</p> */}
-                            <span style={{fontSize:"16px",width:"200px"}}>{this.props.name?this.props.name:''}</span>
+                            <span style={{fontSize:"16px",width:"250px"}}>{this.props.name?this.props.name:''}</span>
 							
 						</div>
                         

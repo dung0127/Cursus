@@ -117,6 +117,7 @@ class ChangePassword extends React.Component {
                                                             <div className="row">
                                                                 <div className="col-lg-7">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Old password</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type={this.state.isShow?'text':'password'} name="oldPassword" required="" placeholder="Old password"
                                                                             onChange={this.handleInputPasswordChange}/>
@@ -130,6 +131,7 @@ class ChangePassword extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-7">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>New password</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type={this.state.isShow?'text':'password'} name="newPassword" required="" placeholder="New password"
                                                                             onChange={this.handleInputPasswordChange}/>
@@ -143,6 +145,7 @@ class ChangePassword extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-7">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Confirm password</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type={this.state.isShow?'text':'password'} name="confirmPassword" required="" placeholder="Confirm password" 
                                                                             onChange={this.handleInputPasswordChange}/>		

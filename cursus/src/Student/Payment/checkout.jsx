@@ -141,7 +141,7 @@ class Checkout extends React.Component {
 											<label>Country*</label>
 										</div>
 										<select className="ui fluid dropdown focus cntry152" name="billingAddress" onChange={this.formCheckout}>			
-												<option className="default text">Select Country</option>
+												<option className="default text" selected disabled hidden >Select Country</option>
 												<option className="item" value="af">Afghanistan</option>
 												<option className="item" value="ax">Aland Islands</option>
 												<option className="item" value="al">Albania</option>
@@ -325,7 +325,7 @@ class Checkout extends React.Component {
                                                     cartItems.reduce((a, c) => a + c.price , 0)
                                                     )}</div>
 											</div>
-											<button className="chck-btn22" type="button" onClick={()=>this.checkoutCart(cartItems, this.state.checkout)}>Checkout Now</button>
+											<button className="chck-btn22" type="button" onClick={()=>this.checkoutCart(cartItems, this.state.checkout)}>Complete Payment</button>
 											<div className="scr_text"><i className="uil uil-lock-alt"></i>Secure checkout</div>
 										</div>
 								</div>

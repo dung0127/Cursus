@@ -20,6 +20,7 @@ import ChangePassword from "../../Admin/Auth/changePassword";
 import Signup from "../User/signup";
 import SavedCourse from "../SavedCourse/savedCourse";
 import CourseBySubCatalog from "../Course/courseBySubCatalog";
+import Search from "../Course/search";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -62,6 +63,7 @@ class AppUser extends React.Component {
                   <Route path ="/saved-course" element = {<PrivateRoute><SavedCourse/></PrivateRoute>}/> 
                   <Route path ="/help" element = {<Help/>}/> 
                   <Route path="/courses/:name/:id" element ={<CourseBySubCatalog/>}></Route>
+                  <Route path="/search/:name" element ={<Search/>}></Route>
                   
                   <Route path ="*" element = {<ErrorPage/>}/> 
               </Routes>  

@@ -6,7 +6,7 @@ import {USER_INFO_API_BASE_URL} from "../../config/env";
 import {connect} from 'react-redux';
 import { getDetailInfo, updateDetail } from '../../actions/detail'
 import validator from 'validator';
-import {withRouterParams} from "../Auth/withRouter";
+import {withRouterParams, withRouter} from "../Auth/withRouter";
 import {getUserByIdRequest} from "../../actions/user";
 import {Link} from "react-router-dom";
 import Success from "../../Alert/success";
@@ -25,6 +25,7 @@ class EditUser extends React.Component {
             updateSuccess: false,
             isShow: false, 
             alert:'',
+            error:{},
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -37,6 +38,23 @@ class EditUser extends React.Component {
         // this.state.newDetail=tmp
     } 
     
+    validate = (form) => {
+        let isValid = true;
+
+        const error = {}
+
+        if(form.fullname==null){            
+            error['fullname'] = 'The field is required.';
+            isValid = false;
+        }
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    } 
+
     showHide = () => {
         this.state.isShow?
             this.setState({
@@ -76,6 +94,7 @@ class EditUser extends React.Component {
         this.props.userById.role.name == "ROLE_USER"? newDetail.role="ROLE_USER":newDetail.role="ROLE_ADMIN")
         
         let newForm = Object.assign(this.props.userById,newDetail);
+        if(this.validate(newForm)){
         console.log(newForm);
         axios.post('http://localhost:8080/api/admin/user/update', newForm , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
@@ -86,22 +105,22 @@ class EditUser extends React.Component {
             // this.setState({newDetail: tmp})     
             this.setState({updateSuccess:true})
             if(res.data.message == "Success"){
-                this.handleSuccess()
+                $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
+                setTimeout(()=>{
+                    this.props.navigate('/user/'+id)
+                },1500);
             }
             else {
                 
                 this.setState({alert:res.data.message})
                 this.handleError()
             }
-            
-        })
+
+        })}
           
     }
 
-    handleSuccess = () => {
-        $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
-		
-	} 
+
 
     handleError = () => {
         $('#error').fadeIn('fast').delay(2000).fadeOut('slow');
@@ -146,6 +165,7 @@ class EditUser extends React.Component {
                                                             <div className="row">
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Username</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" required="" name="username" disabled="true"  value={userById.username}/>															
                                                                         </div>
@@ -154,7 +174,8 @@ class EditUser extends React.Component {
                                                                 {userById.role&&userById.role.id=="1"?
                                                                 <div className="col-lg-6">
                                                                     <div className="ui focus mt-30 ">
-                                                                        <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="role" onChange={this.handleInputChange}>
+                                                                        <label>Role</label>
+                                                                        <select class="ui left icon swdh11 swdh19 dropdown cntry152 prompt srch_explore" key={`role${userById.id}`} name="role" onChange={this.handleInputChange}>
                                                                             <option value="ROLE_ADMIN" selected>Admin</option>
                                                                             <option value="ROLE_USER">User</option>
                                                                         </select>  
@@ -163,7 +184,8 @@ class EditUser extends React.Component {
                                                                 :
                                                                 <div className="col-lg-6">
                                                                     <div className="ui focus mt-30 ">
-                                                                        <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="role" onChange={this.handleInputChange}>
+                                                                    <label>Role</label>
+                                                                        <select class="ui left icon swdh11 swdh19 dropdown cntry152 prompt srch_explore" key={`role${userById.id}`} name="role" onChange={this.handleInputChange}>
                                                                             <option value="ROLE_ADMIN">Admin</option>
                                                                             <option value="ROLE_USER" selected>User</option>
                                                                         </select>  
@@ -171,15 +193,19 @@ class EditUser extends React.Component {
                                                                 </div>}      
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
+                                                                        <label>Fullname</label>
+                                                                        <div className="ui left icon input swdh11 swdh19" key={`fullname${userById.id}`}>
                                                                             <input className="prompt srch_explore" type="text" name="fullname"  
                                                                             onChange={this.handleInputChange} defaultValue={userById.fullname}/>					
                                                                         </div>
+                                                                        {this.state.error.fullname && <div className="validation alert alert-warning">{this.state.error.fullname}</div>}
+
                                                                     </div>
                                                                 </div>  
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
+                                                                        <label>Password</label>
+                                                                        <div className="ui left icon input swdh11 swdh19" key={`pass${userById.id}`}>
                                                                             <input className="prompt srch_explore" type={this.state.isShow?'text':'password'}  name="password"  
                                                                             onChange={this.handleInputChange} placeholder="New password here"/>		
                                                                             <div style={{margin: 'auto'}}>
@@ -192,7 +218,8 @@ class EditUser extends React.Component {
                                                                 
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
+                                                                        <label>Email</label>
+                                                                        <div className="ui left icon input swdh11 swdh19" key={`email${userById.id}`}>
                                                                             <input className="prompt srch_explore" type="text" name="email"  
                                                                             onChange={this.handleInputChange} defaultValue={userById.email}/>					
                                                                         </div>
@@ -200,7 +227,8 @@ class EditUser extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
+                                                                        <label>Phone</label>
+                                                                        <div className="ui left icon input swdh11 swdh19" key={`phone${userById.id}`}>
                                                                             <input className="prompt srch_explore" type="text" name="phone" 
                                                                             onChange={this.handleInputChange} defaultValue={userById.phone}/>					
                                                                         </div>
@@ -208,7 +236,8 @@ class EditUser extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-9">
                                                                     <div className="ui search focus mt-30">
-                                                                        <div className="ui left icon input swdh11 swdh19">
+                                                                        <label>Address</label>
+                                                                        <div className="ui left icon input swdh11 swdh19" key={`address${userById.id}`}>
                                                                             <input className="prompt srch_explore" type="text" name="address"  
                                                                             onChange={this.handleInputChange} defaultValue={userById.address}/>					
                                                                         </div>
@@ -217,7 +246,8 @@ class EditUser extends React.Component {
                                                                 {userById.enabled&&userById.enabled?
                                                                 <div className="col-lg-3">
                                                                     <div className="ui focus mt-30 ">
-                                                                        <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="enabled" onChange={this.handleInputChange}>
+                                                                        <label>Status</label>
+                                                                        <select class="ui left icon swdh11 swdh19 dropdown cntry152 prompt srch_explore" key={`status${userById.id}`} name="enabled" onChange={this.handleInputChange}>
                                                                             <option value="true" selected>Active</option>
                                                                             <option value="false">InActive</option>
                                                                         </select>  
@@ -226,7 +256,8 @@ class EditUser extends React.Component {
                                                                 :
                                                                 <div className="col-lg-3">
                                                                     <div className="ui focus mt-30 ">
-                                                                        <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="role" onChange={this.handleInputChange}>
+                                                                        <label>Status</label>
+                                                                        <select class="ui left icon swdh11 swdh19 dropdown cntry152 prompt srch_explore" key={`status${userById.id}`} name="role" onChange={this.handleInputChange}>
                                                                             <option value="true">Active</option>
                                                                             <option value="false" selected>Inactive</option>
                                                                         </select>  
@@ -287,4 +318,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouterParams(EditUser));;
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withRouterParams(EditUser)));

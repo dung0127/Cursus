@@ -7,6 +7,7 @@ import {LOGIN_BASE_URL} from '../../config/env';
 import {withRouter} from './withRouter'
 import Success from "../../Alert/success";
 import $ from "jquery";
+import Error from "../../Alert/error"
 
 class Login extends React.Component {
 	constructor(){
@@ -19,23 +20,11 @@ class Login extends React.Component {
 			role: '',
             error: {},
             isSuccess: false,
-            errorMessage: null
+            errorMessage: '',
         }
         this.handleInputsChange = this.handleInputsChange.bind(this);  
 		
     }
-
-	handle = () => {
-		// var html = '<div className="alert_wrapper" style={{display:"none"}} id="test"><div className="alert_backdrop"></div><div className="alert_inner"><div className="alert_item alert_success active"><div className="icon data_icon"><i className="fas fa-check-circle"></i></div><div className="data"><p className="title"><span>Success</span></p></div></div></div></div>'
-		$('#target').fadeIn('fast').delay(1000).fadeOut('fast');
-		// var html = "<div><Alert/></div>"
-		// $(html).appendTo("#target").hide().fadeIn(300);
-		setTimeout(()=>{
-			this.props.navigate('/')
-			window.location.reload();
-		},1000);
-		
-	}
 
 	handleInputsChange = e =>{                
         let formData = Object.assign({}, this.state.user);
@@ -76,20 +65,20 @@ class Login extends React.Component {
 						localStorage.setItem('isLogin',true)
 						localStorage.setItem('token',res.data.data.token)
 						localStorage.setItem('role',res.data.data.roles)					
-                    }  
-					
-					this.setState({isSuccess: true})
-					this.handle();
-					
+                   
+						this.setState({isSuccess: res.data.message})
+						$('#target').fadeIn('fast').delay(1000).fadeOut('fast');
+						setTimeout(()=>{
+							this.props.navigate('/')
+							window.location.reload();
+						},1000);
+					}
 					   
-                }            
-                this.setState({
-                    isSuccess: res.data.isSuccess,
-                    errorMessage: res.data.errorMessage
-                })               
-
+                } 
+				
             })
-			.catch(error => {console.log('error')})
+			.catch(error => {$('#error').fadeIn('fast').delay(1000).fadeOut('fast');
+			})
         }
     }
     render() {
@@ -104,6 +93,7 @@ class Login extends React.Component {
 							</div>
 						</div>
 						<div  id="target" style={{display:"none"}}><Success name="Login Successful"/></div>
+						<div  id="error" style={{display:"none"}}><Error name="User name or Password is wrong"/></div>
 						<div className="col-lg-6 col-md-8">
 							<div className="sign_form">
 								<h2>Welcome Back</h2>

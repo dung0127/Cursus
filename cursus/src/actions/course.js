@@ -1,4 +1,4 @@
-import { COURSE_API_BASE_URL } from "../config/env";
+import { COURSE_API_BASE_URL,COURSE_INFO_API_BASE_URL } from "../config/env";
 import authHeader from "../config/authHeader";
 import axios from "axios";
 import $ from "jquery"
@@ -52,7 +52,7 @@ export const getCourseByActivate = (coursesByActivate) => {
 
 export const searchCourseRequest = (search) => {
     return(dispatch) => {
-        axios.get(COURSE_API_BASE_URL+'/search?username='+search, { headers: authHeader() }).then((res) => {
+        axios.get(COURSE_INFO_API_BASE_URL+'/search?title='+search, { headers: authHeader() }).then((res) => {
             dispatch(searchCourse(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
         })
     }
@@ -81,7 +81,7 @@ export const courseById = (courseById) => {
         courseById,
          
     }
-}
+} 
 
 export const deleteCourseRequest = (id) => {
     return(dispatch) => {
@@ -104,8 +104,8 @@ export const updateCourseRequest = (edit, courseId) => {
     return(dispatch) => {
         axios.post('http://localhost:8080/api/course/update/', edit, { headers: authHeader() }).then((res) => {
             dispatch(updateCourse(res.data.message))
+            $('#success').fadeIn('fast').delay(3000).fadeOut('slow');
             
-            dispatch(courseByIdRequest(courseId))
         })
     }
 }

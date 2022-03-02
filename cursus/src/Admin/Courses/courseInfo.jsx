@@ -5,7 +5,7 @@ import {COURSE_API_BASE_URL} from "../../config/env";
 import authHeader from "../../config/authHeader";
 import axios from 'axios';
 import {connect} from 'react-redux';
-import { fetchCourseRequest, deleteCourseRequest, fetchCourseByDrafRequest } from "../../actions/course";
+import { fetchCourseRequest, deleteCourseRequest, fetchCourseByDrafRequest, searchCourseRequest } from "../../actions/course";
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
 
@@ -14,7 +14,10 @@ class CourseInfo extends React.Component {
         super(props)
 
         this.state = {
+            searchCourse:'',
         }
+
+
     }
     
     
@@ -38,8 +41,19 @@ class CourseInfo extends React.Component {
         } 
         
     }
+
+    handleInputSearchChange = e => {   
+        let value = e.target.value       
+        this.setState({searchCourse:value}); 
+        console.log(value) 
+    }
+
+    searchCourse = (search) => {
+
+        this.props.searchCourseRequest(search)
+    }
+
     render() {
-        console.log(this.props.coursesByDraf)
         return (
             <div className="wrapper" >
                 <div className="sa4d25">
@@ -87,7 +101,7 @@ class CourseInfo extends React.Component {
                                                         <div className="explore_search">
                                                             <div className="ui search focus">
                                                                 <div className="ui left icon input swdh11">
-                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." />
+                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchCourse(this.state.searchCourse)}/>
                                                                     <i className="uil uil-search-alt icon icon2"></i>
                                                                 </div>
                                                             </div>
@@ -122,7 +136,7 @@ class CourseInfo extends React.Component {
                                                                         
                                                                         <td className="text-center" > 
                                                                             <Link to={`/course/${course.id}`} params={course.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
-                                                                            <Link to={`/edit-course/${course.id}`} params={course.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
+                                                                            <Link to={`/status-course/${course.id}`} params={course.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
                                                                             <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(course.id)}></i></a>
                                                                         </td>
                                                                     </tr>); 
@@ -157,8 +171,8 @@ class CourseInfo extends React.Component {
                                                         <div className="explore_search">
                                                             <div className="ui search focus">
                                                                 <div className="ui left icon input swdh11">
-                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." />
-                                                                    <i className="uil uil-search-alt icon icon2"></i>
+                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchCourse(this.state.searchCourse)}/>
+                                                                <i className="uil uil-search-alt icon icon2"></i>
                                                                 </div>
                                                             </div>
                                                         </div>							
@@ -192,7 +206,7 @@ class CourseInfo extends React.Component {
                                                                         
                                                                         <td className="text-center" > 
                                                                             <Link to={`/course/${draf.id}`} params={draf.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
-                                                                            <Link to={`/edit-course/${draf.id}`} params={draf.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
+                                                                            <Link to={`/status-course/${draf.id}`} params={draf.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
                                                                             <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(draf.id)}></i></a>
                                                                         </td>
                                                                     </tr>); 
@@ -210,7 +224,7 @@ class CourseInfo extends React.Component {
                                                         <div className="explore_search">
                                                             <div className="ui search focus">
                                                                 <div className="ui left icon input swdh11">
-                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." />
+                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchCourse(this.state.searchCourse)}/>
                                                                     <i className="uil uil-search-alt icon icon2"></i>
                                                                 </div>
                                                             </div>
@@ -245,7 +259,7 @@ class CourseInfo extends React.Component {
                                                                         
                                                                         <td className="text-center" > 
                                                                             <Link to={`/course/${activate.id}`} params={activate.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
-                                                                            <Link to={`/edit-course/${activate.id}`} params={activate.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
+                                                                            <Link to={`/status-course/${activate.id}`} params={activate.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
                                                                             <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(activate.id)}></i></a>
                                                                         </td>
                                                                     </tr>); 
@@ -285,6 +299,7 @@ const mapDispatchToProps = dispatch => {
         fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
         deleteCourseRequest:(e) => dispatch (deleteCourseRequest(e)),
         fetchCourseByDrafRequest:(e) =>dispatch (fetchCourseByDrafRequest(e)),
+        searchCourseRequest:(e) => dispatch (searchCourseRequest(e)),
     };
 }
 

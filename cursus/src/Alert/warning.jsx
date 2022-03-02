@@ -23,7 +23,7 @@ class Warning extends React.Component {
 						<div className="icon data_icon">
                             <i className="fas fa-exclamation-triangle"></i>
 						</div>
-						<div  className="data" style={{width:"100px"}}>
+						<div  className="data" style={{width:"300px"}}>
 							{/* <p  className="title"><span>Warning</span>
 							</p> */}
                             

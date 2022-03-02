@@ -21,7 +21,7 @@ class Error extends React.Component {
 						<div className="icon data_icon">
                         <i className="fas fa-bomb"></i>
 						</div>
-						<div  className="data" style={{width:"200px"}}>
+						<div  className="data" style={{width:"300px"}}>
 							<p  className="title"><span>Error</span>
 							</p>
                             <span style={{fontSize:"16px",width:"250px"}}>{this.props.name?this.props.name:''}</span>

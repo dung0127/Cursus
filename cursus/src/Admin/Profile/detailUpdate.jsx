@@ -112,6 +112,7 @@ class DetailUpdate extends React.Component {
                                                             <div className="row">
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Username</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" required="" disabled="true"  value={this.state.user.username}/>															
                                                                         </div>
@@ -119,6 +120,7 @@ class DetailUpdate extends React.Component {
                                                                 </div>                                                                
                                                                 <div className="col-lg-12">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Full Name</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="fullname" required=""  
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.fullname}/>					
@@ -127,6 +129,7 @@ class DetailUpdate extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Email</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="email" required="" 
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.email}/>					
@@ -135,6 +138,7 @@ class DetailUpdate extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Phone</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="phone" required="" 
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.phone}/>					
@@ -143,6 +147,7 @@ class DetailUpdate extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                        <label>Address</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" name="address" required=""  
                                                                             onChange={this.handleInputChange} defaultValue={this.state.user.address}/>					
@@ -151,6 +156,7 @@ class DetailUpdate extends React.Component {
                                                                 </div>
                                                                 <div className="col-lg-6">
                                                                     <div className="ui search focus mt-30">
+                                                                            <label>Status</label>
                                                                         <div className="ui left icon input swdh11 swdh19">
                                                                             <input className="prompt srch_explore" type="text" disabled="true" value={this.state.user.enabled?'Active':'Inactive'} required="" />					
                                                                         </div>

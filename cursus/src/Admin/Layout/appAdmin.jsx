@@ -23,6 +23,7 @@ import CourseDetail from "../Courses/courseDetail";
 import CourseEdit from "../Courses/courseEdit";
 import Order from "../Payment/order";
 import OrderDetail from "../Payment/orderDetail";
+import CourseStatus from "../Courses/courseStatus";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -57,6 +58,7 @@ class AppAdmin extends React.Component {
                 <Route path ="/courses" element = {<PrivateRoute><CourseInfo/></PrivateRoute>}/>
                 <Route path ="/course/:id" element = {<PrivateRoute><CourseDetail/></PrivateRoute>}/>
                 <Route path ="/edit-course/:id" element = {<PrivateRoute><CourseEdit/></PrivateRoute>}/>
+                <Route path ="/status-course/:id" element = {<PrivateRoute><CourseStatus/></PrivateRoute>}/>
                 <Route path="/add-course" element = {<PrivateRoute><CourseAdd/></PrivateRoute>}/>
                 <Route path="/detail" element = {<PrivateRoute><Detail/></PrivateRoute>}/>
                 <Route path="/detail-update" element = {<PrivateRoute><DetailUpdate/></PrivateRoute>}/>

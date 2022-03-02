@@ -28,7 +28,9 @@ export const courseReducer = (state = initState, action) => {
                     ...state,
                     courses: action.courses,
                     page: action.page,
-                    totalPages: action.totalPages
+                    totalPages: action.totalPages,
+                    coursesByDraf: action.courses,
+                    coursesByActivate: action.courses,
                 }
             }
 

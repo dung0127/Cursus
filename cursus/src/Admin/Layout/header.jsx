@@ -19,6 +19,15 @@ class Header extends React.Component {
         this.props.fetchCatalogRequest();
     }
     
+    handleInputSearchChange = e => {   
+        let value = e.target.value       
+        this.setState({searchCourse:value}); 
+        console.log(value) 
+    }
+
+    searchCourse = (search) => {
+        this.props.navigate(`/search/${search}`,{params:search})
+    }
 
     // logout = () => {
     //     localStorage.removeItem("accessToken")
@@ -72,15 +81,16 @@ class Header extends React.Component {
                         </div>
                     </div>
                 </div>}
-                {localStorage.getItem("role")=="ROLE_USER"?
-                <div class="search120">
+                {localStorage.getItem("role")=="ROLE_ADMIN"?
+                '':<div class="search120">
                     <div class="ui search">
                     <div class="ui left icon input swdh10">
-                        <input class="prompt srch10" type="text" placeholder="Search for Courses and more.."/>
+                        <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchCourse(this.state.searchCourse)}/>
+
                         <i class='uil uil-search-alt icon icon1'></i>
                     </div>
                     </div>
-                </div>:''}
+                </div>}
                 <div className="header_right">
                     <ul>
                         {localStorage.getItem("role")=="ROLE_ADMIN"?

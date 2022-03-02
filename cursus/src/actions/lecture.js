@@ -12,7 +12,7 @@ export const fetchLectureByIdRequest = (id) => {
         })
     }
 }
-
+ 
 export const getLectureById = (lecture) => {
     return {
         type:'GET_LECTURE_BY_ID',
