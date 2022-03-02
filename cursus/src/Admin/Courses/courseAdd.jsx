@@ -35,7 +35,7 @@ class CourseAdd extends Component {
                 videoDuration:'',
                 urlVideoDescription:'',
                 imageVideoDescription:'',
-                activate:'false',
+                activate:'',
                 },
 
             addLesson: {
@@ -102,6 +102,7 @@ class CourseAdd extends Component {
             this.setState({
                 switch: true
             });
+        console.log(this.state.switch)
     }
 
     changeStatus =  e => {
@@ -216,7 +217,7 @@ class CourseAdd extends Component {
         //console.log(formDataLecture)
         formDataLecture[e.target.name] = e.target.value;        
         this.setState({addLecture:formDataLecture});  
-        // console.log(formDataLecture);
+        console.log(formDataLecture);
     }
 
     validateSort = (sort,select) => {
@@ -253,6 +254,7 @@ class CourseAdd extends Component {
                 videoDuration:'',
                 preview:'false',
                 sort:'',}});
+        this.setState({switch:''})
         lectures=[];
         lesson=[];
         Array.from(document.querySelectorAll('input')).forEach(input=>(input.value=""));
@@ -965,12 +967,12 @@ class CourseAdd extends Component {
                                                                                 <div className="preview-dt">
                                                                                     {this.state.switch?
                                                                                         <label className="switch" >
-                                                                                            <input type="checkbox" name="preview" value="false" onClick={this.changeSwitch} onChange={this.formLecture}/>
+                                                                                            <input type="checkbox" name="preview" checked  value="false" onClick={()=>this.changeSwitch()} onChange={this.formLecture}/>
                                                                                             <span  style={{width:"40px"}}></span>
                                                                                         </label>
                                                                                     :
                                                                                     <label className="switch" >
-                                                                                        <input type="checkbox" name="preview" value="true" onClick={this.changeSwitch} onChange={this.formLecture}/>
+                                                                                        <input type="checkbox" name="preview" value="true" onClick={()=>this.changeSwitch()} onChange={this.formLecture}/>
                                                                                         <span style={{width:"40px"}}></span>
                                                                                     </label>
                                                                                     }
