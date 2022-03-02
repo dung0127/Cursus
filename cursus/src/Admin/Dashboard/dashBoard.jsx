@@ -1,11 +1,23 @@
 import React from "react";
 import Footer from "../Layout/footer";
-
+import {connect}  from "react-redux";
+import {fetchDashboardRequest} from "../../actions/dashboard"
 
 class DashBoard extends React.Component {
+	constructor(props) {
+        super(props)
 
+        this.state = {
+        }
+
+    }
     
+    componentDidMount(){
+        this.props.fetchDashboardRequest();
+    }
+
     render() {
+		const {dashboard} = this.props
         return (
             <div className="wrapper">
 				<div className="sa4d25">
@@ -18,8 +30,8 @@ class DashBoard extends React.Component {
 								<div className="card_dash">
 									<div className="card_dash_left">
 										<h5>Total Sales</h5>
-										<h2>$350</h2>
-										<span className="crdbg_1">New $50</span>
+										<h2>${dashboard.totalSales}</h2>
+										<span className="crdbg_1">New ${dashboard.totalTodaySales}</span>
 									</div>
 									<div className="card_dash_right">
 										<img src="images/dashboard/achievement.svg" alt=""/>
@@ -30,8 +42,8 @@ class DashBoard extends React.Component {
 								<div className="card_dash">
 									<div className="card_dash_left">
 										<h5>Total Enroll</h5>
-										<h2>1500</h2>
-										<span className="crdbg_2">New 125</span>
+										<h2>{dashboard.totalEnroll}</h2>
+										<span className="crdbg_2">New {dashboard.totalTodayEnroll}</span>
 									</div>
 									<div className="card_dash_right">
 										<img src="images/dashboard/graduation-cap.svg" alt=""/>
@@ -42,8 +54,8 @@ class DashBoard extends React.Component {
 								<div className="card_dash">
 									<div className="card_dash_left">
 										<h5>Total Courses</h5>
-										<h2>130</h2>
-										<span className="crdbg_3">New 5</span>
+										<h2>{dashboard.totalCourses}</h2>
+										<span className="crdbg_3">New {dashboard.totalTodayCourses}</span>
 									</div>
 									<div className="card_dash_right">
 										<img src="images/dashboard/online-course.svg" alt=""/>
@@ -53,9 +65,9 @@ class DashBoard extends React.Component {
 							<div className="col-xl-3 col-lg-6 col-md-6">
 								<div className="card_dash">
 									<div className="card_dash_left">
-										<h5>Total Students</h5>
-										<h2>2650</h2>
-										<span className="crdbg_4">New 245</span>
+										<h5>Total Customers</h5>
+										<h2>{dashboard.totalUsers}</h2>
+										<span className="crdbg_4">New {dashboard.totalTodayUsers}</span>
 									</div>
 									<div className="card_dash_right">
 										<img src="images/dashboard/knowledge.svg" alt=""/>
@@ -71,4 +83,17 @@ class DashBoard extends React.Component {
     }
 }
 
-export default DashBoard;
+
+const mapStateToProps = state => { 
+    return {        
+		dashboard: state.dashboard.dashboard
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchDashboardRequest:() => dispatch (fetchDashboardRequest()),
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(DashBoard);
