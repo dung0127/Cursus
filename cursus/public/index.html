@@ -68,9 +68,38 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
 
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script type="text/babel">
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "104475554245862");
+      chatbox.setAttribute("attribution", "biz_inbox");
+    </script>
+
+    <!-- Your SDK code -->
+    <script type="text/babel">
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v13.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
     <script src="https:code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="%PUBLIC_URL%/js/jquery-3.3.1.min.js"type="text/babel" ></script>
+    <script src="%PUBLIC_URL%/js/jquery-3.3.1.min.js" type="text/babel" ></script>
     <script src="%PUBLIC_URL%/js/vertical-responsive-menu.js" type="text/babel"></script>
     <script src="%PUBLIC_URL%/vendor/bootstrap/js/bootstrap.bundle.min.js" type="text/babel"></script>
     <script src="%PUBLIC_URL%/vendor/OwlCarousel/owl.carousel.js" type="text/babel"></script>

@@ -110,12 +110,12 @@ class Header extends React.Component {
                         
                         <li className="ui dropdown">
                             <a href="#" className="opts_account" title="Account">
-                                <img src={this.props.user.avatarImage} alt=""/>
+                                <img src={this.props.user.avatarImage} alt="" style={{height:"35px"}}/>
                             </a>
                             <div className="menu dropdown_account">
                                 <div className="channel_my">
                                     <div className="profile_link">
-                                        <img src={this.props.user.avatarImage} alt=""/>
+                                        <img src={this.props.user.avatarImage} alt="" style={{height:"36px"}}/>
                                         
                                         <div className="pd_content">
                                             <div className="rhte85">
