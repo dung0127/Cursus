@@ -1,52 +1,40 @@
-import React from 'react'
-import Footer from '../Layout/footer';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchOrderRequest, fetchOrderByIdRequest } from '../../actions/payment';
-import $ from "jquery";
-import {withRouterParams} from "../Auth/withRouter"
-import sum from "../../Student/Cart/sum"
+import React from "react";
+import FooterUser from "../Layout/footerUser"
+import {connect} from 'react-redux';
+import {Link} from "react-router-dom";
+import { fetchOrderRequest, fetchOrderByIdRequest } from "../../actions/payment";
+import {withRouterParams} from "../../Admin/Auth/withRouter"
 import moment from 'moment';
 
-class OrderDetail extends React.Component{
+
+ class OrderDetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             id: this.props.params.id
+
         }
-                       
     }
 
     componentDidMount(){
         this.props.fetchOrderByIdRequest(this.state.id);
+
     } 
-    render() {
-        const { cartItems, orderById } = this.props;
+
+    render(){
+        const { orderById } = this.props;
         return (
-            <div className="wrapper">		
-                <div className="sa4d25">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-lg-12">	
-                                <h2 className="st_title"><i class='uil uil-shopping-cart-alt'></i>Order <b>#{orderById.orderNumber}</b> - {moment(orderById.dateOrder).format('MMM DD, YYYY')} </h2>
-                            </div>			
+            <div  className="wrapper">
+                <div  className="sa4d25">
+                    <div  className="container-fluid">			
+                        <div  className="row">
+                            <div  className="col-lg-12">	
+                                <h2  className="st_title"><i  className="uil uil-book-alt"></i>Order <b>#{orderById.orderNumber}</b> - {moment(orderById.dateOrder).format('MMM DD, YYYY')} </h2>
+                                {/* <h4> Sold to: <span>{orderById.user&&orderById.user.username}</span></h4> */}
+                            </div>								
                         </div>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="my_courses_tabs">
-                                <div className="col-lg-12">
-                                    <div className="membership_chk_bg">
-                                        <div className="checkout_title">
-                                            <div className='col-lg-12'>Purchase Date: {moment(orderById.dateOrder).format('MMM DD, YYYY')}</div>
-                                        
-                                        <div className='col-lg-12'> Username: {orderById.user&&orderById.user.username}.<br/></div>
-                                        <div className='col-lg-12'>Full Name: {orderById.user&&orderById.user.fullname}<br/></div>
-                                        <div className='col-lg-12'>Address: {orderById.user&&orderById.user.address}<br/> </div>
-                                        
-                                        </div>
-                                    </div>		
-							</div>
-                            <div  className="col-lg-12">
+                        <div  className="row">
+                            <div  className="col-md-12">
                                 <div  className="my_courses_tabs mp-30">
                                     <div  className="table-responsive ">
                                         <table  className="table ucp-table" id="content-table">
@@ -65,7 +53,7 @@ class OrderDetail extends React.Component{
                                                         return (
                                                             <tr key={index}>
                                                                 <td  className="text-center">{index + 1 + this.props.page*10}</td>
-                                                                <td  className="cell-ta">{order.course.title}</td>
+                                                                <td  className="cell-ta"><Link to={`/course/${order.course.id}`} params={order.course.id} class="crse14s">{order.course.title}</Link></td>
                                                                 <td  className="cell-ta">{moment(orderById.dateOrder).format('MMM DD, YYYY')}</td>
                                                                 <td  className="cell-ta">1</td>
                                                                 <td  className="cell-ta">${order.course.price}</td>
@@ -81,22 +69,22 @@ class OrderDetail extends React.Component{
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        
                                     </div>	
                                 </div>
-                            </div>   
+                            </div>
                             <li><Link to='/orders'><button className="studio-link-btn btn500">Back</button></Link></li>
 
-                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-               
-                <Footer/>
-            </div>
-        )
-    };
-}
+                <FooterUser/>
+	        </div> 
+            
+      );
+    }
+  
+};
 
 const mapStateToProps = state => {
     return {        
@@ -104,6 +92,7 @@ const mapStateToProps = state => {
         page: state.payment.page,
         totalPages: state.payment.totalPages,
         orderById: state.payment.order
+
     }
 }
 

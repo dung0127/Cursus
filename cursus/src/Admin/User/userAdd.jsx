@@ -7,7 +7,9 @@ import {withRouter} from '../Auth/withRouter'
 import {USER_INFO_API_BASE_URL } from "../../config/env";
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
-import $ from "jquery"
+import $ from "jquery";
+import {imageRequest} from "../../actions/course";
+import {connect} from 'react-redux';
 
 class UserAdd extends React.Component {
     constructor(){
@@ -26,6 +28,7 @@ class UserAdd extends React.Component {
             isShow: false, 
             img:'',
             alert:'',
+            ava:'',
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -85,7 +88,8 @@ class UserAdd extends React.Component {
                 this.setState({
                     img: URL.createObjectURL(e.target.files[0])
                 })
-                formData[e.target.name] = 'images/'+e.target.files[0].name
+                formData[e.target.name] = 'http://localhost:8080/images/'+e.target.files[0].name
+                this.setState({ava:e.target.files[0]})
             }
             
             this.setState({newDetail:formData});  
@@ -101,6 +105,7 @@ class UserAdd extends React.Component {
 
     handleSubmit = (addUser) => {
         if(this.validateFormData()){
+            this.props.imageRequest(this.state.ava)
             axios.post(USER_INFO_API_BASE_URL + '/create', addUser , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
             //this.setState({addUser: res.data.data}) 
@@ -257,4 +262,15 @@ class UserAdd extends React.Component {
     }
 }
 
-export default withRouter(UserAdd);
+const mapStateToProps = state => {
+    return{
+        img: state.course.img
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        imageRequest:(e) => dispatch (imageRequest(e)),
+    }
+}
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(UserAdd));

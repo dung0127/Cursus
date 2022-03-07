@@ -38,7 +38,7 @@ class Detail extends React.Component {
                                                     <span>{this.props.user.username}</span>
                                                 </div>										
                                             </div>
-                                            <ul class="_ttl120">
+                                            {/* <ul class="_ttl120">
 										<li>
 											<div class="_ttl121">
 												<div class="_ttl122">Enroll Students</div>
@@ -63,7 +63,7 @@ class Detail extends React.Component {
 												<div class="_ttl123">452K</div>
 											</div>
 										</li>
-									</ul>
+									        </ul> */}
                                         </div>
                                         <div className="col-lg-5">
                                             <div className="rgt-145">

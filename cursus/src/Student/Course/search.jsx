@@ -23,7 +23,7 @@ class Search extends React.Component {
         console.log(data);
         if(data >= 0 && data< this.props.totalPages)
         {   
-            this.props.fetchCourseRequest(data);
+            this.props.searchCourseRequest(data);
         }
     }
  
@@ -34,7 +34,6 @@ class Search extends React.Component {
     componentDidUpdate(prevProps){
         if(this.props.params.name!==prevProps.params.name){
             this.props.searchCourseRequest(this.props.params.name);
-
         }
     }
 
@@ -68,12 +67,12 @@ class Search extends React.Component {
                             <div class="_14d25">
                                 <div class="row">
                                 {
-                                    this.props.courses.map((course,index) => {
+                                    this.props.courses&&this.props.courses.map((course,index) => {
                                         return (
                                             <div class="col-lg-3 col-md-4">
                                                 <div class="fcrse_1 mt-30">
                                                     <Link to={`/course/${course.id}`} params={course.id} class="fcrse_img">
-                                                        <img src={course.imageVideoDescription} alt=""/>
+                                                        <img src={course.imageVideoDescription} alt="" style={{height:"125px"}}/>
                                                         <div class="course-overlay">
                                                             <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                             {course.avgRatting?
@@ -155,7 +154,7 @@ class Search extends React.Component {
 
 const mapStateToProps = state => {
     return {        
-        courses: state.course.courses,
+        courses: state.course.coursesSearch,
         page: state.course.page,
         totalPages: state.course.totalPages,
         cartItems: state.cart.items,

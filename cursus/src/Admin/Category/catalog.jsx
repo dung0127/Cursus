@@ -71,7 +71,6 @@ class Catalog extends React.Component {
                             <tr>
                                 <th className="text-center" scope="col">No.</th>
                                 <th cclass="cell-ta" scope="col">Name</th>
-                                <th class="cell-ta" scope="col">Description</th>
                                 <th class="cell-ta" scope="col">Subcatalog</th>
                                 <th className="text-center" scope="col">Action</th>
                             </tr>
@@ -83,7 +82,6 @@ class Catalog extends React.Component {
                                         <tr key={index}>
                                             <td className="text-center">{index + 1}</td>
                                             <td class="cell-ta">{catalog.name}</td>
-                                            <td class="cell-ta">{catalog.description}</td>
                                             <td class="cell-ta">
                                             {catalog.subCatalogs.map(sub => {
                                                 return (

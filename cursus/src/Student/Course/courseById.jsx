@@ -92,7 +92,7 @@ class CourseById extends React.Component {
                                     <div className="col-xl-4 col-lg-5 col-md-6">						
                                         <div className="preview_video">						
                                             <a href="#" className="fcrse_img" data-toggle="modal" data-target="#videoModal">
-                                                <img src={this.props.course.imageVideoDescription} alt=""/>
+                                                <img src={this.props.course.imageVideoDescription} alt="" style={{height:"190px"}}/>
                                                 <div className="course-overlay">
                                                     {/* <div className="badge_seller">Bestseller</div> */}
                                                     <span className="play_btn1"><i className="uil uil-play"></i></span>
@@ -101,13 +101,13 @@ class CourseById extends React.Component {
                                             </a>
                                         </div>
                                         <div className="_215b10">		
-                                        								
+                                        	{localStorage.getItem("role")=="ROLE_USER"?		
                                             <Link to='' className="_215b11">										
                                                 {this.props.course.saved?
                                                     <span type="button" onClick={()=>this.unsavedCourse(this.props.course.id)}><Icon icon="el:heart" hFlip={true} style={{marginRight:"8px"}}/>Unsaved</span>
                                                     :<span type="button" onClick={()=>this.savedCourse(this.props.course.id)}><Icon icon="el:heart-empty" hFlip={true} style={{marginRight:"8px"}} /> Save</span>
                                                 }
-                                            </Link>
+                                            </Link>:''}
                                             {/* <a href="#" className="_215b12">										
                                                 <span><i className="uil uil-windsock"></i></span>Report abuse
                                             </a> */}
@@ -195,7 +195,7 @@ class CourseById extends React.Component {
                                         </li>
                                     </ul>
                                 </div>
-                            </div> */}
+                            </div> */} 
                             <div className="course_tabs">
                                 <nav>
                                     <div className="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
@@ -309,7 +309,8 @@ class CourseById extends React.Component {
                                                                                     </div>
                                                                                     <div className="details">
                                                                                     {lecture.videoUrl?
-                                                                                        <a href="#" className="preview-text" data-toggle="modal" data-target="#videoModalLecture">Preview</a>:''}
+                                                                                        lecture.preview?
+                                                                                        (<a href="#" className="preview-text" data-toggle="modal" data-target="#videoModalLecture">Preview</a>):'':''}
                                                                                         <span className="content-summary">{lecture.videoDuration}</span>
                                                                                     </div>
                                                                                     <div className="modal vd_mdl fade" id="videoModalLecture"   role="dialog" aria-hidden="true">

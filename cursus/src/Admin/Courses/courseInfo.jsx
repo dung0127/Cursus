@@ -5,7 +5,7 @@ import {COURSE_API_BASE_URL} from "../../config/env";
 import authHeader from "../../config/authHeader";
 import axios from 'axios';
 import {connect} from 'react-redux';
-import { fetchCourseRequest, deleteCourseRequest, fetchCourseByDrafRequest, searchCourseRequest } from "../../actions/course";
+import { fetchCourseRequest, deleteCourseRequest, fetchCourseByDrafRequest, searchCourseAdRequest, fetchCourseByActivateRequest } from "../../actions/course";
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
 
@@ -23,7 +23,9 @@ class CourseInfo extends React.Component {
     
     componentDidMount(){
         this.props.fetchCourseRequest(this.props.page);
-        this.props.fetchCourseByDrafRequest(this.props.page)
+        this.props.fetchCourseByDrafRequest(this.props.page);
+        this.props.fetchCourseByActivateRequest(this.props.page)
+
     } 
 
     handleClick(data) {
@@ -41,7 +43,7 @@ class CourseInfo extends React.Component {
         } 
         
     }
-
+ 
     handleInputSearchChange = e => {   
         let value = e.target.value       
         this.setState({searchCourse:value}); 
@@ -49,8 +51,7 @@ class CourseInfo extends React.Component {
     }
 
     searchCourse = (search) => {
-
-        this.props.searchCourseRequest(search)
+        this.props.searchCourseAdRequest(search)
     }
 
     render() {
@@ -83,13 +84,13 @@ class CourseInfo extends React.Component {
                             <div className="col-md-12">
                                 <div className="my_courses_tabs">
                                     <ul class="nav nav-pills my_crse_nav" id="pills-tab" role="tablist">
-                                        <li class="nav-item">
+                                        <li class="nav-item" className="col-md-4" style={{paddingRight:"0px", paddingLeft:"0px", textAlign:"center"}}>
                                             <a class="nav-link active" id="pills-my-courses-tab" data-toggle="pill" href="#pills-my-courses" role="tab" aria-controls="pills-my-courses" aria-selected="false"><i class="uil uil-book-alt"></i>All Courses</a>
                                         </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-my-purchases-tab" data-toggle="pill" href="#pills-my-purchases" role="tab" aria-controls="pills-my-purchases" aria-selected="true"><i class="uil uil-download-alt"></i> Draf</a>
+                                        <li class="nav-item" className="col-md-4" style={{paddingRight:"0px", paddingLeft:"0px", textAlign:"center"}}>
+                                            <a class="nav-link" id="pills-my-purchases-tab" data-toggle="pill" href="#pills-my-purchases" role="tab" aria-controls="pills-my-purchases" aria-selected="true"><i class="uil uil-download-alt"></i> Drafs</a>
                                         </li>
-                                        <li className="nav-item">
+                                        <li className="nav-item" className="col-md-4" style={{paddingRight:"0px", paddingLeft:"0px", textAlign:"center"}}>
                                             <a className="nav-link" id="pills-upcoming-courses-tab" data-toggle="pill" href="#pills-upcoming-courses" role="tab" aria-controls="pills-upcoming-courses" aria-selected="false"><i className="uil uil-upload-alt"></i>Activate </a>
                                         </li>
                                     </ul>
@@ -114,9 +115,7 @@ class CourseInfo extends React.Component {
                                                             <th className="text-center" scope="col">No.</th>
                                                             <th className="text-center" >Thumbnail</th>
                                                             <th className="cell-ta" >Title</th>
-                                                            <th className="cell-ta" style={{width:"300px"}}>Description</th>
-                                                            <th className="cell-ta" >Requirement</th>
-                                                            <th className="text-center" >Price</th>
+                                                            <th className="cell-ta" >Price</th>
                                                             <th className="text-center" >Status</th>
                                                             <th className="text-center" >Action</th>
                                                         </tr>
@@ -129,9 +128,7 @@ class CourseInfo extends React.Component {
                                                                         <td className="text-center">IT-00{index + 1 + this.props.page*10}</td>
                                                                         <td className="text-center"><img src={course.imageVideoDescription} style={{height:"40px", width:"60px"}}/></td>
                                                                         <td className="cell-ta">{course.title}</td>
-                                                                        <td className="cell-ta">{course.description}</td>
-                                                                        <td className="cell-ta">{course.requirement}</td>
-                                                                        <td className="text-center">${course.price}</td>
+                                                                        <td className="cell-ta">${course.price}</td>
                                                                         <td className="text-center">{course.activate ? <b className="course_active">Activate</b>:<b className="course_inactive">Draf</b>}</td>
                                                                         
                                                                         <td className="text-center" > 
@@ -166,42 +163,27 @@ class CourseInfo extends React.Component {
                                         </div>
                                         <div className="tab-pane fade " id="pills-my-purchases" role="tabpanel">
                                             <div className="table-responsive mt-30">
-                                                <div>
-                                                    <div className="section3125">
-                                                        <div className="explore_search">
-                                                            <div className="ui search focus">
-                                                                <div className="ui left icon input swdh11">
-                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchCourse(this.state.searchCourse)}/>
-                                                                <i className="uil uil-search-alt icon icon2"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>							
-                                                    </div>							
-                                                </div>
+                                    
                                                 <table className="table ucp-table">
                                                     <thead className="thead-s">
                                                         <tr>
                                                             <th className="text-center" scope="col">No.</th>
                                                             <th className="text-center" >Thumbnail</th>
                                                             <th className="cell-ta" >Title</th>
-                                                            <th className="cell-ta" style={{width:"300px"}}>Description</th>
-                                                            <th className="cell-ta" >Requirement</th>
-                                                            <th className="text-center" >Price</th>
+                                                            <th className="cell-ta" >Price</th>
                                                             <th className="text-center" >Status</th>
                                                             <th className="text-center" >Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {
-                                                            this.props.coursesByDraf.map((draf,index) => {
+                                                            this.props.coursesByDraf&&this.props.coursesByDraf.map((draf,index) => {
                                                                 return (
                                                                     <tr key={index}>
                                                                         <td className="text-center">IT-00{index + 1 + this.props.page*10}</td>
                                                                         <td className="text-center"><img src={draf.imageVideoDescription} style={{height:"40px", width:"60px"}}/></td>
                                                                         <td className="cell-ta">{draf.title}</td>
-                                                                        <td className="cell-ta">{draf.description}</td>
-                                                                        <td className="cell-ta">{draf.requirement}</td>
-                                                                        <td className="text-center">${draf.price}</td>
+                                                                        <td className="cell-ta">${draf.price}</td>
                                                                         <td className="text-center">{draf.activate ? <b className="course_active">Activate</b>:<b className="course_inactive">Draf</b>}</td>
                                                                         
                                                                         <td className="text-center" > 
@@ -219,42 +201,27 @@ class CourseInfo extends React.Component {
                                         </div>
                                         <div className="tab-pane fade " id="pills-upcoming-courses" role="tabpanel">
                                             <div className="table-responsive mt-30">
-                                                <div>
-                                                    <div className="section3125">
-                                                        <div className="explore_search">
-                                                            <div className="ui search focus">
-                                                                <div className="ui left icon input swdh11">
-                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Courses..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchCourse(this.state.searchCourse)}/>
-                                                                    <i className="uil uil-search-alt icon icon2"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>							
-                                                    </div>							
-                                                </div>
+                                                
                                                 <table className="table ucp-table">
                                                     <thead className="thead-s">
                                                         <tr>
                                                             <th className="text-center" scope="col">No.</th>
                                                             <th className="text-center" >Thumbnail</th>
                                                             <th className="cell-ta" >Title</th>
-                                                            <th className="cell-ta" style={{width:"300px"}} >Description</th>
-                                                            <th className="cell-ta" >Requirement</th>
-                                                            <th className="text-center" >Price</th>
+                                                            <th className="cell-ta" >Price</th>
                                                             <th className="text-center" >Status</th>
                                                             <th className="text-center">Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {
-                                                            this.props.coursesByActivate.map((activate,index) => {
+                                                            this.props.coursesByActivate&&this.props.coursesByActivate.map((activate,index) => {
                                                                 return (
                                                                     <tr key={index}>
                                                                         <td className="text-center">IT-00{index + 1 + this.props.page*10}</td>
                                                                         <td className="text-center"><img src={activate.imageVideoDescription} style={{height:"40px", width:"60px"}}/></td>
                                                                         <td className="cell-ta">{activate.title}</td>
-                                                                        <td className="cell-ta">{activate.description}</td>
-                                                                        <td className="cell-ta">{activate.requirement}</td>
-                                                                        <td className="text-center">${activate.price}</td>
+                                                                        <td className="cell-ta">${activate.price}</td>
                                                                         <td className="text-center">{activate.activate ? <b className="course_active">Activate</b>:<b className="course_inactive">Draf</b>}</td>
                                                                         
                                                                         <td className="text-center" > 
@@ -299,7 +266,8 @@ const mapDispatchToProps = dispatch => {
         fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
         deleteCourseRequest:(e) => dispatch (deleteCourseRequest(e)),
         fetchCourseByDrafRequest:(e) =>dispatch (fetchCourseByDrafRequest(e)),
-        searchCourseRequest:(e) => dispatch (searchCourseRequest(e)),
+        fetchCourseByActivateRequest:(e) =>dispatch (fetchCourseByActivateRequest(e)),
+        searchCourseAdRequest:(e) => dispatch (searchCourseAdRequest(e)),
     };
 }
 

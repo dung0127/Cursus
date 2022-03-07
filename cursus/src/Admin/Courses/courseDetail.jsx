@@ -8,6 +8,8 @@ import { withRouterParams } from "../../Admin/Auth/withRouter";
 import Footer from "../Layout/footer";
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
+import moment from 'moment';
+import { Icon } from '@iconify/react';
 
 
 class CourseDetail extends React.Component {
@@ -115,19 +117,7 @@ class CourseDetail extends React.Component {
         console.log(this.props.course)
       return (
         <div className="wrapper _bg4586">
-            <div className="modal vd_mdl fade" id="videoModal"   role="dialog" aria-hidden="true">
-                <div className="modal-dialog modal-lg" role="document">
-                    <div className="modal-content">
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <div clasNames="modal-body">
-                            {/* <iframe  src={this.props.course.urlVideoDescription} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe> */}
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
+            
             {this.props.messageSuccessLesson=="Success"?
             <div  id="success" style={{display:"none"}}><Success name={this.props.messageSuccessLesson}/></div>:
             <div  id="error" style={{display:"none"}}><Error name={this.props.messageSuccessLesson}/></div>}
@@ -154,6 +144,19 @@ class CourseDetail extends React.Component {
                                         </div>
                                         <div className="_215b10">										
                                            
+                                        </div>
+                                    </div>
+                                    <div className="modal vd_mdl fade" id="videoModal"   role="dialog" aria-hidden="true">
+                                        <div className="modal-dialog modal-lg" role="document">
+                                            <div className="modal-content">
+                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <div className="modal-body">
+                                                    <iframe  src={this.props.course.urlVideoDescription} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                                </div>
+                                                
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-xl-8 col-lg-7 col-md-6">
@@ -204,11 +207,12 @@ class CourseDetail extends React.Component {
                                         </div> */}
                                         <div className="_215b05">										
                                             <span><i className='uil uil-comment'></i></span>
-                                            English
+                                            {this.props.course.language=='VN'?'Vietnamese':this.props.course.language=='ENG'?'English':this.props.course.language=='FR'?'French':this.props.course.language=='JP'?'Japanese':''}
                                         </div>
-                                        {/* <div className="_215b05">										
-                                            Last updated 1/2020
-                                        </div> */}
+                                        {this.props.course.updatedDate? 
+                                        <div className="_215b05">										
+                                            Last updated:  {moment(this.props.course.updatedDate).format('MMM DD, YYYY')}
+                                        </div> :'' }
                                         <ul className="_215b31">										
                                             <li><Link to={`/edit-course/${this.props.course.id}`} params={this.props.course.id} ><button className="btn_adcart" type="button" >Edit</button></Link></li>
                                             {/* <li><button className="btn_adcart" type="button" > Add more Lesson</button></li>
@@ -259,6 +263,7 @@ class CourseDetail extends React.Component {
                                     <div className="nav nav-tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
                                         <a className="nav-item nav-link active" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-selected="true">About</a>
                                         <a className="nav-item nav-link" id="nav-courses-tab" data-toggle="tab" href="#nav-courses" role="tab" aria-selected="false">Courses Content</a>
+                                        <a className="nav-item nav-link" id="nav-reviews-tab" data-toggle="tab" href="#nav-reviews" role="tab" aria-selected="false">Reviews</a>
                                         
                                     </div>
                                 </nav>						
@@ -312,14 +317,9 @@ class CourseDetail extends React.Component {
                                                         <div className="col-lg-6">
                                                             <ul className="_htg452 _abcd145">												
                                                                 <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>{this.props.course.whatYouWillLearn}</span></div></li>
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Suspendisse semper feugiat urna dictum interdum.</span></div></li>
                                                             </ul>
                                                         </div>
-                                                        <div className="col-lg-6">
-                                                            <ul className="_htg452 _abcd145">
-                                                                <li><div className="_5f7g15"><i className="fas fa-check-circle"></i><span>Nullam non lacus nibh. Etiam et fringilla neque, ut vulputate sapien. Sed vitae tortor gravida, interdum felis at, pulvinar enim. Integer tempor urna leo.</span></div></li>
-                                                            </ul>
-                                                        </div>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>							
@@ -342,7 +342,7 @@ class CourseDetail extends React.Component {
                                             <div className="_112456">
                                                 <ul className="accordion-expand-holder">
                                                     <li><span className="_fgr123"> {dem} lectures</span></li>
-                                                    <li><button className="btn_adcart" type="button"  data-toggle="modal" data-target={'#idlesCreate'+this.props.course.id}><i class="far fa-plus-square mr-2"></i>Lesson</button></li>
+                                                    <li><button className="btn_adcart" type="button"  data-toggle="modal" data-target={'#idlesCreate'+this.props.course.id}><i class="far fa-plus-square mr-2" style={{fontSize:"17px"}}></i>Lesson</button></li>
                                                     {/* <li><span className="accordion-expand-all _d1452">Expand all</span></li> */}
                                                     
                                                     {/* <li><span className="_fgr123">{this.props.course.videoDuration}</span></li> */}
@@ -351,36 +351,36 @@ class CourseDetail extends React.Component {
                                             
                                             {/* ----- POPUP CREATE LESSON */}
                                             <div className="modal fade"    id={'idlesCreate'+this.props.course.id} aria-hidden="true">
-                                                                    <div className="modal-dialog modal-lg">
-                                                                        <div className="modal-content">
-                                                                            <div className="modal-header">
-                                                                                <h5 className="modal-title">Add New Lesson</h5>
-                                                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <div className="modal-body">
-                                                                                <div className="new-section-block">
-                                                                                    <div className="row">
-                                                                                        <div className="col-md-12">
-                                                                                            <div className="new-section">
-                                                                                                <div className="form_group">
-                                                                                                <input className="form_input_1" type="hidden" name="courseId" value={this.props.course.id}/>
-                                                                                                    <label className="label25">Lesson Title*</label>
-                                                                                                    <input className="form_input_1" type="text" name="title"  onChange={this.handleInputLessonChange} />
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="modal-footer">
-                                                                                <button type="button" className="main-btn cancel" data-dismiss="modal">Close</button>
-                                                                                <button type="button" className="main-btn" data-dismiss="modal" value={'add'} onClick={()=>this.createLesson(this.props.course.id,this.state.newLesson)}>ADD</button>
-                                                                                
+                                                <div className="modal-dialog modal-lg">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title">Add New Lesson</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="modal-body">
+                                                            <div className="new-section-block">
+                                                                <div className="row">
+                                                                    <div className="col-md-12">
+                                                                        <div className="new-section">
+                                                                            <div className="form_group">
+                                                                            <input className="form_input_1" type="hidden" name="courseId" value={this.props.course.id}/>
+                                                                                <label className="label25">Lesson Title*</label>
+                                                                                <input className="form_input_1" type="text" name="title"  onChange={this.handleInputLessonChange} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="modal-footer">
+                                                            <button type="button" className="main-btn cancel" data-dismiss="modal">Close</button>
+                                                            <button type="button" className="main-btn" data-dismiss="modal" value={'add'} onClick={()=>this.createLesson(this.props.course.id,this.state.newLesson)}>ADD</button>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div id="accordion" className="ui-accordion ui-widget ui-helper-reset">
                                                 { this.props.course.lessons?
@@ -393,18 +393,17 @@ class CourseDetail extends React.Component {
                                                                 <a  className="accordion-header ui-accordion-header ui-helper-reset ui-state-default ui-accordion-icons ui-corner-all">												
                                                                     <div className="section-header-left">
                                                                         <span className="section-title-wrapper">
-                                                                            <i className='uil uil-presentation-play crse_icon'></i>
-                                                                            
+                                                                            <i className='uil uil-presentation-play crse_icon' ></i>
                                                                             <span className="section-title-text">{lesson.title}
                                                                             <span style={{marginLeft:"20px"}} className="section-header-length" >
-                                                                            <Link to='' title="Edit" className="gray-s" data-toggle="modal" data-target={'#idles'+lesson.id} ><i className="uil uil-edit-alt" ></i></Link>
+                                                                            <Link to='' title="Edit" className="gray-s" data-toggle="modal" data-target={'#idles'+lesson.id} ><i class="far fa-edit"></i></Link>
                                                                             </span></span>
                                                                             
                                                                         </span>
                                                                     </div>
                                                                     
                                                                     <div className="section-header-right">
-                                                                        <span stype="button" data-toggle="modal" data-target={'#idlecCreate'+lesson.id} ><i class="far fa-plus-square mr-2"></i>Lecture</span>
+                                                                        <span stype="button" data-toggle="modal" data-target={'#idlecCreate'+lesson.id} ><i class="far fa-plus-square mr-2" style={{fontSize:"17px"}} ></i>Lecture</span>
                                                                         {/* <span className="num-items-in-section">{lecture} lectures</span> */}
                                                                         {/* <span className="section-header-length">
                                                                             <Link to='' title="Edit" className="gray-s" data-toggle="modal" data-target={'#idles'+lesson.id} ><i className="uil uil-edit-alt" ></i></Link>
@@ -540,10 +539,11 @@ class CourseDetail extends React.Component {
                                                                                 </div>
                                                                                 <div className="details">
                                                                                     {lecture.videoUrl?
-                                                                                    <a href="#" className="preview-text" data-toggle="modal" data-target="#videoModalLecture">Preview</a>:''}
+                                                                                    (lecture.preview?
+                                                                                    <a href="#" className="preview-text" data-toggle="modal" data-target="#videoModalLecture">Preview</a>:''):''}
                                                                                     {/* <span className="content-summary">{lecture.videoDuration}</span> */}
                                                                                     <span className="content-summary">
-                                                                                    <Link to='' title="Edit" className="gray-s" data-toggle="modal" data-target={'#idlec'+lecture.id} onClick={()=>this.getSwitch(lecture.preview)}><i className="uil uil-edit-alt"></i></Link>
+                                                                                    <Link to='' title="Edit" className="gray-s" data-toggle="modal" data-target={'#idlec'+lecture.id} onClick={()=>this.getSwitch(lecture.preview)}><i class="fas fa-edit"></i></Link>
                                                                                     </span>
                                                                                 
                                                                                 </div>
@@ -633,7 +633,7 @@ class CourseDetail extends React.Component {
                                                                                                 <span aria-hidden="true">&times;</span>
                                                                                             </button>
                                                                                             <div className="modal-body">
-                                                                                                {/* <iframe  src={lecture.videoUrl} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe> */}
+                                                                                                <iframe  src={lecture.videoUrl} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                                                                                             </div>
                                                                                             
                                                                                         </div>
@@ -650,6 +650,46 @@ class CourseDetail extends React.Component {
                                                     })
                                                     
                                                 :''}			
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="tab-pane fade" id="nav-reviews" role="tabpanel">
+                                        <div className="student_reviews">
+                                            <div className="row">
+                                                <div className="col-lg-7">
+                                                    <div className="review_right">
+                                                        <div className="review_right_heading">
+                                                            <h3>Reviews</h3>
+                                                        </div>
+                                                    </div>
+                                                    <div className="review_all120">
+                                                        {this.props.course.reviews&&this.props.course.reviews.length>0? this.props.course.reviews.map((review, r) => {
+                                                            return (
+                                                                <div className="review_item">
+                                                                    <div className="review_usr_dt">
+                                                                        {/* <img src="images/left-imgs/img-1.jpg" alt=""/> */}
+                                                                        <div className="rv1458">
+                                                                            <h4 className="tutor_name1">{review.username}</h4>
+                                                                            {/* <span className="time_145">2 hour ago</span> */}
+                                                                        </div>
+                                                                    </div>
+                                                        
+                                                                <div className="rating-box mt-20">
+                                                                {[...Array(5)].map((e, i) => (i < review.ratting) ?
+                                                                    <span className="rating-star full-star" key={i}></span>:
+                                                                    <span className="rating-star empty-star" key={i}></span>)}
+                                                                
+                                                                </div>
+                                                                    <p className="rvds10">{review.feedback}</p>
+                                                                </div>
+                                                                )
+                                                        }):
+                                                        <div className="review_item">
+                                                            No review stars on this course !
+                                                        </div>}
+                                                        
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -673,7 +713,8 @@ const mapStateToProps = state => {
         messageSuccessLesson: state.lesson.messageSuccess,
         lecture: state.lecture.lecture,
         messageSuccessLecture: state.lecture.messageSuccess,
-        lessons: state.lesson.lessons
+        lessons: state.lesson.lessons,
+        
     }
 }
 

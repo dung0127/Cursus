@@ -21,6 +21,8 @@ import Signup from "../User/signup";
 import SavedCourse from "../SavedCourse/savedCourse";
 import CourseBySubCatalog from "../Course/courseBySubCatalog";
 import Search from "../Course/search";
+import Order from "../Payment/order";
+import OrderDetail from "../Payment/orderDetail";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -56,15 +58,18 @@ class AppUser extends React.Component {
                   <Route path="/course/:id" element ={<CourseById/>}></Route>
                   <Route path ="/cart" element = {<CartInfo/>}/> 
                   <Route path ="/checkout" element = {<PrivateRoute><Checkout/></PrivateRoute>}/> 
+                  <Route path ="/orders" element = {<PrivateRoute><Order/></PrivateRoute>}/> 
+                  <Route path ="/order/:id" element = {<PrivateRoute><OrderDetail/></PrivateRoute>}/> 
                   <Route path ="/learn/:id" element = {<PrivateRoute><CourseLesson/></PrivateRoute>}/>
                   <Route path ="/detail" element = {<PrivateRoute><Profile/></PrivateRoute>}/> 
+                  <Route path ="/detail/:name" element = {<PrivateRoute><Profile/></PrivateRoute>}/> 
                   <Route path ="/edit-profile" element = {<PrivateRoute><ProfileEdit/></PrivateRoute>}/> 
                   <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
                   <Route path ="/saved-course" element = {<PrivateRoute><SavedCourse/></PrivateRoute>}/> 
                   <Route path ="/help" element = {<Help/>}/> 
                   <Route path="/courses/:name/:id" element ={<CourseBySubCatalog/>}></Route>
                   <Route path="/search/:name" element ={<Search/>}></Route>
-                  
+                  <Route path="/search" element ={<Search/>}></Route>
                   <Route path ="*" element = {<ErrorPage/>}/> 
               </Routes>  
           </Router>

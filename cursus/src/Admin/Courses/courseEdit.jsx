@@ -269,6 +269,7 @@ class CourseEdit extends Component {
                                                             </div>
                                                             <div className="form_group optgroup">
                                                                 <select className="ui fluid dropdown cntry152 prompt srch_explore" name="language" onChange={this.formCourse}>
+                                                                    <option value="" selected disabled >Select Language</option>
                                                                     <option value="ENG" active>English</option>
                                                                     <option value="VN">Vietnamese</option>
                                                                     <option value="FR">French</option>
@@ -278,14 +279,20 @@ class CourseEdit extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="col-lg-6 col-md-6">
-                                                            <div className="ui search focus mt-30 lbel25">
-                                                                <label>Duration*</label>
-                                                                <div className="ui left icon input swdh19">
-                                                                    <input className="prompt srch_explore" type="number" min="0" max="100" name="videoDuration" defaultValue={this.props.course.videoDuration} onChange={this.formCourse} />
-                                                                </div>
+                                                            <div className="license_pricing mt-30">
+                                                                <label className="label25">Duration*</label>
+                                                                <div className="row">
+                                                                    <div className="col-lg-12 col-md-6 col-sm-6">
+                                                                        <div className="loc_group">
+                                                                            <div className="ui left icon input swdh19">
+                                                                                <input className="prompt srch_explore" type="number" min="1" max="100" placeholder="1" name="videoDuration" defaultValue={this.props.course.videoDuration} onChange={this.formCourse} />															
+                                                                            </div>
+                                                                            <span className="slry-dt">Hour</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>																		
                                                             </div>
                                                         </div>
-                                                        
                                                         <div className="col-lg-6 col-md-6">
                                                             <div className="license_pricing mt-30">
                                                                 <label className="label25">Regular Price*</label>
@@ -293,7 +300,7 @@ class CourseEdit extends Component {
                                                                     <div className="col-lg-12 col-md-6 col-sm-6">
                                                                         <div className="loc_group">
                                                                             <div className="ui left icon input swdh19">
-                                                                                <input className="prompt srch_explore" type="text" placeholder="$0" name="price" defaultValue={this.props.course.price} onChange={this.formCourse} />															
+                                                                                <input className="prompt srch_explore" type="number" min="0" max="100" placeholder="$0" name="price" defaultValue={this.props.course.price} onChange={this.formCourse} />															
                                                                             </div>
                                                                             <span className="slry-dt">USD</span>
                                                                         </div>

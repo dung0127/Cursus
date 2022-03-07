@@ -10,6 +10,8 @@ import validator from 'validator';
 import {withRouter} from '../Auth/withRouter';
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
+import {Link} from "react-router-dom";
+import {imageRequest} from "../../actions/course"
 
 let lectures = [];
 let lessons =[] ;
@@ -24,7 +26,7 @@ class CourseAdd extends Component {
         this.state = {
 
             addCourse: {
-                language:'VN',
+                language:'',
                 title:'',
                 shortDescription:'',
                 description:'',
@@ -75,6 +77,7 @@ class CourseAdd extends Component {
 
             course:'',
 
+            ava:'',
         }
     }
 
@@ -296,7 +299,8 @@ class CourseAdd extends Component {
                 this.setState({
                     image: URL.createObjectURL(e.target.files[0])
                 })
-                formDataCourse[e.target.name] = 'images/'+e.target.files[0].name
+                formDataCourse[e.target.name] = 'http://localhost:8080/images/'+e.target.files[0].name
+                this.setState({ava:e.target.files[0]})
             }
             else{
                 this.setState({
@@ -338,7 +342,19 @@ class CourseAdd extends Component {
         
         courseAdd.lessons = lessons
         console.log(courseAdd)
+        this.props.imageRequest(this.state.ava)
         axios.post('http://localhost:8080/api/course/create', courseAdd , { headers: authHeader()}).then(res=>{
+           
+            this.handleSuccess();
+        }).catch(error => {this.handleError()})
+
+
+    }
+
+    courseDraf = (courseAdd) => {
+        console.log(courseAdd)
+        this.props.imageRequest(this.state.ava)
+        axios.post('http://localhost:8080/api/course/create-draft', courseAdd , { headers: authHeader()}).then(res=>{
            
             this.handleSuccess();
         }).catch(error => {this.handleError()})
@@ -575,7 +591,7 @@ class CourseAdd extends Component {
                                                                             <div className="badge_num">60</div>
                                                                         </div>
                                                                         {this.state.error.title && <div className="validation alert alert-warning">{this.state.error.title}</div>}
-                                                                        <div className="help-block">(Please make this a maximum of 100 characters and unique.)</div>
+                                                                        <div className="help-block">(Please make this a maximum of 60 characters and unique.)</div>
                                                                     </div>									
                                                                 </div>
                                                                 <div className="col-lg-12 col-md-12">															
@@ -594,8 +610,8 @@ class CourseAdd extends Component {
                                                                     <div className="course_des_textarea mt-30 lbel25">
                                                                         <label>Course Description*</label>
                                                                         <div className="course_des_bg">
-                                                                            <ul className="course_des_ttle">
-                                                                                <li><a href="#"><i className="uil uil-bold"></i></a></li>
+                                                                            {/* <ul className="course_des_ttle">
+                                                                                <li><Link to=''><i className="uil uil-bold"></i></Link></li>
                                                                                 <li><a href="#"><i className="uil uil-italic"></i></a></li>
                                                                                 <li><a href="#"><i className="uil uil-list-ul"></i></a></li>
                                                                                 <li><a href="#"><i className="uil uil-left-to-right-text-direction"></i></a></li>
@@ -604,7 +620,7 @@ class CourseAdd extends Component {
                                                                                 <li><a href="#"><i className="uil uil-link"></i></a></li>
                                                                                 <li><a href="#"><i className="uil uil-text-size"></i></a></li>
                                                                                 <li><a href="#"><i className="uil uil-text"></i></a></li>
-                                                                            </ul>
+                                                                            </ul> */}
                                                                             <div className="textarea_dt">															
                                                                                 <div className="ui form swdh339">
                                                                                     <div className="field">
@@ -659,7 +675,7 @@ class CourseAdd extends Component {
                                                                     </div>
                                                                     <div className="form_group optgroup">
                                                                         <select className="ui fluid  dropdown cntry152 prompt srch_explore" name="catalogId" onChange={this.handleSelect}>
-                                                                            <option value="">Select Catalog</option>
+                                                                            <option value="" selected disabled>Select Catalog</option>
                                                                             {
                                                                                 this.props.catalogs.map((catalog) => {
                                                                                     return (
@@ -677,7 +693,7 @@ class CourseAdd extends Component {
                                                                     </div>
                                                                     <div className="form_group optgroup">
                                                                         <select className="ui fluid  dropdown cntry152 prompt srch_explore" name="subCatalogId" onChange={this.formCourse}>
-                                                                            <option value="">Select SubCatalog</option>
+                                                                            <option value="" selected disabled>Select SubCatalog</option>
                                                                             {
                                                                                 this.props.catalogs.map((cata) => {
                                                                                     if (cata.id == this.state.select)
@@ -699,8 +715,9 @@ class CourseAdd extends Component {
                                                                     </div>
                                                                     <div className="form_group optgroup">
                                                                         <select className="ui fluid dropdown cntry152 prompt srch_explore" name="language" onChange={this.formCourse}>
-                                                                            <option value="VN" active>English</option>
-                                                                            <option value="ENG">Vietnamese</option>
+                                                                            <option value="" selected disabled>Select language</option>
+                                                                            <option value="ENG">English</option>
+                                                                            <option value="VN">Vietnamese</option>
                                                                             <option value="FR">French</option>
                                                                             <option value="JP">Japanese</option>
                                                                             
@@ -708,12 +725,20 @@ class CourseAdd extends Component {
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-lg-6 col-md-6">
-                                                                    <div className="ui search focus mt-30 lbel25">
-                                                                        <label>Duration*</label>
-                                                                        <div className="ui left icon input swdh19">
-                                                                            <input className="prompt srch_explore" type="number" min="0" max="100" placeholder="0" name="videoDuration" onChange={this.formCourse} />
-                                                                        </div>
-                                                                        {this.state.error.videoDuration && <div className="validation alert alert-warning">{this.state.error.videoDuration}</div>}
+                                                                    <div className="license_pricing mt-30">
+                                                                        <label className="label25">Duration*</label>
+                                                                        <div className="row">
+                                                                            <div className="col-lg-12 col-md-6 col-sm-6">
+                                                                                <div className="loc_group">
+                                                                                    <div className="ui left icon input swdh19">
+                                                                                        <input className="prompt srch_explore" type="number" min="1" max="100" placeholder="1" name="videoDuration" onChange={this.formCourse} />															
+                                                                                    </div>
+                                                                                    <span className="slry-dt">Hour</span>
+                                                                                    {this.state.error.videoDuration && <div className="validation alert alert-warning">{this.state.error.videoDuration}</div>}
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>																		
                                                                     </div>
                                                                 </div>
                                                                 
@@ -746,10 +771,10 @@ class CourseAdd extends Component {
                                                         <h3 className="title"><i className="uil uil-image"></i>Media</h3>
                                                     </div>
                                                     <div className="lecture-video-dt mb-30">
-                                                        <span className="video-info">Intro Course overview provider type. (.mp4, YouTube, Vimeo etc.)</span>
+                                                        <span className="video-info">Intro Course overview provider type.</span>
                                                         <div className="video-category">
-                                                            <label><input type="radio" name="colorRadio" value="youtube"/><span>YouTube</span></label>
-                                                            <label ><input type="radio" name="colorRadio" value="mp4" /><span>HTML5(mp4)</span></label>
+                                                           
+                                                            {/* <label ><input type="radio" name="colorRadio" value="mp4" /><span>HTML5(mp4)</span></label> */}
                                                             <div className="youtube intro-box" style={{display: "block"}}>
                                                                 <div className="new-section">
                                                                     <div className="ui search focus mt-30 lbel25">
@@ -762,7 +787,7 @@ class CourseAdd extends Component {
                                                                     </div>
                                                                 </div>														
                                                             </div>
-                                                            <div className="mp4 intro-box">
+                                                            {/* <div className="mp4 intro-box">
                                                                 <div className="row">
                                                                     <div className="col-lg-5 col-md-12">
                                                                         <div className="upload-file-dt mt-30">
@@ -778,7 +803,7 @@ class CourseAdd extends Component {
                                                                     </div>	 
                                                                         													
                                                                 </div>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                     </div>
                                                     <div className="thumbnail-into">
@@ -1051,6 +1076,7 @@ class CourseAdd extends Component {
                                                     <h4 className="title">What you want save as?</h4>
                                                         <div className="form_group optgroup" >
                                                             <select className= "ui fluid  dropdown cntry152 prompt srch_explore"   name="activate" onChange={this.changeStatus}  >
+                                                                <option value="" selected disabled >Select Status</option>
                                                                 <option value="false"  >Submit For Draf</option>
                                                                 <option value="true"  >Submit For Activate</option>
                                                                 
@@ -1069,7 +1095,10 @@ class CourseAdd extends Component {
                                         </div>
                                         <div className="step-footer step-tab-pager">
                                             {this.state.show>1?
-                                            <button data-direction="prev" className="btn btn-default steps_btn" onClick={this.pagePrev} >PREVIOUS</button>
+                                            <button data-direction="prev" className="btn btn-default steps_btn" onClick={this.pagePrev} >Previous</button>
+                                            :''}
+                                            {this.state.show==2?
+                                            <button data-direction="prev" className="btn btn-default steps_btn"  type="button" value={'add'} onClick={()=>this.courseDraf(this.state.addCourse)} >Submit Course</button>
                                             :''}
                                             {this.state.show<5?
                                             <button data-direction="next" className="btn btn-default steps_btn" onClick={this.pageNext}>Next</button>
@@ -1095,6 +1124,7 @@ const mapStateToProps = state => {
     return {        
         catalogs: state.catalog.catalogs,
         subCatalogs: state.subCatalog.subCatalogs,
+        img: state.course.img
     }
 }
 
@@ -1102,6 +1132,7 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchCatalogRequest:() => dispatch (fetchCatalogRequest()),
         fetchSubCatalogRequest:() => dispatch (fetchSubCatalogRequest()),
+        imageRequest:(e) => dispatch (imageRequest(e)),
     };
 }
 

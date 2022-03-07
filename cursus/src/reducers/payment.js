@@ -1,10 +1,11 @@
 
 const initState = {
-    orders:[],
-    messageSuccess:'',
+    orders: [],
+    messageSuccess: '',
     page: 0,
     totalPages: 0,
-    order:{},
+    order: {},
+    ordersSearch: []
 };
 
 export const paymentReducer = (state = initState, action) => {
@@ -16,7 +17,7 @@ export const paymentReducer = (state = initState, action) => {
                     messageSuccess: action.messageSuccess
                 }
             }
-        
+
         case 'GET_ALL_ORDER':
             {
                 return {
@@ -35,9 +36,19 @@ export const paymentReducer = (state = initState, action) => {
                 }
             }
 
+        case 'SEARCH_ORDER':
+            {
+                return {
+                    ...state,
+                    orders: action.orders,
+                    page: action.page,
+                    totalPages: action.totalPages
+                }
+            }
+
         default:
             {
-                return {...state };
+                return { ...state };
             }
     }
 }

@@ -8,7 +8,9 @@ import { getDetailInfo, updateDetail } from '../../actions/detail'
 import validator from 'validator';
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
-import $ from "jquery"
+import $ from "jquery";
+import {imageRequest} from "../../actions/course"
+import {withRouter} from "../Auth/withRouter"
 
 class DetailUpdate extends React.Component {
     constructor(){
@@ -23,6 +25,7 @@ class DetailUpdate extends React.Component {
                 },
             error: {},
             updateSuccess: false,
+            ava:'',
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -48,7 +51,8 @@ class DetailUpdate extends React.Component {
                 this.setState({
                     img: URL.createObjectURL(e.target.files[0])
                 })
-                formData[e.target.name] = 'images/'+e.target.files[0].name
+                formData[e.target.name] = 'http://localhost:8080/images/'+e.target.files[0].name
+                this.setState({ava:e.target.files[0]})
             }
             
             this.setState({newDetail:formData});  
@@ -73,13 +77,25 @@ class DetailUpdate extends React.Component {
 	} 
 
     updateDetail = (newDetail) => {
+        this.props.imageRequest(this.state.ava)
         axios.post(USER_INFO_API_BASE_URL+'/update', newDetail , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
             this.props.getDetailInfo(res.data.data);  
             this.props.updateDetail(this.state.updateSuccess) 
             this.setState({newDetail: res.data.data}) 
-            this.handleSuccess()  
+           
             console.log(res.data.data)
+            if(res.data.message == "Success"){
+                $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
+                setTimeout(()=>{
+                    this.props.navigate('/detail')
+                },1500);
+            }
+            else {
+                
+                this.setState({alert:res.data.message})
+                this.handleError()
+            }
         })
           
     }
@@ -204,7 +220,8 @@ class DetailUpdate extends React.Component {
 const mapStateToProps = state => {
     return{
         detailInfo: state.detail.detailInfo,   
-        isUpdate: state.detail.updateSuccess
+        isUpdate: state.detail.updateSuccess,
+        img: state.course.img
     }
 }
 
@@ -215,8 +232,9 @@ const mapDispatchToProps = dispatch => {
         },
         updateDetail: (updateSuccess) => {
             dispatch(updateDetail(updateSuccess));
-        }
+        },
+        imageRequest:(e) => dispatch (imageRequest(e)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DetailUpdate);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetailUpdate));

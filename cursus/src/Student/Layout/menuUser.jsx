@@ -31,7 +31,7 @@ class MenuUser extends React.Component {
                             </li>
                             {localStorage.getItem("isLogin")?
                             <li className="menu--item">
-                                <Link to="detail" className="menu--link" title="Profile">
+                                <Link to="detail/user" params='user' className="menu--link" title="Profile">
                                     <i className='uil uil-clipboard-alt menu--icon'></i>
                                     <span className="menu--label">Profile</span>
                                 </Link>
@@ -82,15 +82,23 @@ class MenuUser extends React.Component {
                                      */}
                                 </ul>
                             </li>
+                            {localStorage.getItem("role")=="ROLE_USER"?
                             <li className="menu--item">
                                 <Link to='saved-course' className="menu--link" title="Saved Courses">
                                 <i className="uil uil-heart-alt menu--icon"></i>
                                 <span className="menu--label">Saved Courses</span>
                                 </Link>
-                            </li>
-                            
+                            </li>:''}
+                            {localStorage.getItem("role")=="ROLE_USER"?
+                            <li class="menu--item">
+                                <Link to="orders" class="menu--link" title="Orders">
+                                <i class='uil uil-file-alt menu--icon'></i>
+                                <span class="menu--label">Orders</span>
+                                </Link>
+                            </li>:''}
                         </ul>
                     </div>
+                    
                     <div className="left_section pt-2">
                         <ul>
                             <li className="menu--item">
@@ -101,6 +109,7 @@ class MenuUser extends React.Component {
                             </li>
                         </ul>
                     </div>
+                    
                     <div className="left_footer">
                         <ul>
                             <li><a href="about_us.html">About</a></li>

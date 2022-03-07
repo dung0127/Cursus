@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
 import $ from "jquery"
+import {imageRequest} from "../../actions/course"
 
 class EditUser extends React.Component {
     constructor(props){
@@ -26,6 +27,8 @@ class EditUser extends React.Component {
             isShow: false, 
             alert:'',
             error:{},
+
+            ava:'',
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -66,15 +69,17 @@ class EditUser extends React.Component {
     }
 
     handleInputChange= e => {  
-        
         let formData = Object.assign({},this.state.newDetail);
         
         if (e.target.files && e.target.files[0]) {
+            console.log(e.target.files[0])
             if (e.target.accept=="image/*"){
                 this.setState({
                     img: URL.createObjectURL(e.target.files[0])
                 })
-                formData[e.target.name] = 'images/'+e.target.files[0].name
+                formData[e.target.name] = 'http://localhost:8080/images/'+e.target.files[0].name
+                this.setState({ava:e.target.files[0]})
+                console.log(e.target.files[0])
             }
             
             this.setState({newDetail:formData});  
@@ -89,13 +94,15 @@ class EditUser extends React.Component {
     }
       
     updateDetail = (newDetail, id) => {
+        this.props.imageRequest(this.state.ava)
+        console.log(this.state.ava)
         this.props.getUserByIdRequest(id);
         newDetail.role==null&&(
         this.props.userById.role.name == "ROLE_USER"? newDetail.role="ROLE_USER":newDetail.role="ROLE_ADMIN")
-        
         let newForm = Object.assign(this.props.userById,newDetail);
         if(this.validate(newForm)){
         console.log(newForm);
+            
         axios.post('http://localhost:8080/api/admin/user/update', newForm , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
             //this.props.getUserByIdRequest(res.data.data.id)
@@ -115,8 +122,8 @@ class EditUser extends React.Component {
                 this.setState({alert:res.data.message})
                 this.handleError()
             }
-
-        })}
+            })
+        }
           
     }
 
@@ -308,13 +315,14 @@ class EditUser extends React.Component {
 const mapStateToProps = state => {
     return{
         userById: state.user.userById,
+        img: state.course.img
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         getUserByIdRequest:(e) => dispatch (getUserByIdRequest(e)),
-
+        imageRequest:(e) => dispatch (imageRequest(e)),
     }
 }
 

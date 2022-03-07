@@ -102,7 +102,7 @@ class SubCatalog extends React.Component {
                                                         <label>Catalog*</label>
                                                     </div>
                                                     <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="catalogId" onChange={this.handleInputSubCatalogChange}>
-                                                        <option value="">Select Catalog</option>
+                                                        <option value="" selected disabled>Select Catalog</option>
                                                         {
                                                             this.props.catalogs.map((catalog,index) => {
                                                                 return (
@@ -158,7 +158,6 @@ class SubCatalog extends React.Component {
                             <tr>
                                 <th class="text-center" scope="col">No.</th>
                                 <th class="cell-ta" scope="col">Name</th>
-                                <th class="cell-ta" scope="col">Description</th>
                                 <th class="text-center" scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -169,7 +168,6 @@ class SubCatalog extends React.Component {
                                         <tr key={index}>
                                             <td className="text-center">{index + 1}</td>
                                             <td class="cell-ta">{subCatalog.name}</td>
-                                            <td class="cell-ta">{subCatalog.description}</td>
                                             <td className="text-center"> 
                                                 <a  title="Edit" className="gray-s" data-toggle="modal" data-target={'#idSub'+subCatalog.id} onClick={() => this.getSubCatalog(subCatalog.id, subCatalog.name, subCatalog.description)}><i className="uil uil-edit-alt"></i></a>
                                             </td>
@@ -189,7 +187,7 @@ class SubCatalog extends React.Component {
                                                                         <div class="new-section">
                                                                             <div class="form_group">
                                                                                 <select class="ui hj145 dropdown cntry152 prompt srch_explore" name="catalogId" onChange={this.handleInputEditSubCatalogChange}>
-                                                                                    <option value="">Select Catalog</option>
+                                                                                    <option value="" selected disabled>Select Catalog</option>
                                                                                     {
                                                                                         this.props.catalogs.map((catalog,index) => {
                                                                                             return (

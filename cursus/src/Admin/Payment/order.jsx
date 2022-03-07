@@ -2,13 +2,14 @@ import React from 'react'
 import Footer from '../Layout/footer';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchOrderRequest } from '../../actions/payment';
+import { fetchOrderRequest, searchOrderRequest } from '../../actions/payment';
 import $ from "jquery";
 
 class Order extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
+            searchOrder:''
         }
                        
     }
@@ -16,6 +17,18 @@ class Order extends React.Component{
     componentDidMount(){
         this.props.fetchOrderRequest(this.props.page);
     } 
+
+    handleInputSearchChange = e => {   
+        let value = e.target.value       
+        this.setState({searchOrder:value}); 
+        console.log(value) 
+    }
+
+    searchOrder = (search) => {
+
+        this.props.searchOrderRequest(search)
+    }
+
     render() {
         
         return(
@@ -24,7 +37,7 @@ class Order extends React.Component{
                     <div className="container-fluid">			
                         <div className="row">
                             <div className="col-lg-12">	
-                                <h2 className="st_title"><i className='uil uil-user'></i> Orders</h2>
+                                <h2 className="st_title"><i class='uil uil-shopping-cart-alt'></i> Orders</h2>
                             </div>			
                             
                         </div>
@@ -42,7 +55,7 @@ class Order extends React.Component{
                                                         <div className="explore_search">
                                                             <div className="ui search focus">
                                                                 <div className="ui left icon input swdh11">
-                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Users..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchUser(this.state.searchUser)}/>
+                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Users..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchOrder(this.state.searchOrder)}/>
                                                                     <i className="uil uil-search-alt icon icon2"></i>
                                                                 </div>
                                                             </div>
@@ -124,7 +137,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchOrderRequest:(e) => dispatch (fetchOrderRequest(e))
+        fetchOrderRequest:(e) => dispatch (fetchOrderRequest(e)),
+        searchOrderRequest:(e) => dispatch (searchOrderRequest(e))
     };
 }
 

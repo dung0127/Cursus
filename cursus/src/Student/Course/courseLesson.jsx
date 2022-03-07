@@ -184,7 +184,7 @@ class CourseLesson extends React.Component {
 			</div>
 			:
 			<div className="lecture-container">
-				<h2 className="lecture-title mb-4">A Note On Asking For Help</h2>                          
+				<h2 className="lecture-title mb-4">{course.title}</h2>                          
 				<div className="lecture-content-inner mt-35">
 					<div className="lecture-content-inner-video">
 						<div className="video-responsive">
@@ -193,7 +193,7 @@ class CourseLesson extends React.Component {
 					</div>             
 				</div>  
 				<div className="lecture-content-txt mt-35">
-					<p className="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce pretium nisl sit amet nisi vehicula iaculis. Praesent nisl tellus, suscipit vel aliquet id, hendrerit in leo. Nulla facilisi. Aenean consectetur malesuada nibh, eu feugiat augue finibus eu. Quisque ac erat nec libero finibus bibendum ac quis libero. Nulla sed tempor leo. Donec vulputate justo arcu, ac ornare neque gravida id. Sed in ligula mattis, commodo quam a, dictum massa. Donec nec neque vestibulum, faucibus quam eget, posuere nisi. Donec tincidunt placerat rhoncus. Integer sollicitudin feugiat dolor id varius. Aenean ut nibh vel erat rutrum lacinia. Nam tristique faucibus elementum. Donec id turpis a sem finibus scelerisque et ut elit. Aliquam quis nisl augue. Donec volutpat leo eget ligula dictum, vitae faucibus massa gravida.</p>
+					<p className="mb-0">{course.description}</p>
 				</div>
 			</div>}
 

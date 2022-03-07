@@ -35,22 +35,26 @@ class SavedCourse extends React.Component {
 			<div className="container-fluid">			
 				<div className="row">
                     
-                <div  id="success" style={{display:"none"}}><Success name="Add to cart"/></div>
-                <div  id="login" style={{display:"none"}}><Success name="Login Successful"/></div>
-                <div  id="warning" style={{display:"none"}} ><Warning name="Already exits"/></div>
-                <div  id="unsaved" style={{display:"none"}}><Success name={this.props.unsavedSuccess}/></div>
+                    <div  id="success" style={{display:"none"}}><Success name="Add to cart"/></div>
+                    <div  id="login" style={{display:"none"}}><Success name="Login Successful"/></div>
+                    <div  id="warning" style={{display:"none"}} ><Warning name="Already exits"/></div>
+                    <div  id="unsaved" style={{display:"none"}}><Success name={this.props.unsavedSuccess}/></div>
 
-							
+					
 					<div className="col-md-9">
+                        <div className="row">
+                            <div className="col-lg-12">	
+                                <h2 className="st_title"> <i className="uil uil-heart-alt"></i>Saved Courses</h2>
+                            </div>								
+                        </div>
 						<div className="_14d25 mb-20">						
 							<div className="row">
 								<div className="col-md-12">
-									<h4 className="mhs_title">Saved Courses</h4>
                                     {courses.map((course,index) => {
                                         return (
                                         <div className="fcrse_1 mt-30">
-                                            <a href="course_detail_view.html" className="hf_img">
-                                                <img src={course.imageVideoDescription} alt=""/>
+                                            <Link to={`/course/${course.id}`} params={course.id}  className="hf_img">
+                                                <img src={course.imageVideoDescription} alt="" style={{height:"170px"}}/>
                                                 <div className="course-overlay">
                                                     {/* <div className="badge_seller">Bestseller</div>
                                                     <div className="crse_reviews">
@@ -61,7 +65,7 @@ class SavedCourse extends React.Component {
                                                         {course.videoDuration}
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </Link>
                                             <div className="hs_content">
                                                 
                                                     {/* <a href="#"><i className="uil uil-ellipsis-v"></i></a> */}
@@ -77,7 +81,7 @@ class SavedCourse extends React.Component {
                                                     <span className="vdt14">15 days ago</span>
                                                 </div> */}
                                                 <Link to={`/course/${course.id}`} params={course.id} className="crse14s title900">{course.title}</Link>
-                                                <a href="#" className="crse-cate">{course.language}</a>
+                                                <Link to={`/course/${course.id}`} params={course.id}  className="crse-cate">{course.language}</Link>
                                                 <div className="auth1lnkprce">
                                                     {course.updatedDate? 
                                                     <div className="cr1fot">										

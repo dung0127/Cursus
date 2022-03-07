@@ -48,7 +48,7 @@ class MainUser extends React.Component {
                                                             <div className="item">
                                                                 <div className="fcrse_1 mb-20">
                                                                     <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
-                                                                        <img src={course.imageVideoDescription} alt=""/>
+                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"150px"}}/>
                                                                         <div className="course-overlay">
                                                                             {/* <div class="badge_seller">Bestseller</div> */}
                                                                             <span className="play_btn1"><i className="uil uil-play"></i></span>
@@ -157,7 +157,7 @@ class MainUser extends React.Component {
                                                             <div className="item">
                                                                 <div className="fcrse_1 mb-20">
                                                                     <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
-                                                                        <img src={course.imageVideoDescription} alt=""/>
+                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"190px"}}/>
                                                                         <div className="course-overlay">
                                                                             <div class="badge_seller">Bestseller</div>
                                                                             <span className="play_btn1"><i className="uil uil-play"></i></span>
@@ -167,24 +167,14 @@ class MainUser extends React.Component {
                                                                         </div>
                                                                     </Link> 
                                                                     <div className="fcrse_content">
-                                                                        <div className="eps_dots more_dropdown">
-                                                                            <a href="#"><i className='uil uil-ellipsis-v'></i></a>
-                                                                            <div className="dropdown-content">
-                                                                                <span><i className='uil uil-share-alt'></i>Share</span>
-                                                                                <span><i className="uil uil-heart"></i>Save</span>
-                                                                                <span><i className='uil uil-ban'></i>Not Interested</span>
-                                                                                <span><i className="uil uil-windsock"></i>Report</span>
-                                                                            </div>																										
-                                                                        </div>
                                                                         {/* <div className="vdtodt">
                                                                             <span className="vdt14">109k views</span>
                                                                             <span className="vdt14">15 days ago</span>
                                                                         </div> */}
                                                                         <Link to={`/course/${course.id}`} params={course.id} className="crse14s">{course.title}</Link>
-                                                                        <a href="#" class="crse-cate">{course.language}</a>
+                                                                        <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language}</Link>
                                                                         <div className="auth1lnkprce">
                                                                             <div className="prce142">${course.price}</div>
-                                                                            <button className="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i className="uil uil-shopping-cart-alt"></i></button>
                                                                         </div>
                                                                     </div>
                                                                 </div>

@@ -41,32 +41,6 @@ class DetailUser extends React.Component {
                                                     <span>{userById.username}</span>
                                                 </div>										
                                             </div>
-                                            <ul class="_ttl120">
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Enroll Students</div>
-												<div class="_ttl123">612K</div>
-											</div>
-										</li>
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Courses</div>
-												<div class="_ttl123">8</div>
-											</div>
-										</li>
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Reviews</div>
-												<div class="_ttl123">11K</div>
-											</div>
-										</li>
-										<li>
-											<div class="_ttl121">
-												<div class="_ttl122">Subscriptions</div>
-												<div class="_ttl123">452K</div>
-											</div>
-										</li>
-									</ul>
                                         </div>
                                         <div className="col-lg-5">
                                             <div className="rgt-145">

@@ -20,33 +20,42 @@ export const getAllCourse = (courses, page, totalPages) => {
     }
 }
 
-export const fetchCourseByDrafRequest = () => {
+export const fetchCourseByDrafRequest = (page) => {
     return(dispatch) => {
-        axios.get(COURSE_API_BASE_URL,{ headers: authHeader() }).then((res) => {
-            //dispatch(getAllCourse(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
-            axios.get(COURSE_API_BASE_URL + '?size='+ res.data.data.totalElements,{ headers: authHeader() }).then((re) => {
-                let filter = re.data.data.content.filter(d => d.activate === false)
-                dispatch(getCourseByDraf(filter))
-                let filterr = re.data.data.content.filter(d => d.activate === true)
-                dispatch(getCourseByActivate(filterr))
-            })
+        axios.get('http://localhost:8080/api/course/filter?filter=Draft'+'&pageNumber='+page,{ headers: authHeader() }).then((res) => {
+
+                dispatch(getCourseByDraf(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
             
         })
     }
 }
 
-export const getCourseByDraf = (coursesByDraf) => {
+export const fetchCourseByActivateRequest = (page) => {
+    return(dispatch) => {
+        axios.get('http://localhost:8080/api/course/filter?filter=Activate'+'&pageNumber='+page,{ headers: authHeader() }).then((res) => {
+
+                dispatch(getCourseByActivate(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
+            
+        })
+    }
+}
+
+export const getCourseByDraf = (coursesByDraf,  page, totalPages) => {
     return {
         type:'GET_COURSE_BY_DRAF',
-        coursesByDraf
+        coursesByDraf,
+        page,
+        totalPages
     }
 }
 
 
-export const getCourseByActivate = (coursesByActivate) => {
+export const getCourseByActivate = (coursesByActivate,  page, totalPages) => {
     return {
         type:'GET_COURSE_BY_ACTIVATE',
-        coursesByActivate
+        coursesByActivate,
+        page,
+        totalPages
     }
 }
 
@@ -54,13 +63,32 @@ export const searchCourseRequest = (search) => {
     return(dispatch) => {
         axios.get(COURSE_INFO_API_BASE_URL+'/search?title='+search, { headers: authHeader() }).then((res) => {
             dispatch(searchCourse(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
+            
         })
     }
 }
 
-export const searchCourse = (courses, page, totalPages) => {
+export const searchCourse = (coursesSearch, page, totalPages) => {
     return {
         type:'SEARCH_COURSE',
+        coursesSearch,
+        page,
+        totalPages
+    }
+}
+
+export const searchCourseAdRequest = (search) => {
+    return(dispatch) => {
+        axios.get(COURSE_INFO_API_BASE_URL+'/search?title='+search, { headers: authHeader() }).then((res) => {
+            dispatch(searchCourseAd(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
+            
+        })
+    }
+}
+
+export const searchCourseAd = (courses, page, totalPages) => {
+    return {
+        type:'SEARCH_COURSE_AD',
         courses,
         page,
         totalPages
@@ -116,3 +144,49 @@ export const updateCourse = (messageSuccess) => {
         messageSuccess
     }
 }
+
+export const fetchAllEnrollRequest = () => {
+    return(dispatch) => {
+        axios.get('http://localhost:8080/api/course/enroll',{ headers: authHeader() }).then((res) => {
+            dispatch(getAllEnroll(res.data.data))
+        })
+    }
+}
+
+export const getAllEnroll = (coursesEnroll) => {
+    return {
+        type:'GET_ALL_ENROLL',
+        coursesEnroll
+    }
+}
+
+export const imageRequest = (img) => {
+    return(dispatch) => {
+        const formData = new FormData();
+
+		formData.append('image', img);
+
+		fetch(
+			'http://localhost:8080/api/upload',
+			{
+				method: 'POST',
+				body: formData,
+			}
+		)
+			.then((response) => {
+				dispatch(image(response));
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+    }
+}
+
+
+export const image = (img) => {
+    return {
+        type:'IMAGE',
+        img,
+         
+    }
+} 

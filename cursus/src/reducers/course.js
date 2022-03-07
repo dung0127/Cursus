@@ -8,6 +8,9 @@ const initState = {
     coursesByDraf:[],
     coursesByActivate:[],
     messageSuccess:'',
+    coursesEnroll:[],
+    courseSearch:[],
+    img:'',
 };
 
 export const courseReducer = (state = initState, action) => {
@@ -26,11 +29,19 @@ export const courseReducer = (state = initState, action) => {
             {
                 return {
                     ...state,
+                    coursesSearch: action.coursesSearch,
+                    page: action.page,
+                    totalPages: action.totalPages
+                }
+            }
+
+        case 'SEARCH_COURSE_AD':
+            {
+                return {
+                    ...state,
                     courses: action.courses,
                     page: action.page,
-                    totalPages: action.totalPages,
-                    coursesByDraf: action.courses,
-                    coursesByActivate: action.courses,
+                    totalPages: action.totalPages
                 }
             }
 
@@ -71,6 +82,22 @@ export const courseReducer = (state = initState, action) => {
                 return {
                     ...state,
                     messageSuccess: action.messageSuccess
+                }
+            }
+
+        case 'GET_ALL_ENROLL':
+            {
+                return {
+                    ...state,
+                    coursesEnroll: action.coursesEnroll
+                }
+            }
+
+        case 'IMAGE':
+            {
+                return {
+                    ...state,
+                    img: action.img
                 }
             }
 

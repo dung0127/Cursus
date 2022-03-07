@@ -9,6 +9,7 @@ import $ from "jquery"
 import Success from "../../Alert/success";
 import Error from "../../Alert/error"
 import {withRouter} from "../../Admin/Auth/withRouter"
+import {imageRequest} from "../../actions/course"
 
 class ProfileEdit extends React.Component {
     constructor(){
@@ -24,6 +25,7 @@ class ProfileEdit extends React.Component {
             error: {},
             updateSuccess: false,
             messageSuccess:'',
+            ava:''
         }
         
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -45,12 +47,30 @@ class ProfileEdit extends React.Component {
     handleInputChange= e => {   
         let formData = Object.assign({}, this.state.newDetail);    
         console.log(formData)
-        formData[e.target.name] = e.target.value;        
-        this.setState({newDetail:formData});  
-        console.log(formData)  
+        if (e.target.files && e.target.files[0]) {
+            console.log(e.target.files[0])
+            if (e.target.accept=="image/*"){
+                this.setState({
+                    img: URL.createObjectURL(e.target.files[0])
+                })
+                formData[e.target.name] = 'http://localhost:8080/images/'+e.target.files[0].name
+                this.setState({ava:e.target.files[0]})
+                console.log(e.target.files[0])
+            }
+            
+            this.setState({newDetail:formData});  
+            console.log(formData)
+        }
+        else {   
+        
+            formData[e.target.name] = e.target.value;        
+            this.setState({newDetail:formData});  
+            console.log(formData)  
+            }
     }
       
     updateDetail = (newDetail) => {
+        this.props.imageRequest(this.state.ava)
         axios.post(USER_INFO_API_BASE_URL+'/update', newDetail , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
             this.props.getDetailInfo(res.data.data);  
@@ -61,7 +81,7 @@ class ProfileEdit extends React.Component {
                 
                 $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
                 setTimeout(()=>{
-                    this.props.navigate('/detail')
+                    this.props.navigate('/detail/user')
                 },1000);
             }
             else {
@@ -154,6 +174,23 @@ class ProfileEdit extends React.Component {
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div className="col-lg-6">
+                                                                    <div className="ui focus mt-30 ">
+                                                                        <div className="thumb-item">
+                                                                            {this.state.img?
+                                                                                <img src={this.state.img} style={{width:"80px", paddingTop:"20px"}} alt=""/>
+                                                                                :<img src={this.state.user.avatarImage} style={{width:"100px", paddingTop:"20px"}} alt=""/>
+                                                                            }
+                                                                            <div className="thumb-dt">													
+                                                                                <div className="upload-btn" >													
+                                                                                    <input className="uploadBtn-main-input" id="myInput" type="file" name="avatarImage" onChange={this.handleInputChange} accept="image/*" />
+                                                                                    <label htmlFor="myInput" >Choose New Avatar</label>
+                                                                                </div>
+                                                                                <span className="uploadBtn-main-file">Size: 590x300 pixels. Supports: jpg,jpeg, or png</span>
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>   
+                                                                </div> 
                                                                 <div className="col-lg-12">
                                                                     <div className="divider-1"></div>
                                                                 </div>
@@ -179,7 +216,8 @@ class ProfileEdit extends React.Component {
 const mapStateToProps = state => {
     return{
         detailInfo: state.detail.detailInfo,   
-        isUpdate: state.detail.updateSuccess
+        isUpdate: state.detail.updateSuccess,
+        img: state.course.img
     }
 }
 
@@ -190,7 +228,8 @@ const mapDispatchToProps = dispatch => {
         },
         updateDetail: (updateSuccess) => {
             dispatch(updateDetail(updateSuccess));
-        }
+        },
+        imageRequest:(e) => dispatch (imageRequest(e)),
     }
 }
 

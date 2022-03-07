@@ -43,13 +43,8 @@ export const removeFromCart = (items, product) => (dispatch) => {
 };
 
 export const clearFromCart = () => (dispatch) => {
-    let text = "Are you sure?";
-
-    if (window.confirm(text) == true) {
-      
       localStorage.setItem("cartItems", []);
 
       dispatch({ type: 'CLEAR_FROM_CART'});
-    } 
   
 };
