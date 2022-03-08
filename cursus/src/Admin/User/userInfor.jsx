@@ -13,7 +13,7 @@ class UserInfo extends React.Component {
         super(props)
         this.state = {
             searchUser:'',
-            alert:'',
+            delete:'',
         }
                        
     }
@@ -40,13 +40,20 @@ class UserInfo extends React.Component {
 		
 	} 
 
-    handleClickDelete(data) {
-        let text = "Are you sure?";
-        if (window.confirm(text) == true) {
-            this.props.deleteUserRequest(data);
-        } 
-
+    handleClickDelete = (data) => {
+        $('#confirm').fadeIn('fast')
+        this.setState({delete:data})
     }
+
+    alertDelete = () => {
+        this.props.deleteUserRequest(this.state.delete)
+        $('#confirm').fadeOut('fast');
+        this.handleSuccess();
+    }
+
+    alertCancel = () => {
+        $('#confirm').fadeOut('fast');
+    } 
 
     handleInputSearchChange = e => {   
         let value = e.target.value       
@@ -67,6 +74,7 @@ class UserInfo extends React.Component {
                             <div className="col-lg-12">	
                                 <h2 className="st_title"><i className='uil uil-user'></i> Users</h2>
                             </div>			
+
                             <div className="col-md-12">
                                 <div className="card_dash1">
                                     <div className="card_dash_left1">
@@ -76,12 +84,27 @@ class UserInfo extends React.Component {
                                     <div className="card_dash_right1">
                                         <Link to="/add-user"><button className="create_btn_dash">Create Account</button></Link>
                                     </div>
+                                    <div  id="confirm" style={{display:"none"}}>
+                                        <div className="cd-popup" role="alert">
+                                            <div className="cd-popup-container">
+                                                <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
+                                                <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure you want to delete this?</p>
+                                                <ul className="cd-buttons">
+                                                    <li><a href='#' value="yes" onClick={()=>this.alertDelete()}>Delete</a></li>
+                                                    <li><a href='#' value="no" onClick={()=>this.alertCancel()}>Cancel</a></li>
+                                                </ul>
+                                                <a href="#0" className="cd-popup-close img-replace" onClick={()=>this.alertCancel()}></a>
+                                            </div> 
+                                        </div> 
+                                    </div>
                                 </div>
                             </div>		
                         </div>
-                        <div  id="success" style={{display:"none"}}><Success name="Update Successful"/></div>
-                        <div  id="error" style={{display:"none"}}><Error name={this.state.alert}/></div>
                         
+                        <div  id="success" style={{display:"none"}}><Success name="Success"/></div>
+                        <div  id="error" style={{display:"none"}}><Error/></div>
+
+
                         <div className="row">
                             
                             <div className="col-md-12">
@@ -175,7 +198,8 @@ const mapStateToProps = state => {
         users: state.user.users,
         page: state.user.page,
         totalPages: state.user.totalPages,
-        alert: state.user.alertMess
+        
+        
     }
 }
 
@@ -184,6 +208,7 @@ const mapDispatchToProps = dispatch => {
         fetchUserRequest:(e) => dispatch (fetchUserRequest(e)),
         deleteUserRequest:(e) => dispatch (deleteUserRequest(e)),
         searchUserRequest:(e) => dispatch (searchUserRequest(e)),
+
     };
 }
 

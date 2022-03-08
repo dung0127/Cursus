@@ -1,6 +1,7 @@
 import { CATALOG_BASE_URL, CATALOG_INFO_BASE_URL, SUBCATALOG_BASE_URL, SUBCATALOG_INFO_BASE_URL } from "../config/env";
 import authHeader from "../config/authHeader";
 import axios from "axios";
+import $ from "jquery"
 
 export const fetchCatalogRequest = () => {
     return(dispatch) => {
@@ -36,7 +37,7 @@ export const updateCatalogRequest = (editCatalog) => {
     return(dispatch) => {
         axios.post(CATALOG_INFO_BASE_URL + '/update', editCatalog , { headers: authHeader() }).then(res=>{
             dispatch(updateCatalog()) 
-            alert (res.data.message) 
+            $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
             dispatch(fetchCatalogRequest())
         })
     }

@@ -114,17 +114,17 @@ class Login extends React.Component {
 										{this.state.error.password && <div className="validation alert alert-warning">{this.state.error.password}</div>}
 										
 									</div>
-									<div className="ui form mt-30 checkbox_sign">
+									{/* <div className="ui form mt-30 checkbox_sign">
 										<div className="inline field">
 											<div className="ui checkbox mncheck">
 												<input type="checkbox" tabindex="0" className="hidden"/>
 												<label>Remember Me</label>
 											</div>
 										</div>
-									</div>
+									</div> */}
 									<button className="login-btn" type="button" value="Login" onClick={()=>this.checkLoginInfo(this.state.user)} >Sign In</button>
 								</form>
-								<p className="sgntrm145">Or <a href="forgot_password.html">Forgot Password</a>.</p>
+								{/* <p className="sgntrm145">Or <a href="forgot_password.html">Forgot Password</a>.</p> */}
 								<p className="mb-0 mt-30 hvsng145">Don't have an account? <a href="sign_up.html">Sign Up</a></p>
 							</div>
 							<div className="sign_footer"><img src="images/sign_logo.png" alt=""/>© 2020 <strong>Cursus</strong>. All Rights Reserved.</div>

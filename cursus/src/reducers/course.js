@@ -5,8 +5,12 @@ const initState = {
     addSuccess: false,
     deteleSuccess: false,
     courseById:[],
-    coursesByDraf:[],
+    coursesByDraft:[],
+    pageDraft: 0,
+    totalPagesDraft: 0,
     coursesByActivate:[],
+    pageActivate: 0,
+    totalPagesActivate: 0,
     messageSuccess:'',
     coursesEnroll:[],
     courseSearch:[],
@@ -61,11 +65,13 @@ export const courseReducer = (state = initState, action) => {
                 }
             }
             
-        case 'GET_COURSE_BY_DRAF':
+        case 'GET_COURSE_BY_DRAFT':
             {
                 return {
                     ...state,
-                    coursesByDraf: action.coursesByDraf
+                    coursesByDraft: action.coursesByDraft,
+                    pageDraft: action.pageDraft,
+                    totalPagesDraft: action.totalPagesDraft
                 }
             } 
 
@@ -73,7 +79,9 @@ export const courseReducer = (state = initState, action) => {
             {
                 return {
                     ...state,
-                    coursesByActivate: action.coursesByActivate
+                    coursesByActivate: action.coursesByActivate,
+                    pageActivate: action.pageActivate,
+                    totalPagesActivate: action.totalPagesActivate
                 }
             } 
 

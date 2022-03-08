@@ -6,6 +6,9 @@ import {USER_INFO_API_BASE_URL} from "../../config/env";
 import {connect} from 'react-redux';
 import { getDetailInfo, updateDetail } from '../../actions/detail'
 import validator from 'validator';
+import $ from "jquery";
+import Success from "../../Alert/success";
+import Error from "../../Alert/error";
 
 class ChangePassword extends React.Component {
     constructor(){
@@ -20,6 +23,7 @@ class ChangePassword extends React.Component {
             error: {},
             updateSuccess: false,
             isShow: false, 
+            alert:'',
         }
         
         this.handleInputPasswordChange = this.handleInputPasswordChange.bind(this);
@@ -76,8 +80,18 @@ class ChangePassword extends React.Component {
     updatePassword = (password) => {
         if(this.validateFormData()){
             axios.post(USER_INFO_API_BASE_URL+'/change-password', password , { headers: authHeader() }).then(res=>{
-                alert (res.data.message) 
+                if(res.data.message == "Success"){
+                    $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
+                    
+                }
+                else {
+                    this.setState({alert:res.data.message})
+                    $('#error').fadeIn('fast').delay(2000).fadeOut('slow');
+
+                }
             })
+        Array.from(document.querySelectorAll('input')).forEach(input=>(input.value=""))
+        
         }
     }
 
@@ -92,7 +106,6 @@ class ChangePassword extends React.Component {
     }
 
     render() {
-        console.log(this.props.isUpdate)
         return(
             <div className="wrapper">
                 <div className="sa4d25">
@@ -105,6 +118,9 @@ class ChangePassword extends React.Component {
                                         <div className="account_setting">
                                             <h4>Your Cursus Account</h4>
                                             <p>This is your public presence on Cursus. You need a account to upload your paid courses, comment on courses, purchased by students, or earning.</p>
+                                            <div  id="success" style={{display:"none"}}><Success name="Update Successful"/></div>
+                                            <div  id="error" style={{display:"none"}}><Error name={this.state.alert}/></div>
+                                            
                                             <div className="basic_profile">
                                             
                                                 <div className="basic_ptitle">

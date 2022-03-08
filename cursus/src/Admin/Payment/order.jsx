@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchOrderRequest, searchOrderRequest } from '../../actions/payment';
 import $ from "jquery";
+import moment from 'moment';
+
 
 class Order extends React.Component{
     constructor(props) {
@@ -55,7 +57,7 @@ class Order extends React.Component{
                                                         <div className="explore_search">
                                                             <div className="ui search focus">
                                                                 <div className="ui left icon input swdh11">
-                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Users..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchOrder(this.state.searchOrder)}/>
+                                                                    <input className="prompt srch_explore" type="text" placeholder="Search for Orders..." onChange={this.handleInputSearchChange} onKeyPress={e=> e.key==='Enter' && this.searchOrder(this.state.searchOrder)}/>
                                                                     <i className="uil uil-search-alt icon icon2"></i>
                                                                 </div>
                                                             </div>
@@ -84,7 +86,7 @@ class Order extends React.Component{
                                                                         <td class="cell-ta">{order.user.username}</td>
                                                                         <td class="text-center">${order.totalAmount}</td>
                                                                         <td className="text-center">{order.statusOrder?<b className="course_active">Completed</b>:''}</td>
-                                                                        <td class="cell-ta">{order.dateOrder}</td>
+                                                                        <td class="cell-ta">{moment(order.dateOrder).format('MMM DD, YYYY')}</td>
                                                                         {/* <td className="text-center">{user.role.name=='ROLE_ADMIN'?'ADMIN':'USER'}</td>
                                                                         <td className="text-center">{user.enabled ? <b className="course_active">Active</b>:<b className="course_inactive">Inactive</b>}</td> */}
                                                                         <td className="text-center"> 
@@ -98,7 +100,7 @@ class Order extends React.Component{
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            {/* {this.props.totalPages > 1? 
+                                            {this.props.totalPages > 1? 
                                             <div className="step-footer step-tab-pager text-center">
                                                     <div class="ui pagination menu" role="navigation">  
                                                     {this.props.page > 0?   
@@ -113,7 +115,7 @@ class Order extends React.Component{
                                                     :''}
                                                 </div>   
                                             </div>
-                                            :''} */}
+                                            :''}
                                         </div>
                                     </div>
                                 </div>

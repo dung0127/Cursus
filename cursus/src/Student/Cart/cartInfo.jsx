@@ -6,7 +6,8 @@ import { fetchDetailUserRequest } from "../../actions/detail";
 import OwlCarousel from 'react-owl-carousel';
 import { Link } from "react-router-dom";
 import { addToCart, clearFromCart, removeFromCart } from "../../actions/cart";
-import sum from "./sum"
+import sum from "./sum";
+import $ from "jquery"
 
 class CartInfo extends React.Component {
     constructor(props) {
@@ -21,12 +22,16 @@ class CartInfo extends React.Component {
     }
 
     clearCart = () => {
-        let text = "Are you sure?";
-
-        if (window.confirm(text) == true) {
-            this.props.clearFromCart()
-        }
+        $('#confirm').fadeIn('fast')
     }
+    alertDelete = () => {
+        this.props.clearFromCart()
+        $('#confirm').fadeOut('fast');
+    }
+
+    alertCancel = () => {
+        $('#confirm').fadeOut('fast');
+    } 
 
     render() {
         const { cartItems } = this.props;
@@ -42,6 +47,19 @@ class CartInfo extends React.Component {
                                             <h2>Shopping Cart</h2>
                                         </div>
                                     </div>
+                                </div>
+                                <div  id="confirm" style={{display:"none"}}>
+                                    <div className="cd-popup" role="alert">
+                                        <div className="cd-popup-container">
+                                            <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
+                                            <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure?</p>
+                                            <ul className="cd-buttons">
+                                                <li><a href='#' value="yes" onClick={()=>this.alertDelete()}>Yes</a></li>
+                                                <li><a href='#' value="no" onClick={()=>this.alertCancel()}>no</a></li>
+                                            </ul>
+                                            <a href="#0" className="cd-popup-close img-replace" onClick={()=>this.alertCancel()}><i className='uil uil-times'></i></a>
+                                        </div> 
+                                    </div> 
                                 </div>
                                 <div className="title126">
                                 </div>
@@ -76,7 +94,7 @@ class CartInfo extends React.Component {
                                         </div>
                                     ))}
                                     {cartItems.length > 0 ?
-                                        <a type="button" onClick={() => this.clearCart()} className="chck-btn22">Clear All Cart</a>
+                                        <a href="#" type="button" onClick={() => this.clearCart()} className="chck-btn22">Clear All Cart</a>
                                         : ''}</div>
 
 

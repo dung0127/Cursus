@@ -20,7 +20,7 @@ class OrderDetail extends React.Component{
     componentDidMount(){
         this.props.fetchOrderByIdRequest(this.state.id);
     } 
-    render() {
+    render() { 
         const { cartItems, orderById } = this.props;
         return (
             <div className="wrapper">		

@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from 'react-redux';
 import { fetchCatalogRequest, searchCatalogRequest,updateCatalogRequest} from "../../actions/catalog";
+import Success from "../../Alert/success";
 
 class Catalog extends React.Component {
     constructor(props) {
@@ -66,6 +67,7 @@ class Catalog extends React.Component {
                             </div>							
                         </div>							
                     </div>
+
                     <table className="table ucp-table">
                         <thead className="thead-s">
                             <tr>
@@ -85,7 +87,7 @@ class Catalog extends React.Component {
                                             <td class="cell-ta">
                                             {catalog.subCatalogs.map(sub => {
                                                 return (
-                                                    <div>{sub.name}</div>
+                                                    <div><span className="_5f7g11"> {sub.name}</span></div>
                                                 )
                                             } )}
                                             </td>
@@ -135,7 +137,7 @@ class Catalog extends React.Component {
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="main-btn" value={'edit'} onClick={()=>this.updateCatalog(this.state.editCatalog)}>Update</button>
+                                                            <button type="button" class="main-btn" value={'edit'} data-dismiss="modal" onClick={()=>this.updateCatalog(this.state.editCatalog)}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>

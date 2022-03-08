@@ -41,22 +41,22 @@ class EditUser extends React.Component {
         // this.state.newDetail=tmp
     } 
     
-    validate = (form) => {
-        let isValid = true;
+    // validate = (form) => {
+    //     let isValid = true;
 
-        const error = {}
+    //     const error = {}
 
-        if(form.fullname==null){            
-            error['fullname'] = 'The field is required.';
-            isValid = false;
-        }
+    //     if(form.fullname==null){            
+    //         error['fullname'] = 'The field is required.';
+    //         isValid = false;
+    //     }
 
-        this.setState({
-            error: error
-        })
+    //     this.setState({
+    //         error: error
+    //     })
 
-        return isValid;
-    } 
+    //     return isValid;
+    // } 
 
     showHide = () => {
         this.state.isShow?
@@ -79,7 +79,6 @@ class EditUser extends React.Component {
                 })
                 formData[e.target.name] = 'http://localhost:8080/images/'+e.target.files[0].name
                 this.setState({ava:e.target.files[0]})
-                console.log(e.target.files[0])
             }
             
             this.setState({newDetail:formData});  
@@ -100,8 +99,7 @@ class EditUser extends React.Component {
         newDetail.role==null&&(
         this.props.userById.role.name == "ROLE_USER"? newDetail.role="ROLE_USER":newDetail.role="ROLE_ADMIN")
         let newForm = Object.assign(this.props.userById,newDetail);
-        if(this.validate(newForm)){
-        console.log(newForm);
+        
             
         axios.post('http://localhost:8080/api/admin/user/update', newForm , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
@@ -123,7 +121,7 @@ class EditUser extends React.Component {
                 this.handleError()
             }
             })
-        }
+        
           
     }
 
@@ -205,7 +203,6 @@ class EditUser extends React.Component {
                                                                             <input className="prompt srch_explore" type="text" name="fullname"  
                                                                             onChange={this.handleInputChange} defaultValue={userById.fullname}/>					
                                                                         </div>
-                                                                        {this.state.error.fullname && <div className="validation alert alert-warning">{this.state.error.fullname}</div>}
 
                                                                     </div>
                                                                 </div>  

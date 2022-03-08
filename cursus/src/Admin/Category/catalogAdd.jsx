@@ -6,6 +6,8 @@ import {CATALOG_INFO_BASE_URL} from "../../config/env";
 import {SUBCATALOG_INFO_BASE_URL} from "../../config/env";
 import authHeader from "../../config/authHeader";
 import {withRouter} from '../Auth/withRouter';
+import $ from "jquery";
+import Success from "../../Alert/success"
 
 let arr = [];
 class CatalogAdd extends React.Component {
@@ -48,7 +50,8 @@ class CatalogAdd extends React.Component {
     newSubCatalog = (addSubCatalog) => {
             arr.push(addSubCatalog);
             this.setState({subCatalog: arr});
-            alert('Success')
+            Array.from(document.querySelectorAll('.sub')).forEach(input=>(input.value=""))
+
     }
 
     deleteSubCatalog = (name) => {
@@ -67,10 +70,14 @@ class CatalogAdd extends React.Component {
                     sub.catalogId = res.data.data.id,
                     axios.post(SUBCATALOG_INFO_BASE_URL + '/create', sub, { headers: authHeader() }).then(res=>{})
                 )})
-            alert (res.data.message) 
+            
+
             arr = [];
             if(res.data.message=='Success'){
-                this.props.navigate('/category')
+                $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
+                setTimeout(()=>{
+                    this.props.navigate('/category')
+                },1000);
             }
         })
     }
@@ -83,6 +90,8 @@ class CatalogAdd extends React.Component {
                         <div className="col-lg-12">	
                             <h2 className="st_title"><i className='uil uil-layers'></i> Create New Catalog</h2>
                         </div>			
+                    <div  id="success" style={{display:"none"}}><Success name="Success"/></div>
+
                         <div className="col-12">
                             <div className="step-content">
                                 <div className="step-tab-panel step-tab-info active" id="tab_step1"> 
@@ -134,9 +143,9 @@ class CatalogAdd extends React.Component {
                                                                                         <div class="col-md-12">
                                                                                             <div class="new-section">
                                                                                                 <div class="form_group">
-                                                                                                <input class="form_input_1" type="hidden" name="id" value=''/>
-                                                                                                    <label class="label25">SubCatalog Name*</label>
-                                                                                                    <input class="form_input_1" type="text" name="name" onChange={this.subCatalog}/>
+                                                                                                <input class="form_input_1 " type="hidden" name="id" value=''/>
+                                                                                                    <label class="label25 ">SubCatalog Name*</label>
+                                                                                                    <input class="form_input_1 sub" type="text" name="name" onChange={this.subCatalog}/>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
@@ -150,7 +159,7 @@ class CatalogAdd extends React.Component {
                                                                                                     <label class="label25">Description</label>
                                                                                                     <div class="ui form swdh30">
                                                                                                         <div class="field">
-                                                                                                            <textarea rows="3" name="description" onChange={this.subCatalog}></textarea>
+                                                                                                            <textarea className="sub" rows="3" name="description" onChange={this.subCatalog}></textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="help-block">220 words</div>
@@ -162,7 +171,7 @@ class CatalogAdd extends React.Component {
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-                                                                                <button type="button" class="main-btn" value={'add'} onClick={()=>this.newSubCatalog(this.state.addSubCatalog)}>Add</button>
+                                                                                <button type="button" class="main-btn" data-dismiss="modal" value={'add'} onClick={()=>this.newSubCatalog(this.state.addSubCatalog)}>Add</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>

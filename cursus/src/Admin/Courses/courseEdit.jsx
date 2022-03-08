@@ -10,7 +10,8 @@ import validator from 'validator';
 import {withRouterParams, withRouter} from '../Auth/withRouter';
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import {imageRequest} from "../../actions/course"
    
 
 class CourseEdit extends Component {
@@ -32,6 +33,8 @@ class CourseEdit extends Component {
             course:'',
 
             select:'',
+
+            ava:'',
         }
     }
 
@@ -48,8 +51,9 @@ class CourseEdit extends Component {
                 this.setState({
                     image: URL.createObjectURL(e.target.files[0])
                 })
-                formDataCourse[e.target.name] = 'images/'+e.target.files[0].name
-            }
+                formDataCourse[e.target.name] = 'http://localhost:8080/images/'+e.target.files[0].name
+                this.setState({ava:e.target.files[0]})
+            } 
             else{
                 this.setState({
                     video: e.target.files[0].name
@@ -68,12 +72,14 @@ class CourseEdit extends Component {
 
     editCourse = (edit, courseId) => {
         let newForm = Object.assign(this.props.course,edit);
+        this.props.imageRequest(this.state.ava)
         this.props.updateCourseRequest(newForm, courseId);
         if(this.props.messageSuccess=="Success"){
             setTimeout(()=>{
                 this.props.navigate('/course/'+courseId)
             },1500);
         }
+        console.log(this.props.messageSuccess)
     }
 
     componentDidMount () {
@@ -190,8 +196,8 @@ class CourseEdit extends Component {
                                                                         <div className="loc_group">
                                                                         <div className="thumb-item">
                                                                     {this.state.image?
-                                                                    <img src={this.state.image} alt=""/>
-                                                                    :<img src={this.props.course.imageVideoDescription} alt=""/>
+                                                                    <img src={this.state.image} alt="" style={{height:"80px", width:"100px"}}/>
+                                                                    :<img src={this.props.course.imageVideoDescription} alt="" style={{height:"80px", width:"100px"}}/>
                                                                     }
                                                                     <div className="thumb-dt">													
                                                                         <div className="upload-btn" >													
@@ -342,7 +348,9 @@ const mapStateToProps = state => {
         course: state.course.courseById,
         catalogs: state.catalog.catalogs,
         subCatalogs: state.subCatalog.subCatalogs,
-        messageSuccess: state.course.messageSuccess
+        messageSuccess: state.course.messageSuccess,
+        img: state.course.img
+
     }
 }
 
@@ -351,7 +359,9 @@ const mapDispatchToProps = dispatch => {
         courseByIdRequest:(e) => dispatch (courseByIdRequest(e)),
         fetchCatalogRequest:() => dispatch (fetchCatalogRequest()),
         fetchSubCatalogRequest:() => dispatch (fetchSubCatalogRequest()),
-        updateCourseRequest:(e,i) => dispatch (updateCourseRequest(e,i))
+        updateCourseRequest:(e,i) => dispatch (updateCourseRequest(e,i)),
+        imageRequest:(e) => dispatch (imageRequest(e)),
+
     };
 }
 

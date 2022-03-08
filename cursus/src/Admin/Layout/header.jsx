@@ -26,7 +26,13 @@ class Header extends React.Component {
     }
 
     searchCourse = (search) => {
-        this.props.navigate(`/search/${search}`,{params:search})
+        if(search!=''){
+            this.props.navigate(`/search/${search}`,{params:search})
+        }
+        else {
+            this.props.navigate('/course')
+        }
+
     }
 
     // logout = () => {
@@ -137,10 +143,10 @@ class Header extends React.Component {
                                     </a>
                                 </div>
                                 
-                                <Link to='/detail/user' params="user" className="item channel_item" >View Profile</Link>
+                                <Link to='/detail' params="user" className="item channel_item" >View Profile</Link>
                                 <Link to='/change-password' className="item channel_item" >Change Password</Link>	
                                 	
-                                <Link to='/help' className="item channel_item">Help</Link>
+                                {/* <Link to='/help' className="item channel_item">Help</Link> */}
                                 <Link to='/' className="item channel_item" onClick={this.props.logout}>Sign Out</Link>
                             </div>
                         </li> 

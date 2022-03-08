@@ -41,6 +41,23 @@ class Checkout extends React.Component {
 		}
 	}
 
+	validate = () => {
+        let isValid = true;
+
+        const error = {}
+
+		if(this.props.cartItems.length<=0){
+			error['cart'] = 'Shopping Cart is empty! Go to shopping now';
+            isValid = false;
+		}
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    }
+
 	createOrder(data, actions, sum) {
 		return actions.order.create({
 			purchase_units: [
@@ -110,6 +127,7 @@ class Checkout extends React.Component {
 						<div className="row">
 							<div className="col-lg-8">
 								<div className="membership_chk_bg">
+									
 									<div className="checkout_title">
 										<h4>Payment Method</h4>
 										<img src="images/line.svg" alt="" />
@@ -118,10 +136,14 @@ class Checkout extends React.Component {
 										<div className="tab-pane fade show active" id="payapl-method-tab" role="tabpanel" aria-labelledby="payapl-tab">
 											<div className="row">
 												<div className="col-md-12">
+													{this.props.cartItems.length<=0?
+													<div className="order_dt_section">
+														<div className="validation alert alert-warning">Shopping Cart is empty! Go to shopping <Link to='/course'>NOW</Link></div>
+													</div>:
 													<PayPalScriptProvider options={{ "client-id": "ATNmz7NaSvnCl1jq5kkub9a0jB8chvoO7VWkYSdZMSVTThE80teaQCyYuIIU-viT9-C9bsB7pca_dEhr" }}>
 														<PayPalButtons style={{ layout: "horizontal" }} createOrder={(data, actions) => this.createOrder(data, actions, sum.formatCurrency(cartItems.reduce((a, c) => a + c.price, 0)))}
 															onApprove={(data, actions) => this.onApprove(data, actions, cartItems)} />
-													</PayPalScriptProvider>
+													</PayPalScriptProvider>}
 													<p className="t-body">After payment via PayPal's secure checkout, we will send you a link to download your files.</p>
 													<div className="media h-mt2">
 														<div className="media__item -align-center">
@@ -181,10 +203,7 @@ class Checkout extends React.Component {
 											</div>
 
 										</div>
-										<div className="order_dt_section">
-											{this.state.error.cart && <div className="validation alert alert-warning">Shopping Cart is empty! Go to shopping <Link to='/course'>NOW</Link></div>}
-
-										</div>
+										
 
 
 									</div>

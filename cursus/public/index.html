@@ -68,6 +68,7 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    
     <!-- Messenger Plugin chat Code -->
     <div id="fb-root"></div>
 
@@ -76,13 +77,20 @@
     </div>
 
     <script type="text/babel">
+      if(localStorage.getItem("role")=='ROLE_ADMIN'){
+
+      }
+      else {
       var chatbox = document.getElementById('fb-customer-chat');
       chatbox.setAttribute("page_id", "104475554245862");
       chatbox.setAttribute("attribution", "biz_inbox");
+      }
     </script>
 
     <!-- Your SDK code -->
     <script type="text/babel">
+      if(localStorage.getItem("role")=='ROLE_ADMIN'){}
+      else {
       window.fbAsyncInit = function() {
         FB.init({
           xfbml            : true,
@@ -97,7 +105,9 @@
         js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
+    }
     </script>
+    
     <script src="https:code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="%PUBLIC_URL%/js/jquery-3.3.1.min.js" type="text/babel" ></script>
     <script src="%PUBLIC_URL%/js/vertical-responsive-menu.js" type="text/babel"></script>
@@ -116,6 +126,6 @@
     <script src="https://code.iconify.design/2/2.1.2/iconify.min.js" type="text/babel"></script>
     <script src="https://www.paypal.com/sdk/js?client-id=ATNmz7NaSvnCl1jq5kkub9a0jB8chvoO7VWkYSdZMSVTThE80teaQCyYuIIU-viT9-C9bsB7pca_dEhr"></script>
     <script defer src="https://www.paypal.com/sdk/js?client-id=ATNmz7NaSvnCl1jq5kkub9a0jB8chvoO7VWkYSdZMSVTThE80teaQCyYuIIU-viT9-C9bsB7pca_dEhr"></script>
-
+    
   </body>
 </html>

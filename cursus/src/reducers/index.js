@@ -12,6 +12,7 @@ import { paymentReducer } from "./payment";
 import { savedCourseReducer } from "./savedCourse";
 import { reviewReducer } from "./review";
 import { dashboardReducer } from "./dashboard";
+import { alertReducer } from "./alert";
 
 export const rootReducer = combineReducers({
     auth: authReducer,
@@ -26,5 +27,6 @@ export const rootReducer = combineReducers({
     payment: paymentReducer,
     savedCourse: savedCourseReducer,
     review: reviewReducer,
-    dashboard: dashboardReducer
+    dashboard: dashboardReducer,
+    alert: alertReducer,
 });

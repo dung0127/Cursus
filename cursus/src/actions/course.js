@@ -1,7 +1,8 @@
 import { COURSE_API_BASE_URL,COURSE_INFO_API_BASE_URL } from "../config/env";
 import authHeader from "../config/authHeader";
 import axios from "axios";
-import $ from "jquery"
+import $ from "jquery";
+import {useNavigate, useParams} from 'react-router-dom';
 
 export const fetchCourseRequest = (page) => {
     return(dispatch) => {
@@ -20,11 +21,11 @@ export const getAllCourse = (courses, page, totalPages) => {
     }
 }
 
-export const fetchCourseByDrafRequest = (page) => {
+export const fetchCourseByDraftRequest = (page) => {
     return(dispatch) => {
-        axios.get('http://localhost:8080/api/course/filter?filter=Draft'+'&pageNumber='+page,{ headers: authHeader() }).then((res) => {
+        axios.get('http://localhost:8080/api/course/filter?filter=Draft'+'&pageNumber='+page+ '&size=12',{ headers: authHeader() }).then((res) => {
 
-                dispatch(getCourseByDraf(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
+                dispatch(getCourseByDraft(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
             
         })
     }
@@ -32,7 +33,7 @@ export const fetchCourseByDrafRequest = (page) => {
 
 export const fetchCourseByActivateRequest = (page) => {
     return(dispatch) => {
-        axios.get('http://localhost:8080/api/course/filter?filter=Activate'+'&pageNumber='+page,{ headers: authHeader() }).then((res) => {
+        axios.get('http://localhost:8080/api/course/filter?filter=Activate'+'&pageNumber='+page + '&size=12',{ headers: authHeader() }).then((res) => {
 
                 dispatch(getCourseByActivate(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
             
@@ -40,22 +41,22 @@ export const fetchCourseByActivateRequest = (page) => {
     }
 }
 
-export const getCourseByDraf = (coursesByDraf,  page, totalPages) => {
+export const getCourseByDraft = (coursesByDraft,  pageDraft, totalPagesDraft) => {
     return {
-        type:'GET_COURSE_BY_DRAF',
-        coursesByDraf,
-        page,
-        totalPages
+        type:'GET_COURSE_BY_DRAFT',
+        coursesByDraft,
+        pageDraft,
+        totalPagesDraft
     }
 }
 
 
-export const getCourseByActivate = (coursesByActivate,  page, totalPages) => {
+export const getCourseByActivate = (coursesByActivate,  pageActivate, totalPagesActivate) => {
     return {
         type:'GET_COURSE_BY_ACTIVATE',
         coursesByActivate,
-        page,
-        totalPages
+        pageActivate,
+        totalPagesActivate
     }
 }
 
@@ -117,6 +118,8 @@ export const deleteCourseRequest = (id) => {
             dispatch(deleteCourse(res.data.message))
             $('#success').fadeIn('fast').delay(3000).fadeOut('slow');
             dispatch(fetchCourseRequest(0))
+            dispatch(fetchCourseByDraftRequest(0))
+            dispatch(fetchCourseByActivateRequest(0))
         })
     }
 }
@@ -129,11 +132,16 @@ export const deleteCourse = (messageSuccess) => {
 }
 
 export const updateCourseRequest = (edit, courseId) => {
+    
     return(dispatch) => {
         axios.post('http://localhost:8080/api/course/update/', edit, { headers: authHeader() }).then((res) => {
             dispatch(updateCourse(res.data.message))
             $('#success').fadeIn('fast').delay(3000).fadeOut('slow');
-            
+            // if(res.data.message=="Success"){
+            //     setTimeout(()=>{
+            //         window.location.replace('/course/'+courseId)
+            //     },1500);
+            // }
         })
     }
 }

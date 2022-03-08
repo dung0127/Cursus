@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from 'react-redux';
 import { fetchSubCatalogRequest, searchSubCatalogRequest,updateSubCatalogRequest, createSubCatalogRequest } from "../../actions/subCatalog";
 import { fetchCatalogRequest} from "../../actions/catalog";
+import Success from "../../Alert/success";
 
 class SubCatalog extends React.Component {
     constructor(props) {
@@ -60,7 +61,6 @@ class SubCatalog extends React.Component {
         this.props.updateSubCatalogRequest(editSubCatalog);
         this.props.fetchSubCatalogRequest();
         this.props.fetchCatalogRequest();
-        this.setState({updateSuccess:this.props.updateSuccess})
         
     }
 
@@ -78,7 +78,6 @@ class SubCatalog extends React.Component {
     } 
 
     render(){
-        console.log(this.props.updateSuccess)
         return (
             <div class="tab-pane fade" id="pills-my-purchases" role="tabpanel">
                 
@@ -91,6 +90,7 @@ class SubCatalog extends React.Component {
                                 </a>
                             </div>
                         </div>
+
                         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body adcrse_body">
                                 <div class="row">
@@ -233,7 +233,7 @@ class SubCatalog extends React.Component {
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="main-btn" value={'edit'} onClick={()=>this.updateSubCatalog(this.state.editSubCatalog)}>Update</button>
+                                                            <button type="button" class="main-btn" value={'edit'} data-dismiss="modal" onClick={()=>this.updateSubCatalog(this.state.editSubCatalog)}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>

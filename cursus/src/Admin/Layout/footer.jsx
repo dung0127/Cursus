@@ -26,7 +26,7 @@ class Footer extends React.Component {
                                                 </a>
                                             </li>
                                             <li>
-                                                <p>© 2020 <strong>Cursus</strong>. All Rights Reserved.</p>
+                                                <p>© 2022 <strong>Cursus</strong>. All Rights Reserved.</p>
                                             </li>
                                         </ul>
                                     </div>

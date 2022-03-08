@@ -79,6 +79,8 @@ class CourseDetail extends React.Component {
     createLesson = (courseId, add) => {
         add.courseId=courseId;
         this.props.createLessonRequest(add,courseId);
+        Array.from(document.querySelectorAll('.lesson')).forEach(input=>(input.value=""))
+
        
     }
 
@@ -134,7 +136,7 @@ class CourseDetail extends React.Component {
                                     <div className="col-xl-4 col-lg-5 col-md-6">						
                                         <div className="preview_video">						
                                             <a href="#" className="fcrse_img" data-toggle="modal" data-target="#videoModal">
-                                                <img src={this.props.course.imageVideoDescription} alt=""/>
+                                                <img src={this.props.course.imageVideoDescription} alt="" style={{height:"190px"}}/>
                                                 <div className="course-overlay">
                                                     {/* <div className="badge_seller">Bestseller</div> */}
                                                     <span className="play_btn1"><i className="uil uil-play"></i></span>
@@ -298,11 +300,9 @@ class CourseDetail extends React.Component {
                                             
                                             <div className="_htg452 mt-35">
                                                 <h3>Description</h3>
-                                                <p>Hi! Welcome to the Web Developer Bootcamp, the <strong>only course you need to learn web development</strong>. There are a lot of options for online developer training, but this course is without a doubt the most comprehensive and effective on the market.  Here's why:</p>
                                                 <ul className="_abc124">
                                                     <li><span className="_5f7g11">{this.props.course.description}</span></li>
                                                 </ul>
-                                                <p>When you're learning to program you often have to sacrifice learning the exciting and current technologies in favor of the "beginner friendly" classNamees.  With this course, you get the best of both worlds.  This is a course designed for the complete beginner, yet it covers some of the most exciting and relevant topics in the industry.</p>
                                            </div>
                                             <div className="_htg452 mt-35">
                                                 <h3>Who this course is for :</h3>
@@ -367,7 +367,7 @@ class CourseDetail extends React.Component {
                                                                             <div className="form_group">
                                                                             <input className="form_input_1" type="hidden" name="courseId" value={this.props.course.id}/>
                                                                                 <label className="label25">Lesson Title*</label>
-                                                                                <input className="form_input_1" type="text" name="title"  onChange={this.handleInputLessonChange} />
+                                                                                <input className="form_input_1 lesson" type="text" name="title"  onChange={this.handleInputLessonChange} />
                                                                             </div>
                                                                         </div>
                                                                     </div>
