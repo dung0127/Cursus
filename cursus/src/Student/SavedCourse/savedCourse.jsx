@@ -81,7 +81,8 @@ class SavedCourse extends React.Component {
                                                     <span className="vdt14">15 days ago</span>
                                                 </div> */}
                                                 <Link to={`/course/${course.id}`} params={course.id} className="crse14s title900">{course.title}</Link>
-                                                <Link to={`/course/${course.id}`} params={course.id}  className="crse-cate">{course.language}</Link>
+                                                <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language=='VN'?'Vietnamese':course.language=='ENG'?'English':course.language=='FR'?'French':course.language=='JP'?'Japanese':''} </Link>
+                                                
                                                 <div className="auth1lnkprce">
                                                     {course.updatedDate? 
                                                     <div className="cr1fot">										

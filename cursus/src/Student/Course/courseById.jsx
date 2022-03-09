@@ -132,7 +132,8 @@ class CourseById extends React.Component {
                                         </div>
                                          <div className="_215b05">										
                                             <span><i className='uil uil-comment'></i></span>
-                                           {this.props.course.language}
+                                            {this.props.course.language=='VN'?'Vietnamese':this.props.course.language=='ENG'?'English':this.props.course.language=='FR'?'French':this.props.course.language=='JP'?'Japanese':''}
+
                                         </div>
                                         {this.props.course.updatedDate? 
                                         <div className="_215b05">										

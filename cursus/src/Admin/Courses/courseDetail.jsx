@@ -206,7 +206,7 @@ class CourseDetail extends React.Component {
                                         </div>
                                         <div className="_215b05">										
                                             Last updated 1/2020
-                                        </div> */}
+                                        </div> */} 
                                         <div className="_215b05">										
                                             <span><i className='uil uil-comment'></i></span>
                                             {this.props.course.language=='VN'?'Vietnamese':this.props.course.language=='ENG'?'English':this.props.course.language=='FR'?'French':this.props.course.language=='JP'?'Japanese':''}

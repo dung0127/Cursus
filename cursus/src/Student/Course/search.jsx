@@ -72,7 +72,7 @@ class Search extends React.Component {
                                             <div class="col-lg-3 col-md-4">
                                                 <div class="fcrse_1 mt-30">
                                                     <Link to={`/course/${course.id}`} params={course.id} class="fcrse_img">
-                                                        <img src={course.imageVideoDescription} alt="" style={{height:"125px"}}/>
+                                                        <img src={course.imageVideoDescription} alt="" style={{height:"150px"}}/>
                                                         <div class="course-overlay">
                                                             <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                             {course.avgRatting?
@@ -107,7 +107,8 @@ class Search extends React.Component {
                                                             
                                                         </div>
                                                         <Link to={`/course/${course.id}`} params={course.id} class="crse14s">{course.title}</Link>
-                                                        <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language}</Link>
+                                                        <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language=='VN'?'Vietnamese':course.language=='ENG'?'English':course.language=='FR'?'French':course.language=='JP'?'Japanese':''} </Link>
+                                                        
                                                         <div class="auth1lnkprce">
                                                         <div class="prce142">${course.price}</div>
                                                             {/* <button class="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i class="uil uil-shopping-cart-alt"></i></button> */}

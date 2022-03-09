@@ -174,7 +174,8 @@ class Profile extends React.Component {
                                                                             </Link>
                                                                             <div  className="hs_content">
                                                                                 <Link to={`/course/${course.id}`} params={course.id} className="crse14s title900">{course.title}</Link>
-                                                                                <Link to={`/course/${course.id}`} params={course.id}  className="crse-cate">{course.language}</Link>
+                                                                                <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language=='VN'?'Vietnamese':course.language=='ENG'?'English':course.language=='FR'?'French':course.language=='JP'?'Japanese':''} </Link>
+
                                                                                 <div  className="purchased_badge">Purchased</div>
                                                                                 <div className="auth1lnkprce">
                                                                                     {course.updatedDate? 
@@ -271,7 +272,8 @@ class Profile extends React.Component {
                                                                         </Link>
                                                                         <div  className="hs_content">
                                                                             <Link to={`/course/${course.id}`} params={course.id} className="crse14s title900">{course.title}</Link>
-                                                                            <Link to={`/course/${course.id}`} params={course.id}  className="crse-cate">{course.language}</Link>
+                                                                            <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language=='VN'?'Vietnamese':course.language=='ENG'?'English':course.language=='FR'?'French':course.language=='JP'?'Japanese':''} </Link>
+
                                                                             <div  className="purchased_badge">Purchased</div>
                                                                             <div className="auth1lnkprce">
                                                                                 {course.updatedDate? 
