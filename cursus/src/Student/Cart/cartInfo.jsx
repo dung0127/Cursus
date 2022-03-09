@@ -48,18 +48,22 @@ class CartInfo extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div  id="confirm" style={{display:"none"}}>
-                                    <div className="cd-popup" role="alert">
-                                        <div className="cd-popup-container">
-                                            <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
-                                            <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure?</p>
-                                            <ul className="cd-buttons">
-                                                <li><a href='#' value="yes" onClick={()=>this.alertDelete()}>Yes</a></li>
-                                                <li><a href='#' value="no" onClick={()=>this.alertCancel()}>no</a></li>
-                                            </ul>
-                                            <a href="#0" className="cd-popup-close img-replace" onClick={()=>this.alertCancel()}><i className='uil uil-times'></i></a>
+                                <div className="modal fade "  tabindex="-1" id='confirm' aria-hidden="true">
+                                    <div className="modal-dialog modal-lg modal-content" style={{border: "none"}} >
+                                        <div className="cd-popup" role="alert">
+                                            <div className="cd-popup-container">
+                                                <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
+                                                <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure?</p>
+                                                <ul className="cd-buttons">
+                                                    <li><a  type="button" data-dismiss="modal" onClick={()=>this.alertDelete()}>YES</a></li>
+                                                    <li><a type="button" data-dismiss="modal">NO</a></li>
+                                                </ul>
+                                                <button type="button" className=" cd-popup-close close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div> 
                                         </div> 
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="title126">
                                 </div>
@@ -94,7 +98,7 @@ class CartInfo extends React.Component {
                                         </div>
                                     ))}
                                     {cartItems.length > 0 ?
-                                        <a href="#" type="button" onClick={() => this.clearCart()} className="chck-btn22">Clear All Cart</a>
+                                        <a href="#" type="button"data-toggle="modal" data-target='#confirm' data-backdrop="static" data-keyboard="false" onClick={() => this.clearCart()} className="chck-btn22">Clear All Cart</a>
                                         : ''}</div>
 
 

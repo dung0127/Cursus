@@ -49,20 +49,14 @@ class CourseInfo extends React.Component {
     }
 
     handleClickDelete(data) {
-        $('#confirm').fadeIn('fast')
         this.setState({delete:data})
         
     }
 
     alertDelete = () => {
         this.props.deleteCourseRequest(this.state.delete)
-        $('#confirm').fadeOut('fast');
         this.handleSuccess();
     }
-
-    alertCancel = () => {
-        $('#confirm').fadeOut('fast');
-    } 
  
     handleInputSearchChange = e => {   
         let value = e.target.value       
@@ -82,6 +76,7 @@ class CourseInfo extends React.Component {
     render() {
         return (
             <div className="wrapper" >
+                
                 <div className="sa4d25">
                     <div className="container-fluid">
                         
@@ -92,19 +87,9 @@ class CourseInfo extends React.Component {
                             </div>
                             <div className="col-md-12">
                                 <div className="card_dash1">
-                                    <div  id="confirm" style={{display:"none"}}>
-                                        <div className="cd-popup" role="alert">
-                                            <div className="cd-popup-container">
-                                                <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
-                                                <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure you want to delete this?</p>
-                                                <ul className="cd-buttons">
-                                                    <li><a href='#' value="yes" onClick={()=>this.alertDelete()}>Delete</a></li>
-                                                    <li><a href='#' value="no" onClick={()=>this.alertCancel()}>Cancel</a></li>
-                                                </ul>
-                                                <a href="#0" className="cd-popup-close img-replace" onClick={()=>this.alertCancel()}></a>
-                                            </div> 
-                                        </div> 
-                                    </div>
+                                    
+                                        
+                                   
                                     <div className="card_dash_left1">
                                         <i className="uil uil-book-alt"></i>
                                         <h1>Jump Into Course Creation</h1>
@@ -138,7 +123,23 @@ class CourseInfo extends React.Component {
                                             <a className="nav-link" id="pills-upcoming-courses-tab" data-toggle="pill" href="#pills-upcoming-courses" role="tab" aria-controls="pills-upcoming-courses" aria-selected="false"><i className="uil uil-upload-alt"></i>Activate </a>
                                         </li>
                                     </ul>
-                                    
+                                    <div className="modal fade "  tabindex="-1" id='confirm' aria-hidden="true">
+                                        <div className="modal-dialog modal-lg modal-content" style={{border: "none"}} >
+                                            <div className="cd-popup" role="alert">
+                                                <div className="cd-popup-container">
+                                                    <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
+                                                    <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure you want to delete this?</p>
+                                                    <ul className="cd-buttons">
+                                                        <li><a  type="button" data-dismiss="modal" onClick={()=>this.alertDelete()}>Delete</a></li>
+                                                        <li><a type="button" data-dismiss="modal">Cancel</a></li>
+                                                    </ul>
+                                                    <button type="button" className=" cd-popup-close close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div> 
+                                            </div> 
+                                        </div>
+                                    </div>
                                     <div className="tab-content" id="pills-tabContent">
                                         <div className="tab-pane fade show active" id="pills-my-courses" role="tabpanel">
                                             <div className="table-responsive mt-30">
@@ -180,7 +181,7 @@ class CourseInfo extends React.Component {
                                                                         <td className="text-center" > 
                                                                             <Link to={`/course/${course.id}`} params={course.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
                                                                             <Link to={`/status-course/${course.id}`} params={course.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
-                                                                            <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(course.id)}></i></a>
+                                                                            <a title="Delete" className="gray-s"><i className="uil uil-trash-alt" data-toggle="modal" data-target='#confirm' data-backdrop="static" data-keyboard="false" onClick={() => this.handleClickDelete(course.id)} ></i></a>
                                                                         </td>
                                                                     </tr>); 
                                                                 }
@@ -188,7 +189,7 @@ class CourseInfo extends React.Component {
                                                         }
                                                     </tbody>
                                                 </table>
-                                                
+                                               
                                             </div>
                                             {this.props.totalPages>1?
                                                 <div className="step-footer step-tab-pager text-center">
@@ -235,7 +236,8 @@ class CourseInfo extends React.Component {
                                                                         <td className="text-center" > 
                                                                             <Link to={`/course/${draf.id}`} params={draf.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
                                                                             <Link to={`/status-course/${draf.id}`} params={draf.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
-                                                                            <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(draf.id)}></i></a>
+                                                                            <a title="Delete" className="gray-s"><i className="uil uil-trash-alt" data-toggle="modal" data-target='#confirm' data-backdrop="static" data-keyboard="false" onClick={() => this.handleClickDelete(draf.id)} ></i></a>
+
                                                                         </td>
                                                                     </tr>); 
                                                                 }
@@ -289,7 +291,8 @@ class CourseInfo extends React.Component {
                                                                         <td className="text-center" > 
                                                                             <Link to={`/course/${activate.id}`} params={activate.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
                                                                             <Link to={`/status-course/${activate.id}`} params={activate.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
-                                                                            <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(activate.id)}></i></a>
+                                                                            <a title="Delete" className="gray-s"><i className="uil uil-trash-alt" data-toggle="modal" data-target='#confirm' data-backdrop="static" data-keyboard="false" onClick={() => this.handleClickDelete(activate.id)} ></i></a>
+                                                                            
                                                                         </td>
                                                                     </tr>); 
                                                                 }

@@ -92,52 +92,52 @@ class Catalog extends React.Component {
                                             } )}
                                             </td>
                                             <td className="text-center"> 
-                                                <a  title="Edit" className="gray-s" data-toggle="modal" data-target={'#id'+catalog.id} onClick={() => this.getCatalog(catalog.id, catalog.name, catalog.description)}><i className="uil uil-edit-alt"></i></a>
+                                                <a  title="Edit" className="gray-s" data-toggle="modal" data-target={'#id'+catalog.id}  onClick={() => this.getCatalog(catalog.id, catalog.name, catalog.description)}><i className="uil uil-edit-alt"></i></a>
                                             </td>
-                                            <div class="modal fade"  tabindex="-1" id={'id'+catalog.id} aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Edit Catalog</h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <div className="modal fade"  tabindex="-1" id={'id'+catalog.id} aria-hidden="true">
+                                                <div className="modal-dialog modal-lg">
+                                                    <div className="modal-content">
+                                                        <div className="modal-header">
+                                                            <h5 className="modal-title">Edit Catalog</h5>
+                                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <div class="new-section-block">
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="new-section">
-                                                                            <div class="form_group">
-                                                                            <input class="form_input_1" type="hidden" name="id" value={catalog.id}/>
-                                                                                <label class="label25">Catalog Name*</label>
-                                                                                <input class="form_input_1" type="text" name="name" defaultValue={catalog.name} onChange={this.handleInputEditCatalogChange}/>
+                                                        <div className="modal-body">
+                                                            <div className="new-section-block">
+                                                                <div className="row">
+                                                                    <div className="col-md-12">
+                                                                        <div className="new-section">
+                                                                            <div className="form_group">
+                                                                            <input className="form_input_1" type="hidden" name="id" value={catalog.id}/>
+                                                                                <label className="label25">Catalog Name*</label>
+                                                                                <input className="form_input_1" type="text" name="name" defaultValue={catalog.name} onChange={this.handleInputEditCatalogChange}/>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="new-section-block">
-                                                                <div class="row">
-                                                                    <div class="col-md-12">
-                                                                        <div class="new-section">
-                                                                            <div class="form_group">
-                                                                                <label class="label25">Description</label>
-                                                                                <div class="ui form swdh30">
-                                                                                    <div class="field">
+                                                            <div className="new-section-block">
+                                                                <div className="row">
+                                                                    <div className="col-md-12">
+                                                                        <div className="new-section">
+                                                                            <div className="form_group">
+                                                                                <label className="label25">Description</label>
+                                                                                <div className="ui form swdh30">
+                                                                                    <div className="field">
                                                                                         <textarea rows="3" name="description" defaultValue={catalog.description} onChange={this.handleInputEditCatalogChange}></textarea>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="help-block">220 words</div>
+                                                                                <div className="help-block">220 words</div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="main-btn cancel" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="main-btn" value={'edit'} data-dismiss="modal" onClick={()=>this.updateCatalog(this.state.editCatalog)}>Update</button>
+                                                        <div className="modal-footer">
+                                                            <button type="button" className="main-btn cancel" data-dismiss="modal">Close</button>
+                                                            <button type="button" className="main-btn" value={'edit'} data-dismiss="modal" onClick={()=>this.updateCatalog(this.state.editCatalog)}>Update</button>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -9,6 +9,7 @@ import validator from 'validator';
 import $ from "jquery";
 import Success from "../../Alert/success";
 import Error from "../../Alert/error";
+import {withRouter} from "../Auth/withRouter"
 
 class ChangePassword extends React.Component {
     constructor(){
@@ -82,7 +83,9 @@ class ChangePassword extends React.Component {
             axios.post(USER_INFO_API_BASE_URL+'/change-password', password , { headers: authHeader() }).then(res=>{
                 if(res.data.message == "Success"){
                     $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
-                    
+                    setTimeout(()=>{
+                        this.props.navigate('/detail')
+                    },1500);
                 }
                 else {
                     this.setState({alert:res.data.message})
@@ -213,4 +216,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ChangePassword));

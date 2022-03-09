@@ -214,7 +214,7 @@
 	top: 12px;
 	width: 14px;
 	height: 3px;
-	background-color: #8f9cb5;
+	/* background-color: #8f9cb5; */
   }
   .cd-popup-container .cd-popup-close::before {
 	left: 8px;

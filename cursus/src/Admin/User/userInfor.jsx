@@ -41,19 +41,13 @@ class UserInfo extends React.Component {
 	} 
 
     handleClickDelete = (data) => {
-        $('#confirm').fadeIn('fast')
         this.setState({delete:data})
     }
 
     alertDelete = () => {
         this.props.deleteUserRequest(this.state.delete)
-        $('#confirm').fadeOut('fast');
         this.handleSuccess();
     }
-
-    alertCancel = () => {
-        $('#confirm').fadeOut('fast');
-    } 
 
     handleInputSearchChange = e => {   
         let value = e.target.value       
@@ -84,27 +78,30 @@ class UserInfo extends React.Component {
                                     <div className="card_dash_right1">
                                         <Link to="/add-user"><button className="create_btn_dash">Create Account</button></Link>
                                     </div>
-                                    <div  id="confirm" style={{display:"none"}}>
-                                        <div className="cd-popup" role="alert">
-                                            <div className="cd-popup-container">
-                                                <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
-                                                <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure you want to delete this?</p>
-                                                <ul className="cd-buttons">
-                                                    <li><a href='#' value="yes" onClick={()=>this.alertDelete()}>Delete</a></li>
-                                                    <li><a href='#' value="no" onClick={()=>this.alertCancel()}>Cancel</a></li>
-                                                </ul>
-                                                <a href="#0" className="cd-popup-close img-replace" onClick={()=>this.alertCancel()}></a>
-                                            </div> 
-                                        </div> 
-                                    </div>
+                                   
                                 </div>
                             </div>		
                         </div>
                         
                         <div  id="success" style={{display:"none"}}><Success name="Success"/></div>
                         <div  id="error" style={{display:"none"}}><Error/></div>
-
-
+                        <div className="modal fade "  tabindex="-1" id='confirm' aria-hidden="true">
+                            <div className="modal-dialog modal-lg modal-content" style={{border: "none"}} >
+                                <div className="cd-popup" role="alert">
+                                    <div className="cd-popup-container">
+                                        <p style={{paddingTop:"15px", paddingBottom:"0"}}><span class="iconify" data-icon="ep:warning" data-width="30" ></span></p>
+                                        <p style={{paddingTop:"5px", paddingBottom:"10px"}}> Are you sure you want to delete this?</p>
+                                        <ul className="cd-buttons">
+                                            <li><a  type="button" data-dismiss="modal" onClick={()=>this.alertDelete()}>Delete</a></li>
+                                            <li><a type="button" data-dismiss="modal">Cancel</a></li>
+                                        </ul>
+                                        <button type="button" className=" cd-popup-close close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div> 
+                                </div> 
+                            </div>
+                        </div>
                         <div className="row">
                             
                             <div className="col-md-12">
@@ -154,7 +151,7 @@ class UserInfo extends React.Component {
                                                                         <td className="text-center"> 
                                                                             <Link to={`/user/${user.id}`} params={user.id} title="Detail" className="gray-s"><i class="uil uil-file icon_142"></i></Link>
                                                                             <Link to={`/edit-user/${user.id}`} params={user.id} title="Edit" className="gray-s"><i className="uil uil-edit-alt" ></i></Link>
-                                                                            <a href="#" title="Delete" className="gray-s"><i className="uil uil-trash-alt" onClick={() => this.handleClickDelete(user.id)}></i></a>
+                                                                            <a title="Delete" className="gray-s"><i className="uil uil-trash-alt" data-toggle="modal" data-target='#confirm' data-backdrop="static" data-keyboard="false" onClick={() => this.handleClickDelete(user.id)}></i></a>
 
                                                                         </td>
                                                                     </tr>);
