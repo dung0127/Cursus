@@ -19,11 +19,10 @@ class MainUser extends React.Component {
     }
 
     componentDidMount(){
-        this.props.fetchCourseRequest(0);
+        this.props.fetchCourseRequest(1);
     } 
 
     render(){
-        console.log(this.props.courses)
         return (
             <div className="wrapper">
                 <div className="sa4d25">

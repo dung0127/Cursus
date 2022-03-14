@@ -7,6 +7,7 @@ import {LOGIN_BASE_URL} from '../../config/env';
 import {withRouter} from './withRouter'
 import Success from "../../Alert/success";
 import $ from "jquery";
+import {Link} from "react-router-dom"
 import Error from "../../Alert/error"
 
 class Login extends React.Component {
@@ -125,7 +126,7 @@ class Login extends React.Component {
 									<button className="login-btn" type="button" value="Login" onClick={()=>this.checkLoginInfo(this.state.user)} >Sign In</button>
 								</form>
 								{/* <p className="sgntrm145">Or <a href="forgot_password.html">Forgot Password</a>.</p> */}
-								<p className="mb-0 mt-30 hvsng145">Don't have an account? <a href="sign_up.html">Sign Up</a></p>
+								<p className="mb-0 mt-30 hvsng145">Don't have an account?                                 <Link to='/signup' className="item channel_item">Sign Up </Link></p>
 							</div>
 							<div className="sign_footer"><img src="images/sign_logo.png" alt=""/>© 2020 <strong>Cursus</strong>. All Rights Reserved.</div>
 						</div>				

@@ -63,25 +63,10 @@ class MenuUser extends React.Component {
                                         </ul>
                                     </li>
                                     )})}
-                                    {/* <li className="menu--item menu--item__has_sub_menuu">
-                                        <label className="menu--linkk" title="Categories">
-                                            
-                                            <span className="menu--labell">TEST</span>
-                                        </label>
-                                        <ul className="sub_menuu">
-                                            {this.props.catalogs.map((catalog,index) => {
-                                            return (
-                                                <li className="sub_menu--itemm">
-                                                    <Link to={`/course/${catalog.id}`} params={{id: catalog.id}} className="sub_menu--linkk">{catalog.name}
-                                                    </Link>
-                                                </li>
-                                            )})}
-                                            
-                                        </ul>
-                                    </li>
-                                     */}
+                                   
                                 </ul>
                             </li>
+                            
                             {localStorage.getItem("role")=="ROLE_USER"?
                             <li className="menu--item">
                                 <Link to='saved-course' className="menu--link" title="Saved Courses">
@@ -96,6 +81,25 @@ class MenuUser extends React.Component {
                                 <span class="menu--label">Orders</span>
                                 </Link>
                             </li>:''}
+                            <li class="menu--item  menu--item__has_sub_menu">
+                                <label class="menu--link" title="Pages">
+                                <i class='uil uil-file menu--icon'></i>
+                                <span class="menu--label">Pages</span>
+                                </label>
+                                <ul class="sub_menu">
+                                    <li class="sub_menu--item">
+                                        <Link to ="about" class="sub_menu--link">About</Link>
+                                    </li>
+                                    
+                                    <li class="sub_menu--item">
+                                        <Link to ="contact" class="sub_menu--link">Contact</Link>
+                                    </li>
+                                    <li class="sub_menu--item">
+                                        <Link to ="privacy" class="sub_menu--link">Privacy Policy</Link>
+                                    </li>
+                                
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                     
@@ -107,21 +111,24 @@ class MenuUser extends React.Component {
                                     <span className="menu--label">Help</span>
                                 </Link>
                             </li>
+                            <li class="menu--item">
+                                <Link to="report" class="menu--link" title="Report History">
+                                    <i class='uil uil-windsock menu--icon'></i>
+                                    <span class="menu--label">Report History</span>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     
+                    
                     <div className="left_footer">
                         <ul>
-                            <li><a href="about_us.html">About</a></li>
-                            <li><a href="press.html">Press</a></li>
-                            <li><a href="contact_us.html">Contact Us</a></li>
-                            <li><a href="coming_soon.html">Developers</a></li>
-                            <li><a href="terms_of_use.html">Copyright</a></li>
-                            <li><a href="terms_of_use.html">Privacy Policy</a></li>
-                            <li><a href="terms_of_use.html">Terms</a></li>
+                            <li><Link to ="about">About</Link></li>
+                            <li><Link to ="contact">Contact Us</Link></li>
+                            <li><Link to ="privacy">Privacy Policy</Link></li>
                         </ul>
                         <div className="left_footer_content">
-                            <p>© 2020 <strong>Cursus</strong>. All Rights Reserved.</p>
+                            <p>© 2022 <strong>Cursus</strong>. All Rights Reserved.</p>
                         </div>
                     </div>
                 </div>

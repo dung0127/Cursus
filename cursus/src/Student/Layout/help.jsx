@@ -25,14 +25,7 @@ class Help extends React.Component {
                                     <div className="col-md-6">					
                                         <div className="help_stitle">					
                                             <h2>How may we help you?</h2>
-                                            <div className="explore_search">
-                                                <div className="ui search focus">
-                                                    <div className="ui left icon input swdh11">
-                                                        <input className="prompt srch_explore" type="text" placeholder="Search for solutions"/>
-                                                        <i className="uil uil-search-alt icon icon2"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
                                         </div>															
                                     </div>															
                                 </div>							
@@ -41,22 +34,7 @@ class Help extends React.Component {
                     </div>
                 </div>
             </div>
-            <div className="_215b15">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">						
-                            <div className="course_tabs">
-                                <nav>
-                                    <div className="nav nav-tabs help_tabs tab_crse justify-content-center" id="nav-tab" role="tablist">
-                                        <a className="nav-item nav-link active" id="nav-instructor-tab" data-toggle="tab" href="#nav-instructor" role="tab" aria-selected="true">Instructor</a>
-                                        <a className="nav-item nav-link" id="nav-student-tab" data-toggle="tab" href="#nav-student" role="tab" aria-selected="false">Student</a>									
-                                    </div>
-                                </nav>						
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <div className="_215b17">
                 <div className="container-fluid">
                     <div className="row">

@@ -89,7 +89,6 @@ class SavedCourse extends React.Component {
                                                         Update {moment(course.updatedDate).format('MMM DD, YYYY')}
                                                     </div> :'' }
                                                     <div className="prce142">${course.price}</div>
-                                                    <button className="shrt-cart-btn" title="cart" type="button" onClick={() => this.props.addToCart(this.props.cartItems, course)}><i className="uil uil-shopping-cart-alt"></i></button>
                                                 </div>
                                             </div>
                                         </div>

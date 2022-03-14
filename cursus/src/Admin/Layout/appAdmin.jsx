@@ -24,6 +24,7 @@ import CourseEdit from "../Courses/courseEdit";
 import Order from "../Payment/order";
 import OrderDetail from "../Payment/orderDetail";
 import CourseStatus from "../Courses/courseStatus";
+import Signup from "../../Student/User/signup";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -65,6 +66,7 @@ class AppAdmin extends React.Component {
                 <Route path="/orders" element = {<PrivateRoute><Order/></PrivateRoute>}/>
                 <Route path="/order/:id" element = {<PrivateRoute><OrderDetail/></PrivateRoute>}/>
                 <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
+                <Route path ="/signup" element = {<Signup />}/> 
                 <Route path ="*" element = {<ErrorPage/>}/> 
             </Routes>  
         </Router>

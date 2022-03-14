@@ -34,7 +34,6 @@ class SubCatalog extends React.Component {
 
     handleSubmitSubCatalog = (addSubCatalog) => {
         this.props.createSubCatalogRequest(addSubCatalog);
-        alert (this.props.createSuccess) 
         this.props.fetchSubCatalogRequest();
         this.props.fetchCatalogRequest();
         
@@ -90,6 +89,7 @@ class SubCatalog extends React.Component {
                                 </a>
                             </div>
                         </div>
+                        <div  id="success" style={{display:"none"}}><Success name="Success"/></div>
 
                         <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body adcrse_body">

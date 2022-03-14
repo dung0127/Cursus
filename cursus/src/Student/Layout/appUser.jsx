@@ -23,6 +23,10 @@ import CourseBySubCatalog from "../Course/courseBySubCatalog";
 import Search from "../Course/search";
 import Order from "../Payment/order";
 import OrderDetail from "../Payment/orderDetail";
+import About from "./about";
+import Contact from "./contact";
+import Privacy from "./privacy";
+import Report from "./report";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -70,6 +74,10 @@ class AppUser extends React.Component {
                   <Route path="/courses/:name/:id" element ={<CourseBySubCatalog/>}></Route>
                   <Route path="/search/:name" element ={<Search/>}></Route>
                   <Route path="/search" element ={<Search/>}></Route>
+                  <Route path="/about" element ={<About/>}></Route>
+                  <Route path="/privacy" element ={<Privacy/>}></Route>
+                  <Route path="/contact" element ={<Contact/>}></Route>
+                  <Route path="/report" element ={<Report/>}></Route>
                   <Route path ="*" element = {<ErrorPage/>}/> 
               </Routes>  
           </Router>

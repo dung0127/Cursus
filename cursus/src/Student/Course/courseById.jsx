@@ -268,7 +268,6 @@ class CourseById extends React.Component {
                                             <h3>{this.props.course.title}</h3>
                                             <div className="_112456">
                                                 <ul className="accordion-expand-holder">
-                                                    <li><span className="accordion-expand-all _d1452">Expand all</span></li>
                                                     <li><span className="_fgr123"> {dem} lectures</span></li>
                                                     {/* <li><span className="_fgr123">{this.props.course.videoDuration}</span></li> */}
                                                 </ul>

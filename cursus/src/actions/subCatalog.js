@@ -1,7 +1,7 @@
-import { CATALOG_BASE_URL, CATALOG_INFO_BASE_URL, SUBCATALOG_BASE_URL, SUBCATALOG_INFO_BASE_URL } from "../config/env";
-import authHeader from "../config/authHeader";
 import axios from "axios";
-import $ from "jquery"
+import $ from "jquery";
+import authHeader from "../config/authHeader";
+import { SUBCATALOG_BASE_URL, SUBCATALOG_INFO_BASE_URL } from "../config/env";
 
 export const fetchSubCatalogRequest = () => {
     return(dispatch) => {
@@ -55,7 +55,8 @@ export const createSubCatalogRequest = (addSubCatalog) => {
     return(dispatch) => {
         axios.post(SUBCATALOG_INFO_BASE_URL + '/create', addSubCatalog , { headers: authHeader() }).then(res=>{
             dispatch(createSubCatalog()) 
-            alert (res.data.message) 
+            $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
+
             dispatch(fetchSubCatalogRequest())
         })
     }

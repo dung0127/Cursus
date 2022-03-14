@@ -427,6 +427,14 @@ class CourseAdd extends Component {
             isValid = false;
         }
 
+        if (this.state.addCourse.urlVideoDescription !== '') {
+            var pattern = new RegExp(/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch))((\w|-){11})(?:\S+)?$/i);
+            if (!pattern.test(this.state.addCourse.urlVideoDescription)) {
+              isValid = false;
+              error["urlVideoDescription"] = "Please enter valid youtube url.";
+            }
+          }
+
         this.setState({
             error: error
         })
