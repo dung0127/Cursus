@@ -241,7 +241,7 @@ class CourseAdd extends Component {
         })
 
         return isValid;
-    }
+    } 
 
     newLecture = (lesson, add) => {
         if(this.validateSort(add.sort,lesson.title)&&this.validateLecture()){

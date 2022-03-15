@@ -73,10 +73,10 @@ class ProfileEdit extends React.Component {
         let isValid = true;
 
         const error = {}
-
-        if (this.state.newDetail !== '') {
+        
+        if (this.state.newDetail.email !== '') {
             var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
-            if (!pattern.test(this.state.newDetail)) {
+            if (!pattern.test(this.state.newDetail.email)) {
                 isValid = false;
                 error["email"] = "Please enter valid email address.";
             }
@@ -90,7 +90,8 @@ class ProfileEdit extends React.Component {
     }
 
     updateDetail = (newDetail) => {
-       
+        console.log(this.validateEmail())
+        if(this.validateEmail()){
         this.props.imageRequest(this.state.ava)
         axios.post(USER_INFO_API_BASE_URL+'/update', newDetail , { headers: authHeader() }).then(res=>{
             // update state.staff.staffInfo
@@ -111,7 +112,13 @@ class ProfileEdit extends React.Component {
             }
             
         })
-          
+        }
+        this.setState({newDetail: {
+            fullname: '',
+            email: '',
+            enable: '',
+            address: ''
+            },}) 
     }
 
     render() {

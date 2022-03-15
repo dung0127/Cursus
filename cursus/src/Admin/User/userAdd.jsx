@@ -39,7 +39,6 @@ class UserAdd extends React.Component {
         $('#success').fadeIn('fast').delay(2000).fadeOut('slow');
 		setTimeout(()=>{
 			this.props.navigate('/users')
-			window.location.reload();
 		},1000);
 		
 	} 
@@ -72,6 +71,13 @@ class UserAdd extends React.Component {
         if(validator.isEmpty(this.state.addUser.email)){            
             error['email'] = 'The Email field is required.';
             isValid = false;
+        }
+        else {
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+                if (!pattern.test(this.state.addUser.email)) {
+                    isValid = false;
+                    error["email"] = "Please enter valid email address.";
+                }    
         }
 
         this.setState({
@@ -112,13 +118,24 @@ class UserAdd extends React.Component {
             this.setState({alert:res.data.message})
             if(res.data.message=='Success'){
                 this.handleSuccess()
+                
             }
             else {
                 this.handleError()
                
             }
-            console.log(res.data.data)
+            this.setState({addUser: {  
+                username:'',
+                password:'',
+                fullname: '',
+                email: '',
+                address: '',
+                avatarImage:'',
+                role:'ROLE_ADMIN'
+                },})
             })
+            Array.from(document.querySelectorAll('input')).forEach(input=>(input.value=""))
+
         }
     }
 
@@ -153,10 +170,9 @@ class UserAdd extends React.Component {
                                                     <div className="col-lg-6 col-md-12">		                                          
                                                         <div className="mt-30 lbel25">
                                                             <label>Role</label>
-                                                                <select class="ui hj145 dropdown cntry152 prompt srch_explore" onChange={this.handleInputChange} name="role" >
-                                                                    <option value="ROLE_ADMIN" >Admin</option>
-                                                                    <option value="ROLE_USER">User</option>
-                                                                </select>
+                                                                <div className="ui left icon input swdh19">
+                                                                    <input className="prompt srch_explore" value='Admin' disabled name="role" data-purpose="edit-course-title" maxlength="60" id="main[title]" />															
+                                                               </div>
                                                         </div>		
                                                     </div>
                                                     <div className="col-lg-12 col-md-12">						

@@ -48,10 +48,10 @@ class Contact extends React.Component {
                                     </ul>
                                     <div  className="edututs_links_social">
                                         <ul  className="tutor_social_links">
-                                            <li><a href="#"  className="fb"><i  className="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"  className="tw"><i  className="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"  className="ln"><i  className="fab fa-linkedin-in"></i></a></li>
-                                            <li><a href="#"  className="yu"><i  className="fab fa-youtube"></i></a></li>
+                                            <li><a href="https://www.facebook.com"  className="fb"><i  className="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="https://twitter.com/?lang=vi"  className="tw"><i  className="fab fa-twitter"></i></a></li>
+                                            <li><a href="https://www.linkedin.com"  className="ln"><i  className="fab fa-linkedin-in"></i></a></li>
+                                            <li><a href="https://www.youtube.com"  className="yu"><i  className="fab fa-youtube"></i></a></li>
                                         </ul>
                                     </div>
                                 </div>												

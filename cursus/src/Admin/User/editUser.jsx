@@ -91,8 +91,29 @@ class EditUser extends React.Component {
         console.log(formData)  
         }
     }
-      
+     
+    validateEmail = () => {
+        let isValid = true;
+
+        const error = {}
+        
+        if (this.state.newDetail.email !== undefined) {
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (!pattern.test(this.state.newDetail.email)) {
+                isValid = false;
+                error["email"] = "Please enter valid email address.";
+            }
+        }    
+
+        this.setState({
+            error: error
+        })
+
+        return isValid;
+    }
+
     updateDetail = (newDetail, id) => {
+        if(this.validateEmail()){
         this.props.imageRequest(this.state.ava)
         console.log(this.state.ava)
         this.props.getUserByIdRequest(id);
@@ -121,7 +142,8 @@ class EditUser extends React.Component {
                 this.handleError()
             }
             })
-        
+        }
+        this.setState({newDetail:{}})
           
     }
 
@@ -227,6 +249,8 @@ class EditUser extends React.Component {
                                                                             <input className="prompt srch_explore" type="text" name="email"  
                                                                             onChange={this.handleInputChange} defaultValue={userById.email}/>					
                                                                         </div>
+                                                                        {this.state.error.email && <div className="validation alert alert-warning">{this.state.error.email}</div>}
+
                                                                     </div>
                                                                 </div>
                                                                 <div className="col-lg-6">

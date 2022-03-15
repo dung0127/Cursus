@@ -40,6 +40,7 @@ export const PrivateRoute = ({children}) => {
   
   return <Navigate to="/" />
 }
+
 console.log(!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn')))
 class AppUser extends React.Component {
     constructor(){
@@ -50,8 +51,8 @@ class AppUser extends React.Component {
     render() {
       return (
         <Router>
-                  {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup')) ? <Header/> : '') : (  (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/signup')) ? '':<HeaderGuest/> )}
-                  {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup')) ? <MenuUser/>:''}
+                  {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') || window.location.pathname.startsWith('/error')) ? <Header/> : '') : (  (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/signup')) ? '':<HeaderGuest/> )}
+                  {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') || window.location.pathname.startsWith('/error')) ? <MenuUser/>:''}
                   {/* {window.location.pathname.startsWith('/learn')? <HeaderLearn/>:''} */}
               <Routes>    
                   <Route path ="/index" element = {<MainUser/>}/> 
@@ -87,9 +88,9 @@ class AppUser extends React.Component {
 
 const mapStateToProps = state => {
   return {
-      auth: state.auth.token
+      auth: state.auth.token,
   }
 }
 
-export default connect(mapStateToProps)(AppUser)
+export default connect(mapStateToProps,null)(AppUser)
 

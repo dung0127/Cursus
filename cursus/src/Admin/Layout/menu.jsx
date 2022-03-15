@@ -50,6 +50,14 @@ class Menu extends React.Component {
                             
                         </ul>
                     </div>
+                    <div className="left_footer">
+                        <ul>
+                            <li><Link to ="/privacy">Privacy Policy</Link></li>
+                        </ul>
+                        <div className="left_footer_content">
+                            <p>© 2022 <strong>Cursus</strong>. All Rights Reserved.</p>
+                        </div>
+                    </div>
                     {/* <div className="left_section pt-2">
                         <ul>
                             <li className="menu--item">

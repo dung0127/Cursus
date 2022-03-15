@@ -71,7 +71,7 @@ class MenuUser extends React.Component {
                             <li className="menu--item">
                                 <Link to='saved-course' className="menu--link" title="Saved Courses">
                                 <i className="uil uil-heart-alt menu--icon"></i>
-                                <span className="menu--label">Saved Courses</span>
+                                <span className="menu--label">Favorite Courses</span>
                                 </Link>
                             </li>:''}
                             {localStorage.getItem("role")=="ROLE_USER"?
@@ -88,14 +88,14 @@ class MenuUser extends React.Component {
                                 </label>
                                 <ul class="sub_menu">
                                     <li class="sub_menu--item">
-                                        <Link to ="about" class="sub_menu--link">About</Link>
+                                        <Link to ="/about" class="sub_menu--link">About</Link>
                                     </li>
                                     
                                     <li class="sub_menu--item">
-                                        <Link to ="contact" class="sub_menu--link">Contact</Link>
+                                        <Link to ="/contact" class="sub_menu--link">Contact</Link>
                                     </li>
                                     <li class="sub_menu--item">
-                                        <Link to ="privacy" class="sub_menu--link">Privacy Policy</Link>
+                                        <Link to ="/privacy" class="sub_menu--link">Privacy Policy</Link>
                                     </li>
                                 
                                 </ul>
@@ -112,7 +112,7 @@ class MenuUser extends React.Component {
                                 </Link>
                             </li>
                             <li class="menu--item">
-                                <Link to="report" class="menu--link" title="Report History">
+                                <Link to="/report" class="menu--link" title="Report History">
                                     <i class='uil uil-windsock menu--icon'></i>
                                     <span class="menu--label">Report History</span>
                                 </Link>
@@ -123,9 +123,9 @@ class MenuUser extends React.Component {
                     
                     <div className="left_footer">
                         <ul>
-                            <li><Link to ="about">About</Link></li>
-                            <li><Link to ="contact">Contact Us</Link></li>
-                            <li><Link to ="privacy">Privacy Policy</Link></li>
+                            <li><Link to ="/about">About</Link></li>
+                            <li><Link to ="/contact">Contact Us</Link></li>
+                            <li><Link to ="/privacy">Privacy Policy</Link></li>
                         </ul>
                         <div className="left_footer_content">
                             <p>© 2022 <strong>Cursus</strong>. All Rights Reserved.</p>

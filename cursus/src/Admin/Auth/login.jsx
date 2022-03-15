@@ -128,7 +128,7 @@ class Login extends React.Component {
 								{/* <p className="sgntrm145">Or <a href="forgot_password.html">Forgot Password</a>.</p> */}
 								<p className="mb-0 mt-30 hvsng145">Don't have an account?                                 <Link to='/signup' className="item channel_item">Sign Up </Link></p>
 							</div>
-							<div className="sign_footer"><img src="images/sign_logo.png" alt=""/>© 2020 <strong>Cursus</strong>. All Rights Reserved.</div>
+							<div className="sign_footer"><img src="images/sign_logo.png" alt=""/>© 2022 <strong>Cursus</strong>. All Rights Reserved.</div>
 						</div>				
 					</div>				
 				</div>				

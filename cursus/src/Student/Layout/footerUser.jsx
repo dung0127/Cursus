@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom"
 
 class FooterUser extends React.Component {
     render() {
@@ -8,9 +9,9 @@ class FooterUser extends React.Component {
                     <div className="row">					
                         <div className="col-lg-12">
                             <div className="item_f1">
-                                <a href="terms_of_use.html">Copyright Policy</a>
-                                <a href="terms_of_use.html">Terms</a>
-                                <a href="terms_of_use.html">Privacy Policy</a>
+                                <Link to="/privacy">Copyright Policy</Link>
+                                <Link to="/privacy">Terms</Link>
+                                <Link to="/privacy">Privacy Policy</Link>
                             </div>
                         </div>
                         <div className="col-lg-12">
@@ -32,13 +33,13 @@ class FooterUser extends React.Component {
                                     </div>
                                     <div className="col-md-6">
                                         <div className="edu_social_links">
-                                            <a href="#"><i className="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i className="fab fa-twitter"></i></a>
-                                            <a href="#"><i className="fab fa-google-plus-g"></i></a>
-                                            <a href="#"><i className="fab fa-linkedin-in"></i></a>
-                                            <a href="#"><i className="fab fa-instagram"></i></a>
-                                            <a href="#"><i className="fab fa-youtube"></i></a>
-                                            <a href="#"><i className="fab fa-pinterest-p"></i></a>
+                                            <a href="https://www.facebook.com"><i className="fab fa-facebook-f"></i></a>
+                                            <a href="https://twitter.com/?lang=vi"><i className="fab fa-twitter"></i></a>
+                                            <a href="https://www.linkedin.com"><i className="fab fa-google-plus-g"></i></a>
+                                            <a href="https://www.linkedin.com"><i className="fab fa-linkedin-in"></i></a>
+                                            <a href="https://www.instagram.com/"><i className="fab fa-instagram"></i></a>
+                                            <a href="https://www.youtube.com/"><i className="fab fa-youtube"></i></a>
+                                            <a href="https://www.pinterest.com/"><i className="fab fa-pinterest-p"></i></a>
                                         </div>
                                     </div>
                                 </div>

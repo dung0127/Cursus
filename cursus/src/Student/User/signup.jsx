@@ -165,7 +165,7 @@ class Signup extends React.Component {
                                 <p className="sgntrm145">By signing up, you agree to our <Link to="/privacy">Privacy Policy</Link>.</p>
                                 <p className="mb-0 mt-30">Already have an account? <Link to="/login">Log In</Link></p>
                             </div>
-                            <div className="sign_footer"><img src="images/sign_logo.png" alt="" />© 2020 <strong>Cursus</strong>. All Rights Reserved.</div>
+                            <div className="sign_footer"><img src="images/sign_logo.png" alt="" />© 2022 <strong>Cursus</strong>. All Rights Reserved.</div>
                         </div>
                     </div>
                 </div>

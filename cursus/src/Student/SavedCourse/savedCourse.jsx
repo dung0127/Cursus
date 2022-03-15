@@ -44,7 +44,7 @@ class SavedCourse extends React.Component {
 					<div className="col-md-9">
                         <div className="row">
                             <div className="col-lg-12">	
-                                <h2 className="st_title"> <i className="uil uil-heart-alt"></i>Saved Courses</h2>
+                                <h2 className="st_title"> <i className="uil uil-heart-alt"></i>Favorite Courses</h2>
                             </div>								
                         </div>
 						<div className="_14d25 mb-20">						

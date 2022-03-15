@@ -12,6 +12,7 @@ import Error from "../../Alert/error";
 import Success from "../../Alert/success";
 import authHeader from "../../config/authHeader";
 import Footer from "../Layout/footer";
+import validator from 'validator';
 
 class CourseDetail extends React.Component {
     constructor(props) {
@@ -22,7 +23,12 @@ class CourseDetail extends React.Component {
             status:'',     
             switch: '',
             changeSwitch: false,
-            newLecture:{
+            newLecture:{},
+            addLecture:{
+                title:'',
+                videoDuration:'',
+                videoUrl:'',
+                sort:'',
                 preview:'false'
             },
             course: this.props.course,
@@ -72,10 +78,18 @@ class CourseDetail extends React.Component {
         console.log(formData)  
     }
 
+    handleInputLectureCreateChange = (e) => {   
+        let formData = Object.assign({}, this.state.addLecture);    
+        formData[e.target.name] = e.target.value;        
+        this.setState({addLecture:formData});  
+        console.log(formData)  
+    }
+
     updateLesson = (lesson, courseId, edit) => {
         edit.courseId=courseId;
         let newForm = Object.assign(lesson,edit);
         this.props.updateLessonRequest(newForm,courseId);
+        this.setState({newLesson:{}}); 
     }
 
    
@@ -84,6 +98,7 @@ class CourseDetail extends React.Component {
         add.courseId=courseId;
         this.props.createLessonRequest(add,courseId);
         Array.from(document.querySelectorAll('.lesson')).forEach(input=>(input.value=""))
+        this.setState({newLesson:{}}); 
 
     }
 
@@ -113,7 +128,6 @@ class CourseDetail extends React.Component {
             ))
         ):''
         )
-                    console.log(this.state.newLecture.videoUrl)
         if (this.state.newLecture.videoUrl !== undefined) {
             var pattern = new RegExp(/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch))((\w|-){11})(?:\S+)?$/i);
             if (!pattern.test(this.state.newLecture.videoUrl)) {
@@ -137,10 +151,11 @@ class CourseDetail extends React.Component {
         console.log(newForm);
         this.props.updateLectureRequest(newForm,courseId);
         this.setState({newLecture:{
-            preview:'false',
+            
         }})
         $('#idlec'+lecture.id).hide();
-            $('.modal-backdrop').hide();
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
         }
         
         })
@@ -159,15 +174,34 @@ class CourseDetail extends React.Component {
             ))
         ):''
         )
+        
+        if(validator.isEmpty(this.state.addLecture.sort)){            
+            error['sortCreate'] = 'The field is required.';
+            isValid = false;
+        }
 
-        if (this.state.newLecture.videoUrl !== undefined) {
+        if(validator.isEmpty(this.state.addLecture.title)){            
+            error['titleCreate'] = 'The field is required.';
+            isValid = false;
+        }
+
+        if(validator.isEmpty(this.state.addLecture.videoUrl)){            
+            error['videoUrlCreate'] = 'The field is required.';
+            isValid = false;
+        }
+        else {
             var pattern = new RegExp(/^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch))((\w|-){11})(?:\S+)?$/i);
-            if (!pattern.test(this.state.newLecture.videoUrl)) {
+            if (!pattern.test(this.state.addLecture.videoUrl)) {
               isValid = false;
               error["videoUrlCreate"] = "Please enter valid youtube url.";
             }
         }
-        
+
+        if(validator.isEmpty(this.state.addLecture.videoDuration)){            
+            error['videoDurationCreate'] = 'The field is required.';
+            isValid = false;
+        }                
+       
         this.setState({
             error: error
         })
@@ -184,10 +218,15 @@ class CourseDetail extends React.Component {
         this.props.createLectureRequest(add,courseId);
         Array.from(document.querySelectorAll('.lecture')).forEach(input=>(input.value=""))
         this.setState({changeSwitch:false})
-        this.setState({newLecture:{
-            preview:'false',
+        this.setState({addLecture:{
+            title:'',
+            videoDuration:'',
+            videoUrl:'',
+            sort:'',
+            preview:'false'
         }})
         $('#idlecCreate'+lessonId).hide();
+        $('body').removeClass('modal-open');
         $('.modal-backdrop').hide()
         }
         })
@@ -513,16 +552,17 @@ class CourseDetail extends React.Component {
                                                                                                                 <div className="form_group">
                                                                                                                 <input className="form_input_1" type="hidden" name="id" value={lecture.id} />
                                                                                                                     <label className="label25">Lecture Title*</label>
-                                                                                                                    <input className="form_input_1 lecture" type="text" name="title" onChange={this.handleInputLectureChange}/>
-                                                                                                                    
+                                                                                                                    <input className="form_input_1 lecture" type="text" name="title" onChange={this.handleInputLectureCreateChange}/>
                                                                                                                 </div>
+                                                                                                               {this.state.error.titleCreate && <div className="validation alert alert-warning">{this.state.error.titleCreate}</div>}
+
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div className="col-lg-4 col-md-6">
                                                                                                             <div className="ui search focus mt-30 lbel25">
                                                                                                                 <label>Sort*</label>
                                                                                                                 <div className="ui left icon input swdh19">
-                                                                                                                    <input className="prompt srch_explore lecture" type="number" min="1" max="100" placeholder="1" name="sort" onChange={this.handleInputLectureChange} />
+                                                                                                                    <input className="prompt srch_explore lecture" type="number" min="1" max="100" placeholder="1" name="sort" onChange={this.handleInputLectureCreateChange} />
                                                                                                                 </div>
                                                                                                                 {this.state.error.sortCreate && <div className="validation alert alert-warning">{this.state.error.sortCreate}</div>}
 
@@ -532,8 +572,10 @@ class CourseDetail extends React.Component {
                                                                                                             <div className="ui search focus mt-30 lbel25">
                                                                                                                 <label>Duration*</label>
                                                                                                                 <div className="ui left icon input swdh19">
-                                                                                                                    <input className="prompt srch_explore lecture" type="number" min="1" max="100" placeholder="1" name="videoDuration" onChange={this.handleInputLectureChange} />
+                                                                                                                    <input className="prompt srch_explore lecture" type="number" min="1" max="100" placeholder="1" name="videoDuration" onChange={this.handleInputLectureCreateChange} />
                                                                                                                 </div>
+                                                                                                                {this.state.error.videoDurationCreate && <div className="validation alert alert-warning">{this.state.error.videoDurationCreate}</div>}
+
                                                                                                             </div>
                                                                                                         </div>
                                                                                                         <div className="col-lg-3 col-md-3">
@@ -544,12 +586,12 @@ class CourseDetail extends React.Component {
                                                                                                                 {
                                                                                                                 this.state.changeSwitch?
                                                                                                                     <label className="switch" >
-                                                                                                                        <input  type="checkbox" name="preview" checked value="false" onClick={()=>this.switch()} onChange={this.handleInputLectureChange}/>
+                                                                                                                        <input  type="checkbox" name="preview" checked value="false" onClick={()=>this.switch()} onChange={this.handleInputLectureCreateChange}/>
                                                                                                                         <span  style={{width:"40px"}}></span>
                                                                                                                     </label>
                                                                                                                 :
                                                                                                                 <label className="switch" >
-                                                                                                                    <input  type="checkbox"  name="preview" value="true" onClick={()=>this.switch()} onChange={this.handleInputLectureChange}/>
+                                                                                                                    <input  type="checkbox"  name="preview" value="true" onClick={()=>this.switch()} onChange={this.handleInputLectureCreateChange}/>
                                                                                                                     <span style={{width:"40px"}}></span>
                                                                                                                 </label>
                                                                                                                 }
@@ -561,7 +603,7 @@ class CourseDetail extends React.Component {
                                                                                                             <div className="ui search focus mt-30 lbel25">
                                                                                                                 <label>Youtube URL*</label>
                                                                                                                 <div className="ui left icon input swdh19 swdh95">
-                                                                                                                    <input className="prompt srch_explore lecture" type="text" placeholder="Youtube video URL" name="videoUrl" onChange={this.handleInputLectureChange} />
+                                                                                                                    <input className="prompt srch_explore lecture" type="text" placeholder="Youtube video URL" name="videoUrl" onChange={this.handleInputLectureCreateChange} />
                                                                                                                 </div>
                                                                                                                 {this.state.error.videoUrlCreate && <div className="validation alert alert-warning">{this.state.error.videoUrlCreate}</div>}
 
@@ -572,7 +614,7 @@ class CourseDetail extends React.Component {
                                                                                             </div>
                                                                                             <div className="modal-footer">
                                                                                                 <button type="button" className="main-btn cancel" data-dismiss="modal">Close</button>
-                                                                                                <button type="button" className="main-btn" value={'edit'}  onClick={()=>this.createLecture(this.props.course.id,lesson.id,this.state.newLecture)}>Add</button>
+                                                                                                <button type="button" className="main-btn" value={'edit'}  onClick={()=>this.createLecture(this.props.course.id,lesson.id,this.state.addLecture)}>Add</button>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -606,7 +648,7 @@ class CourseDetail extends React.Component {
                                                                                 <div className="modal-footer">
                                                                                     <button type="button" className="main-btn cancel" data-dismiss="modal">Close</button>
                                                                                     <button type="button" className="main-btn" data-dismiss="modal" value={'edit'} onClick={()=>this.updateLesson(lesson,this.props.course.id,this.state.newLesson)}>UPDATE</button>
-                                                                                    <button type="button" className="main-btn" data-dismiss="modal" value={'delete'} onClick={()=>this.deleteLesson(lesson.id, this.props.course.id)} ><i className="uil uil-trash-alt"></i>DELETE</button>
+                                                                                    {/* <button type="button" className="main-btn" data-dismiss="modal" value={'delete'} onClick={()=>this.deleteLesson(lesson.id, this.props.course.id)} ><i className="uil uil-trash-alt"></i>DELETE</button> */}
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -716,7 +758,7 @@ class CourseDetail extends React.Component {
                                                                                             <div className="modal-footer">
                                                                                                 <button type="button" className="main-btn cancel" data-dismiss="modal" onClick={()=>this.closeModal()}>Close</button>
                                                                                                 <button type="button" className="main-btn" value={'edit'}  onClick={()=>this.updateLecture(lecture,lesson.id,this.props.course.id,this.state.newLecture)}   >Update</button>
-                                                                                                <button type="button" className="main-btn" data-dismiss="modal" value={'delete'} onClick={()=>this.deleteLecture(lecture.id, this.props.course.id)} ><i className="uil uil-trash-alt"></i>DELETE</button>
+                                                                                                {/* <button type="button" className="main-btn" data-dismiss="modal" value={'delete'} onClick={()=>this.deleteLecture(lecture.id, this.props.course.id)} ><i className="uil uil-trash-alt"></i>DELETE</button> */}
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>

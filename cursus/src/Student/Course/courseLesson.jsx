@@ -6,6 +6,8 @@ import authHeader from "../../config/authHeader";
 import axios from "axios";
 import {logout} from "../../actions/auth";
 import {fetchDetailUserRequest} from "../../actions/detail"
+import { fetchAllEnrollRequest} from "../../actions/course"
+import {withRouter} from "../../Admin/Auth/withRouter"
 
 let arr
 
@@ -22,7 +24,13 @@ class CourseLesson extends React.Component {
 
     componentDidMount(){
 		this.props.fetchDetailUserRequest();
-        this.props.courseByIdRequest(this.state.id);
+		console.log(this.state.id)
+		axios.get('http://localhost:8080/api/course/enroll',{ headers: authHeader() }).then((res) => {
+			res.data.data.map((en) =>
+			en.id == this.state.id?
+			this.props.courseByIdRequest(en.id):''
+			)
+        })
 		
     } 
 
@@ -210,6 +218,8 @@ const mapStateToProps = state => {
 		username: state.auth.username,
         token: state.auth.token,
         user: state.detail.user,
+		enroll: state.course.coursesEnroll
+
     }
 }
 
@@ -225,8 +235,9 @@ const mapDispatchToProps = dispatch => {
         },
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
         courseByIdRequest:(e) => dispatch (courseByIdRequest(e)),
+		fetchAllEnrollRequest:() => dispatch (fetchAllEnrollRequest())
 	
     };
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouterParams(CourseLesson));;
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withRouterParams(CourseLesson)));
