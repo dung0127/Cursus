@@ -26,6 +26,7 @@ import OrderDetail from "../Payment/orderDetail";
 import CourseStatus from "../Courses/courseStatus";
 import Signup from "../../Student/User/signup";
 import Privacy from "./privacy";
+import HeaderGuest from "../../Student/Layout/headerGuest";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -43,8 +44,9 @@ class AppAdmin extends React.Component {
   render() {
       return (
         <Router>
-                {isLogin?<Header/>:''}
-                {isLogin?<Menu/>:''}
+                {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') ) ? <Header/> : '') : (  (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/signup')) ? '':<HeaderGuest/> )}
+                {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') ) ? <Menu/>:''}
+                
             <Routes>    
                 <Route path ="/index" element = {<PrivateRoute><DashBoard/></PrivateRoute>}/> 
                 {!isLogin? <Route path ="/login" element = {<Login/>}/> :''}

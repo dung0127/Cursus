@@ -51,8 +51,8 @@ class AppUser extends React.Component {
     render() {
       return (
         <Router>
-                  {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') || window.location.pathname.startsWith('/error')) ? <Header/> : '') : (  (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/signup')) ? '':<HeaderGuest/> )}
-                  {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') || window.location.pathname.startsWith('/error')) ? <MenuUser/>:''}
+                  {isLogin? ( !(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') ) ? <Header/> : '') : (  (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/signup')) ? '':<HeaderGuest/> )}
+                  {!(window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/learn') || window.location.pathname.startsWith('/signup') ) ? <MenuUser/>:''}
                   {/* {window.location.pathname.startsWith('/learn')? <HeaderLearn/>:''} */}
               <Routes>    
                   <Route path ="/index" element = {<MainUser/>}/> 
