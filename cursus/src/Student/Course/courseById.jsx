@@ -430,7 +430,7 @@ class CourseById extends React.Component {
                                     <div className="tab-pane fade" id="nav-reviews" role="tabpanel">
                                         <div className="student_reviews">
                                             <div className="row">
-                                                {localStorage.getItem("isLogin")?
+                                                {localStorage.getItem("isLogin")&&this.props.course.purchased?
                                                 <div className="col-lg-5">
                                                     {this.props.course.userReview?
                                                     <div className="reviews_left">
@@ -478,7 +478,8 @@ class CourseById extends React.Component {
                                                         </div>:''}
                                                         
                                                     </div>
-                                                    :<div className="reviews_left">
+                                                    :
+                                                    <div className="reviews_left">
                                                         <h3>Customer Feedback</h3>
                                                         <div className="total_rating">											
                                                             <div className="rate" onChange={this.formReview}>
@@ -499,7 +500,7 @@ class CourseById extends React.Component {
                                                             <textarea className="_cmnt001"name="feedback" placeholder="Add a public comment" onChange={this.formReview}></textarea>
                                                             <button className="cmnt-btn" type="button" onClick={()=>this.createReview(this.state.review, this.props.course.id)}>Send</button>
                                                         </div>
-                                                    </div>	
+                                                    </div>
                                                     }											
                                                 </div>
                                                 :''}

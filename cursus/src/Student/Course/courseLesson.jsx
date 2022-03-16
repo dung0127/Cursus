@@ -136,6 +136,7 @@ class CourseLesson extends React.Component {
                     </ul>
                 </div>
             </div>
+		
 		<div className="lecture-container-wrap d-flex">
 			<div className="lecture-sidebar">
 				<h4 className="p-4 lecture-sidebar-course-title">{course.title}</h4>
@@ -204,7 +205,7 @@ class CourseLesson extends React.Component {
 					<p className="mb-0">{course.description}</p>
 				</div>
 			</div>}
-
+			
 		</div>
 		</>
 		);

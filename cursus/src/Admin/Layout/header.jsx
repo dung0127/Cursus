@@ -56,7 +56,7 @@ class Header extends React.Component {
         const { cartItems, catalogs } = this.props;
         return(
             <header className="header  d-flex">
-                <button type="button" id="toggleMenu" className="toggle_menu">
+                <button type="button" className="toggle_menu">
                 <i className='uil uil-bars'></i>
                 </button>
                 <button id="collapse_menu" className="collapse_menu">

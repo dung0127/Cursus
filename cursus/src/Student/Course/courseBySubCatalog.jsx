@@ -112,6 +112,12 @@ class CourseBySubCatalog extends React.Component {
                                         })
                                     
                                 :''}
+                                {subCatalog.courses&&subCatalog.courses.length>0?'':
+                                    <div class="col-md-12 text-center">
+                                    <div class="no-data-div">
+                                    <img src="/images/nodata.svg" alt="No Data"/>
+                                    </div>                
+                                </div>}
                                 </div>	
                             </div>		
                         </div>		

@@ -31,12 +31,12 @@ class HeaderGuest extends React.Component {
                 <button type="button" id="toggleMenu" className="toggle_menu">
                 <i className='uil uil-bars'></i>
                 </button>
-                <button id="collapse_menu" className="collapse_menu">
+                <button  className="collapse_menu">
                     <i className="uil uil-bars collapse_menu--icon "></i>
                     <span className="collapse_menu--label"></span>
                 </button>
                 <div className="main_logo" id="logo">
-                    <Link to = "/"><img src="images/logo.svg" alt="" /></Link>
+                    <Link to = "/"><img src="/images/logo.svg" alt="" /></Link>
                     <Link to ="/"><img className="logo-inverse" src="images/ct_logo.svg" alt=""/></Link>
                 </div>
                 <div className="top-category">
