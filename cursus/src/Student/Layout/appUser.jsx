@@ -27,6 +27,7 @@ import About from "./about";
 import Contact from "./contact";
 import Privacy from "./privacy";
 import Report from "./report";
+import Enroll from "../Enroll/enroll";
 
 const isLogin = localStorage.getItem("isLogin");
 
@@ -71,6 +72,7 @@ class AppUser extends React.Component {
                   <Route path ="/edit-profile" element = {<PrivateRoute><ProfileEdit/></PrivateRoute>}/> 
                   <Route path="/change-password" element = {<PrivateRoute><ChangePassword/></PrivateRoute>}/>
                   <Route path ="/saved-course" element = {<PrivateRoute><SavedCourse/></PrivateRoute>}/> 
+                  <Route path ="/enroll-course" element = {<PrivateRoute><Enroll/></PrivateRoute>}/> 
                   <Route path ="/help" element = {<Help/>}/> 
                   <Route path="/courses/:name/:id" element ={<CourseBySubCatalog/>}></Route>
                   <Route path="/search/:name" element ={<Search/>}></Route>

@@ -75,6 +75,13 @@ class MenuUser extends React.Component {
                                 </Link>
                             </li>:''}
                             {localStorage.getItem("role")=="ROLE_USER"?
+                            <li className="menu--item">
+                                <Link to='enroll-course' className="menu--link" title="Enroll Courses">
+                                <i class="uil uil-bag menu--icon"></i>
+                                <span className="menu--label">Enroll</span>
+                                </Link>
+                            </li>:''}
+                            {localStorage.getItem("role")=="ROLE_USER"?
                             <li class="menu--item">
                                 <Link to="orders" class="menu--link" title="Orders">
                                 <i class='uil uil-file-alt menu--icon'></i>

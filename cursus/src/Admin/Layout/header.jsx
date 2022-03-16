@@ -104,7 +104,7 @@ class Header extends React.Component {
                             <Link to= "/add-course" class="upload_btn" title="Create New Course">Create New Course</Link>
                         </li>:localStorage.getItem("role")=="ROLE_USER"?
                         <><li>
-                        <Link to="/detail/enroll" params="enroll" class="upload_btn"  title="Enroll">Enroll</Link>
+                        <Link to="/enroll-course" params="enroll" class="upload_btn"  title="Enroll">Enroll</Link>
                         </li>
                         <li>
                             <Link to="/cart" class="option_links" title="Cart"><i class='uil uil-shopping-cart-alt'></i><span class="noti_count">{cartItems.length}</span></Link>
