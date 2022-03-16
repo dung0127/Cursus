@@ -44,7 +44,6 @@ class Course extends React.Component {
     }
 
     render(){
-        console.log(this.props.courses)
       return (
         <div class="wrapper">
             <div class="sa4d25">
@@ -79,7 +78,7 @@ class Course extends React.Component {
                                             <div class="col-lg-3 col-md-4" >
                                                 <div class="fcrse_1 mt-30" >
                                                     <Link to={`/course/${course.id}`} params={course.id} class="fcrse_img" >
-                                                        <img  src={course.imageVideoDescription} alt="" style={{height:"150px"}}/>
+                                                        <img  src={course.imageVideoDescription} alt="" style={{height:"200px"}}/>
                                                         <div class="course-overlay">
                                                             <span class="play_btn1"><i class="uil uil-play"></i></span>
                                                             {course.avgRatting?

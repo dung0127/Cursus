@@ -1,7 +1,7 @@
 import React from "react";
 import FooterUser from "./footerUser";
 import {connect} from 'react-redux';
-import { fetchCourseRequest } from "../../actions/course";
+import { fetchCourseIndexRequest } from "../../actions/course";
 import {fetchDetailUserRequest} from "../../actions/detail";
 import OwlCarousel from 'react-owl-carousel';
 import {Link} from "react-router-dom";
@@ -19,7 +19,7 @@ class MainUser extends React.Component {
     }
 
     componentDidMount(){
-        this.props.fetchCourseRequest(1);
+        this.props.fetchCourseIndexRequest();
     } 
 
     render(){
@@ -39,15 +39,15 @@ class MainUser extends React.Component {
                                         <Link to="/course" className="see150">See all</Link>
                                        
                                         <div className="la5lo1">
-                                            
+                                            {this.props.coursesIndex?
                                             <OwlCarousel className=" owl-theme">
                                                     {
-                                                    this.props.courses.map((course,index) => {
+                                                    this.props.coursesIndex.map((course,index) => {
                                                         return (
                                                             <div className="item">
                                                                 <div className="fcrse_1 mb-20">
                                                                     <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
-                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"150px"}}/>
+                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"200px"}}/>
                                                                         <div className="course-overlay">
                                                                             {/* <div class="badge_seller">Bestseller</div> */}
                                                                             <span className="play_btn1"><i className="uil uil-play"></i></span>
@@ -91,6 +91,7 @@ class MainUser extends React.Component {
                                                     })
                                                 }
                                             </OwlCarousel>
+                                            :''}
                                         </div>
                                     </div>
                                     
@@ -149,14 +150,15 @@ class MainUser extends React.Component {
                                         <h4 className="item_title"> Courses</h4>
                                         <Link to="/course" className="see150">See all</Link>
                                         <div className="la5lo1">
+                                            {this.props.coursesIndex?
                                             <OwlCarousel className="owl-theme">
                                                 {
-                                                    this.props.courses.map((course,k) => {
+                                                    this.props.coursesIndex.map((course,k) => {
                                                         return (
                                                             <div className="item">
                                                                 <div className="fcrse_1 mb-20">
                                                                     <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
-                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"190px"}}/>
+                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"250px"}}/>
                                                                         <div className="course-overlay">
                                                                             <div class="badge_seller">Bestseller</div>
                                                                             <span className="play_btn1"><i className="uil uil-play"></i></span>
@@ -182,6 +184,7 @@ class MainUser extends React.Component {
                                                     })
                                                 }
                                             </OwlCarousel> 
+                                            :''}
                                         </div>
                                     </div>
                                     <div className="section3126">
@@ -307,9 +310,7 @@ class MainUser extends React.Component {
 
 const mapStateToProps = state => {
     return {        
-        courses: state.course.courses,
-        page: state.course.page,
-        totalPages: state.course.totalPages,
+        coursesIndex: state.course.coursesIndex,
         user: state.detail.user,
         cartItems: state.cart.items,
     }
@@ -317,7 +318,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchCourseRequest:(e) => dispatch (fetchCourseRequest(e)),
+        fetchCourseIndexRequest:() => dispatch (fetchCourseIndexRequest()),
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
         addToCart:(e,p) => dispatch (addToCart(e,p)),
     };

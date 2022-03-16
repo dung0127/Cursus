@@ -30,7 +30,7 @@ class Footer extends React.Component {
                                                 <p>© 2022 <strong>Cursus</strong>. All Rights Reserved.</p>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> 
                                     <div className="col-md-6">
                                         <div className="edu_social_links">
                                             <a href="https://www.facebook.com"><i className="fab fa-facebook-f"></i></a>

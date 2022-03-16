@@ -1,5 +1,6 @@
 const initState = {
     courses: [],
+    courseIndex: [],
     page: 0,
     totalPages: 0,
     addSuccess: false,
@@ -26,6 +27,14 @@ export const courseReducer = (state = initState, action) => {
                     courses: action.courses,
                     page: action.page,
                     totalPages: action.totalPages
+                }
+            }
+
+        case 'GET_INDEX_COURSE':
+            {
+                return {
+                    ...state,
+                    coursesIndex: action.coursesIndex
                 }
             }
 

@@ -77,9 +77,11 @@ class CourseById extends React.Component {
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                        {this.props.course.urlVideoDescription?
                         <div class="modal-body">
                             <iframe  src={this.props.course.urlVideoDescription} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                         </div>
+                        :''}
                     </div>
                 </div>
             </div>
@@ -92,7 +94,7 @@ class CourseById extends React.Component {
                                     <div className="col-xl-4 col-lg-5 col-md-6">						
                                         <div className="preview_video">						
                                             <a href="#" className="fcrse_img" data-toggle="modal" data-target="#videoModal">
-                                                <img src={this.props.course.imageVideoDescription} alt="" style={{height:"190px"}}/>
+                                                <img src={this.props.course.imageVideoDescription} alt="" style={{height:"250px"}}/>
                                                 <div className="course-overlay">
                                                     {/* <div className="badge_seller">Bestseller</div> */}
                                                     <span className="play_btn1"><i className="uil uil-play"></i></span>

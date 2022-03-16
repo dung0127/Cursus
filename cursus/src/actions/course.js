@@ -6,7 +6,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 
 export const fetchCourseRequest = (page) => {
     return(dispatch) => {
-        axios.get(COURSE_API_BASE_URL +'/?pageNumber='+ page + '&size=12',{ headers: authHeader() }).then((res) => {
+        axios.get(COURSE_API_BASE_URL +'?pageNumber='+ page + '&size=12',{ headers: authHeader() }).then((res) => {
             dispatch(getAllCourse(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
         })
     }
@@ -18,6 +18,22 @@ export const getAllCourse = (courses, page, totalPages) => {
         courses,
         page,
         totalPages
+    }
+}
+
+
+export const fetchCourseIndexRequest = () => {
+    return(dispatch) => {
+        axios.get(COURSE_API_BASE_URL +'?pageNumber=0' + '&size=12&sort=DESC',{ headers: authHeader() }).then((res) => {
+            dispatch(getIndexCourse(res.data.data.content,res.data.data.pageable.pageNumber,res.data.data.totalPages))
+        })
+    }
+}
+
+export const getIndexCourse = (coursesIndex) => {
+    return {
+        type:'GET_INDEX_COURSE',
+        coursesIndex
     }
 }
 

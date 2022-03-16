@@ -54,7 +54,7 @@ class SavedCourse extends React.Component {
                                         return (
                                         <div className="fcrse_1 mt-30">
                                             <Link to={`/course/${course.id}`} params={course.id}  className="hf_img">
-                                                <img src={course.imageVideoDescription} alt="" style={{height:"170px"}}/>
+                                                <img src={course.imageVideoDescription} alt="" style={{height:"220px"}}/>
                                                 <div className="course-overlay">
                                                     {/* <div className="badge_seller">Bestseller</div>
                                                     <div className="crse_reviews">

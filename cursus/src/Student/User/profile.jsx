@@ -161,7 +161,7 @@ class Profile extends React.Component {
                                                                     return (
                                                                         <div  className="fcrse_1 mt-30">
                                                                             <Link to={`/course/${course.id}`} params={course.id} className="hf_img">
-                                                                                <img src={course.imageVideoDescription} alt="" style={{height:"170px"}}/>
+                                                                                <img src={course.imageVideoDescription} alt="" style={{height:"230px"}}/>
                                                                                 <div  className="course-overlay">
                                                                                     <div  className="crse_reviews">
                                                                                         <i  className="uil uil-star"></i>{course.avgRatting}
@@ -259,7 +259,7 @@ class Profile extends React.Component {
                                                                 return (
                                                                     <div  className="fcrse_1 mt-30">
                                                                         <Link to={`/course/${course.id}`} params={course.id}   className="hf_img">
-                                                                            <img src={course.imageVideoDescription} alt="" style={{height:"170px"}}/>
+                                                                            <img src={course.imageVideoDescription} alt="" style={{height:"230px"}}/>
                                                                             <div  className="course-overlay">
                                                                                 <div  className="crse_reviews">
                                                                                     <i  className="uil uil-star"></i>{course.avgRatting}
