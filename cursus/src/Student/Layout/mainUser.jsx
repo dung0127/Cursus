@@ -1,7 +1,7 @@
 import React from "react";
 import FooterUser from "./footerUser";
 import {connect} from 'react-redux';
-import { fetchCourseIndexRequest } from "../../actions/course";
+import { fetchCourseIndexRequest, fetchCourseTopRequest } from "../../actions/course";
 import {fetchDetailUserRequest} from "../../actions/detail";
 import OwlCarousel from 'react-owl-carousel';
 import {Link} from "react-router-dom";
@@ -34,7 +34,7 @@ class MainUser extends React.Component {
                                 <div className="col-xl-9 col-lg-8">
                                     <div className="section3125">
                                             
-                                        <h4 className="item_title"> Courses</h4>
+                                        <h4 className="item_title"> Newest Courses</h4>
                                         
                                         <Link to="/course" className="see150">See all</Link>
                                        
@@ -49,7 +49,7 @@ class MainUser extends React.Component {
                                                                     <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
                                                                         <img src={course.imageVideoDescription} alt="" style={{height:"200px"}}/>
                                                                         <div className="course-overlay">
-                                                                            {/* <div class="badge_seller">Bestseller</div> */}
+                                                                            <div class="badge_seller" style={{background:"green"}}>New</div>
                                                                             <span className="play_btn1"><i className="uil uil-play"></i></span>
                                                                             {course.avgRatting>0?
                                                                                 <div class="crse_reviews">
@@ -94,7 +94,68 @@ class MainUser extends React.Component {
                                             :''}
                                         </div>
                                     </div>
-                                    
+                                    <div className="section3125">
+                                            
+                                        <h4 className="item_title"> Best Seller Courses</h4>
+                                        
+                                        <Link to="/course" className="see150">See all</Link>
+                                       
+                                        <div className="la5lo1">
+                                            {this.props.coursesTop?
+                                            <OwlCarousel className=" owl-theme">
+                                                    {
+                                                    this.props.coursesTop.map((course,index) => {
+                                                        return (
+                                                            <div className="item">
+                                                                <div className="fcrse_1 mb-20">
+                                                                    <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
+                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"200px"}}/>
+                                                                        <div className="course-overlay">
+                                                                            <div class="badge_seller" style={{background:"red"}}>Bestseller</div>
+                                                                            <span className="play_btn1"><i className="uil uil-play"></i></span>
+                                                                            {course.avgRatting>0?
+                                                                                <div class="crse_reviews">
+                                                                                    <i class='uil uil-star'></i>{course.avgRatting.toFixed(1)}
+                                                                                </div>:''}
+                                                                            <div className="crse_timer">
+                                                                                {course.videoDuration}
+                                                                            </div>
+                                                                        </div>
+                                                                    </Link> 
+                                                                    <div className="fcrse_content">
+                                                                        <div class="eps_dots more_dropdown">
+                                                                {/* <Link to={`/course/${course.id}`} params={course.id}><i class="uil uil-ellipsis-v"></i></Link> */}
+                                                                {/* <div class="dropdown-content">
+                                                                    <span><i class='uil uil-share-alt'></i>Share</span>
+                                                                    {course.saved?
+                                                                    <span type="button" onClick={()=>this.savedCourse(course.id)}><i className="iconify" data-icon="bi:heart-fill" style={{marginRight:"10px",marginLeft:"5px"}}></i> Unsaved</span>
+                                                                    :<span type="button" onClick={()=>this.savedCourse(course.id)}><i className="uil uil-heart"></i>Save</span>
+                                                                    }
+                                                                    <span><i class='uil uil-ban'></i>Not Interested</span>
+                                                                    <span><i class="uil uil-windsock"></i>Report</span>
+                                                                </div>																											 */}
+                                                                            </div>
+                                                                            <div class="vdtodt">
+                                                                            {/* <span class="vdt14">109k views</span> */}
+                                                                            {course.updatedDate?
+                                                                            <span class="vdt14">Update {moment(course.updatedDate).format('MMM DD, YYYY')}</span>:''}
+                                                                            
+                                                                            </div>
+                                                                            <Link to={`/course/${course.id}`} params={course.id} class="crse14s">{course.title}</Link>
+                                                                            <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language}</Link>
+                                                                            <div class="auth1lnkprce">
+                                                                                <div class="prce142">${course.price}</div>
+                                                                            </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </OwlCarousel>
+                                            :''}
+                                        </div>
+                                    </div>
                                     <div className="section3126">
                                         <div className="row">
                                             <div className="col-xl-6 col-lg-12 col-md-6">
@@ -147,7 +208,7 @@ class MainUser extends React.Component {
                                 :
                                 <div className="col-xl-12 col-lg-8">
                                     <div className="section3125">
-                                        <h4 className="item_title"> Courses</h4>
+                                        <h4 className="item_title"> Newest Courses</h4>
                                         <Link to="/course" className="see150">See all</Link>
                                         <div className="la5lo1">
                                             {this.props.coursesIndex?
@@ -160,7 +221,48 @@ class MainUser extends React.Component {
                                                                     <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
                                                                         <img src={course.imageVideoDescription} alt="" style={{height:"250px"}}/>
                                                                         <div className="course-overlay">
-                                                                            <div class="badge_seller">Bestseller</div>
+                                                                            <div class="badge_seller" style={{background:"green"}}>New</div>
+                                                                            <span className="play_btn1"><i className="uil uil-play"></i></span>
+                                                                            <div className="crse_timer">
+                                                                                {course.videoDuration}
+                                                                            </div>
+                                                                        </div>
+                                                                    </Link> 
+                                                                    <div className="fcrse_content">
+                                                                        {/* <div className="vdtodt">
+                                                                            <span className="vdt14">109k views</span>
+                                                                            <span className="vdt14">15 days ago</span>
+                                                                        </div> */}
+                                                                        <Link to={`/course/${course.id}`} params={course.id} className="crse14s">{course.title}</Link>
+                                                                        <Link to={`/course/${course.id}`} params={course.id} class="crse-cate">{course.language}</Link>
+                                                                        <div className="auth1lnkprce">
+                                                                            <div className="prce142">${course.price}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </OwlCarousel> 
+                                            :''}
+                                        </div>
+                                    </div>
+                                    <div className="section3125">
+                                        <h4 className="item_title"> Best Seller Courses</h4>
+                                        <Link to="/course" className="see150">See all</Link>
+                                        <div className="la5lo1">
+                                            {this.props.coursesTop?
+                                            <OwlCarousel className="owl-theme">
+                                                {
+                                                    this.props.coursesTop.map((course,k) => {
+                                                        return (
+                                                            <div className="item">
+                                                                <div className="fcrse_1 mb-20">
+                                                                    <Link to={`/course/${course.id}`} params={course.id} className="fcrse_img">
+                                                                        <img src={course.imageVideoDescription} alt="" style={{height:"250px"}}/>
+                                                                        <div className="course-overlay">
+                                                                            <div class="badge_seller" style={{background:"red"}}>Bestseller</div>
                                                                             <span className="play_btn1"><i className="uil uil-play"></i></span>
                                                                             <div className="crse_timer">
                                                                                 {course.videoDuration}
@@ -311,6 +413,7 @@ class MainUser extends React.Component {
 const mapStateToProps = state => {
     return {        
         coursesIndex: state.course.coursesIndex,
+        coursesTop: state.course.coursesTop,
         user: state.detail.user,
         cartItems: state.cart.items,
     }
@@ -319,6 +422,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchCourseIndexRequest:() => dispatch (fetchCourseIndexRequest()),
+        fetchCourseTopRequest:() => dispatch (fetchCourseTopRequest()),
+        
         fetchDetailUserRequest:() => dispatch (fetchDetailUserRequest()),
         addToCart:(e,p) => dispatch (addToCart(e,p)),
     };

@@ -299,7 +299,7 @@ class CourseById extends React.Component {
                                                             
                                                                     <div className="ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom">
                                                                         {lesson.lectures.map((lecture,i)=>{
-                                                                            
+                                                                           
                                                                         return (
                                                                                 
                                                                                 <div className="lecture-container" key={i}>
@@ -311,21 +311,21 @@ class CourseById extends React.Component {
                                                                                     </div>
                                                                                     <div className="details">
                                                                                     {lecture.videoUrl?
-                                                                                        lecture.preview?
-                                                                                        (<a href="#" className="preview-text" data-toggle="modal" data-target="#videoModalLecture">Preview</a>):'':''}
+                                                                                        lecture.preview?<a href="#" className="preview-text" data-toggle="modal" data-target={"#videoModalLecture"+lecture.id}>Preview</a>:''
+                                                                                    :''}
                                                                                         <span className="content-summary">{lecture.videoDuration}</span>
                                                                                     </div>
-                                                                                    <div className="modal vd_mdl fade" id="videoModalLecture"   role="dialog" aria-hidden="true">
+                                                                                    <div className="modal vd_mdl fade" id={"videoModalLecture"+lecture.id}   role="dialog" aria-hidden="true">
                                                                                         <div className="modal-dialog modal-lg" role="document">
                                                                                             <div className="modal-content">
                                                                                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                                                                                     <span aria-hidden="true">&times;</span>
                                                                                                 </button>
-                                                                                                {lecture.preview?
+                                                                                                {lecture.videoUrl?
                                                                                                 <div className="modal-body">
                                                                                                     <iframe  src={lecture.videoUrl} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                                                                                                 </div>
-                                                                                                :''}
+                                                                                                :console.log(lecture.videoUrl)}
                                                                                                 
                                                                                             </div>
                                                                                         </div>

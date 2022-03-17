@@ -1,6 +1,7 @@
 const initState = {
     courses: [],
     courseIndex: [],
+    courseTop: [],
     page: 0,
     totalPages: 0,
     addSuccess: false,
@@ -35,6 +36,14 @@ export const courseReducer = (state = initState, action) => {
                 return {
                     ...state,
                     coursesIndex: action.coursesIndex
+                }
+            }
+
+        case 'GET_TOP_COURSE':
+            {
+                return {
+                    ...state,
+                    coursesTop: action.coursesTop
                 }
             }
 

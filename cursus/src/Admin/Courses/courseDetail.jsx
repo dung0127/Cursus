@@ -672,7 +672,7 @@ class CourseDetail extends React.Component {
                                                                                 <div className="details">
                                                                                     {lecture.videoUrl?
                                                                                     (lecture.preview?
-                                                                                    <a href="#" className="preview-text" data-toggle="modal" data-target="#videoModalLecture">Preview</a>:''):''}
+                                                                                    <a href="#" className="preview-text" data-toggle="modal" data-target={"#videoModalLecture"+lecture.id}>Preview</a>:''):''}
                                                                                     {/* <span className="content-summary">{lecture.videoDuration}</span> */}
                                                                                     <span className="content-summary">
                                                                                     <Link to='' title="Edit" className="gray-s" data-toggle="modal" data-target={'#idlec'+lecture.id} onClick={()=>this.getSwitch(lecture.preview)}><i class="fas fa-edit"></i></Link>
@@ -763,7 +763,7 @@ class CourseDetail extends React.Component {
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div className="modal vd_mdl fade" id="videoModalLecture"   role="dialog" aria-hidden="true">
+                                                                                <div className="modal vd_mdl fade" id={"videoModalLecture"+lecture.id}   role="dialog" aria-hidden="true">
                                                                                     <div className="modal-dialog modal-lg" role="document">
                                                                                         <div className="modal-content">
                                                                                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
