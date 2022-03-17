@@ -13,6 +13,7 @@ import Error from "../../Alert/error"
 import validator from "validator";
 import { withRouter } from "../../Admin/Auth/withRouter"
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { fetchAllEnrollRequest } from "../../actions/course";
 
 const initialOptions = {
 	"client-id": "ATNmz7NaSvnCl1jq5kkub9a0jB8chvoO7VWkYSdZMSVTThE80teaQCyYuIIU-viT9-C9bsB7pca_dEhr",
@@ -93,7 +94,17 @@ class Checkout extends React.Component {
 
 	componentDidMount() {
 		this.props.fetchDetailUserRequest();
+		this.props.fetchAllEnrollRequest()
 	}
+
+	componentDidUpdate() {
+        this.props.cartItems.map((item) => 
+            this.props.enroll.map((course)=> 
+            (item.id == course.id)?
+                this.props.removeFromCart(this.props.cartItems,item):'')
+        )
+    }
+
 
 
 	render() {
@@ -251,14 +262,18 @@ const mapStateToProps = state => {
 	return {
 		user: state.detail.user,
 		cartItems: state.cart.items,
-		message: state.payment.messageSuccess
+        enroll: state.course.coursesEnroll,
+		message: state.payment.messageSuccess,
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
 		fetchDetailUserRequest: () => dispatch(fetchDetailUserRequest()),
-		fetchPaymentRequest: (e) => dispatch(fetchPaymentRequest(e))
+		fetchPaymentRequest: (e) => dispatch(fetchPaymentRequest(e)),
+        fetchAllEnrollRequest:() => dispatch (fetchAllEnrollRequest()),
+        removeFromCart: (e, p) => dispatch(removeFromCart(e, p)),
+
 	};
 }
 

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { addToCart, clearFromCart, removeFromCart } from "../../actions/cart";
 import sum from "./sum";
 import $ from "jquery"
+import {fetchAllEnrollRequest} from "../../actions/course"
 
 class CartInfo extends React.Component {
     constructor(props) {
@@ -19,6 +20,15 @@ class CartInfo extends React.Component {
 
     componentDidMount() {
         this.props.fetchCourseRequest(0);
+        this.props.fetchAllEnrollRequest()
+    }
+
+    componentDidUpdate() {
+        this.props.cartItems.map((item) => 
+            this.props.enroll.map((course)=> 
+            (item.id == course.id)?
+                this.props.removeFromCart(this.props.cartItems,item):'')
+        )
     }
 
     clearCart = () => {
@@ -207,6 +217,7 @@ const mapStateToProps = state => {
         page: state.course.page,
         totalPages: state.course.totalPages,
         user: state.detail.user,
+        enroll: state.course.coursesEnroll,
         cartItems: state.cart.items,
     }
 }
@@ -217,6 +228,7 @@ const mapDispatchToProps = dispatch => {
         fetchDetailUserRequest: () => dispatch(fetchDetailUserRequest()),
         addToCart: (e, p) => dispatch(addToCart(e, p)),
         removeFromCart: (e, p) => dispatch(removeFromCart(e, p)),
+        fetchAllEnrollRequest:() => dispatch (fetchAllEnrollRequest()),
         clearFromCart: () => dispatch(clearFromCart()),
     };
 }
